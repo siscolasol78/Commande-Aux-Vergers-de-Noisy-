@@ -27,9 +27,12 @@
         .btn-reset-all { background: none; border: none; color: var(--system-red); font-weight: 600; cursor: pointer; }
         .container { max-width: 600px; margin: auto; padding: 15px; }
         
-        /* CARTES ET CONTROLES */
+        /* CARTES AVEC VISUEL */
         .item-card { background: var(--ios-card); border-radius: 18px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        .item-name { font-weight: 800; font-size: 1.1rem; color: var(--brand-green); margin-bottom: 15px; text-align: center; border-bottom: 1px solid var(--ios-bg); padding-bottom: 10px; }
+        .item-header-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid var(--ios-bg); padding-bottom: 10px; }
+        .item-emoji { font-size: 1.8rem; }
+        .item-name { font-weight: 800; font-size: 1.1rem; color: var(--brand-green); }
+        
         .control-row { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 8px; margin-bottom: 10px; }
         .row-label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; text-align: center; grid-column: span 3; margin-bottom: 2px; }
         .btn-stack { display: flex; flex-direction: column; gap: 4px; }
@@ -45,7 +48,6 @@
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 5px; color: var(--text-muted); }
         .form-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #e5e5ea; font-family: inherit; font-size: 1rem; outline: none; }
-        .form-input:focus { border-color: var(--brand-green); }
 
         .dock { position: fixed; bottom: 25px; left: 20px; right: 20px; z-index: 2000; }
         .btn-send { width: 100%; background: var(--brand-green); color: white; border: none; padding: 20px; border-radius: 20px; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 10px 25px rgba(45, 106, 79, 0.3); }
@@ -58,13 +60,13 @@
 <div class="header">
     <i class="fa-solid fa-leaf" style="color:var(--brand-green); font-size: 2.2rem; margin-bottom: 12px;"></i>
     <h1>Aux Vergers de Noisy</h1>
-    <p>Commande Hybride & Personnalisée</p>
+    <p>Commande Hybride & Visuelle</p>
 </div>
 
 <div class="nav-tools">
     <div class="search-container">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input type="text" id="search" class="search-box" placeholder="Produit..." onkeyup="filterItems()">
+        <input type="text" id="search" class="search-box" placeholder="Chercher un article..." onkeyup="filterItems()">
     </div>
     <button class="btn-reset-all" onclick="resetOrder()">Vider</button>
 </div>
@@ -72,21 +74,11 @@
 <div class="container">
     <div id="item-list"></div>
 
-    <!-- SECTION INFOS COMMANDE -->
     <div class="order-info-card">
         <div class="info-title"><i class="fa-solid fa-clock"></i> RDV & NOTES</div>
-        <div class="form-group">
-            <label>JOUR DE RETRAIT</label>
-            <input type="date" id="order-date" class="form-input" onchange="saveExtraInfo()">
-        </div>
-        <div class="form-group">
-            <label>HEURE ESTIMÉE</label>
-            <input type="time" id="order-time" class="form-input" onchange="saveExtraInfo()">
-        </div>
-        <div class="form-group">
-            <label>NOTE PARTICULIÈRE (Optionnel)</label>
-            <textarea id="order-note" class="form-input" rows="3" placeholder="Ex: Bananes pas trop mûres..." oninput="saveExtraInfo()"></textarea>
-        </div>
+        <div class="form-group"><label>JOUR DE RETRAIT</label><input type="date" id="order-date" class="form-input" onchange="saveExtraInfo()"></div>
+        <div class="form-group"><label>HEURE ESTIMÉE</label><input type="time" id="order-time" class="form-input" onchange="saveExtraInfo()"></div>
+        <div class="form-group"><label>NOTE (Variété, Maturité...)</label><textarea id="order-note" class="form-input" rows="3" oninput="saveExtraInfo()"></textarea></div>
     </div>
 </div>
 
@@ -97,25 +89,50 @@
 </div>
 
 <script>
+    // Inventaire avec icônes visuelles
     const inventory = {
-        "🍏 POMMES": ["POMME CHANTECLER", "POMME GALA", "POMME GOLDEN", "POMME GOLDRUSH", "POMME GRANNY", "POMME OPALE", "POMME PATTE DE LOUP", "POMME PINK LADY"],
-        "🥬 SALADES": ["SALADE BATAVIA", "SALADE LAITUE", "SALADE FEUILLE DE CHENE", "MACHE", "EPINARD"],
-        "🥕 LÉGUMES": ["AIL", "ARTICHAUT", "AUBERGINE", "BETTERAVE", "BLETTE", "BROCOLI", "BUTTERNUT", "CAROTTE", "CAROTTE FANE", "CAROTTE SABLE", "CELERI", "CHAMPIGNON DE PARIS", "CHOU BLANC", "CHOU ROUGE", "CHOU-FLEUR", "CONCOMBRE", "COURGETTE", "ECHALOTE", "ENDIVE", "FENOUIL", "FEVE", "HARICOT VERT", "NAVET", "OIGNON JAUNE", "OIGNON ROUGE", "PATATE DOUCE", "PETIT POIS", "POIREAU", "POMME DE TERRE", "POTIMARRON", "POIVRON ROUGE", "POIVRON JAUNE", "POIVRON VERT", "RADIS ROSE", "RHUBARBE", "TOMATE", "TOMATE CERISE"],
-        "🍓 FRUITS": ["ANANAS", "AVOCAT", "BANANE", "CERISE", "CITRON", "CITRON VERT", "CLEMENTINE", "FIGUE", "FRAISE", "FRAMBOISE", "GRENADE", "KAKI", "KIWI", "MANGUE", "MELON", "ORANGE GALA", "ORANGE JUS", "PAMPLEMOUSSE", "POIRE", "RAISIN"],
-        "🌿 HERBES": ["ANETH", "BASILIC", "CIBOULETTE", "CORIANDRE", "ESTRAGON", "MENTHE", "OSEILLE", "PERSIL", "THYM LAURIER"]
+        "🍏 POMMES": [
+            {n:"POMME CHANTECLER", i:"🍎"}, {n:"POMME GALA", i:"🍎"}, {n:"POMME GOLDEN", i:"🍏"}, 
+            {n:"POMME GOLDRUSH", i:"🍏"}, {n:"POMME GRANNY", i:"🍏"}, {n:"POMME OPALE", i:"🍎"}, 
+            {n:"POMME PATTE DE LOUP", i:"🍎"}, {n:"POMME PINK LADY", i:"🍎"}
+        ],
+        "🥬 SALADES": [
+            {n:"SALADE BATAVIA", i:"🥬"}, {n:"SALADE LAITUE", i:"🥬"}, {n:"SALADE FEUILLE DE CHENE", i:"🥬"}, 
+            {n:"MACHE", i:"🥗"}, {n:"EPINARD", i:"🍃"}
+        ],
+        "🥕 LÉGUMES": [
+            {n:"AIL", i:"🧄"}, {n:"ARTICHAUT", i:"🥦"}, {n:"AUBERGINE", i:"🍆"}, {n:"BETTERAVE", i:"🥔"}, 
+            {n:"BLETTE", i:"🥬"}, {n:"BROCOLI", i:"🥦"}, {n:"BUTTERNUT", i:"🎃"}, {n:"CAROTTE", i:"🥕"}, 
+            {n:"CAROTTE FANE", i:"🥕"}, {n:"CAROTTE SABLE", i:"🥕"}, {n:"CELERI", i:"🌿"}, 
+            {n:"CHAMPIGNON DE PARIS", i:"🍄"}, {n:"CHOU BLANC", i:"🥬"}, {n:"CHOU ROUGE", i:"🥬"}, 
+            {n:"CHOU-FLEUR", i:"🥦"}, {n:"CONCOMBRE", i:"🥒"}, {n:"COURGETTE", i:"🥒"}, 
+            {n:"ECHALOTE", i:"🧅"}, {n:"ENDIVE", i:"🥬"}, {n:"FENOUIL", i:"🌿"}, {n:"FEVE", i:"🫛"}, 
+            {n:"HARICOT VERT", i:"🫛"}, {n:"NAVET", i:"🥔"}, {n:"OIGNON JAUNE", i:"🧅"}, 
+            {n:"OIGNON ROUGE", i:"🧅"}, {n:"PATATE DOUCE", i:"🍠"}, {n:"PETIT POIS", i:"🫛"}, 
+            {n:"POIREAU", i:"🥬"}, {n:"POMME DE TERRE", i:"🥔"}, {n:"POTIMARRON", i:"🎃"}, 
+            {n:"POIVRON ROUGE", i:"🫑"}, {n:"POIVRON JAUNE", i:"🫑"}, {n:"POIVRON VERT", i:"🫑"}, 
+            {n:"RADIS ROSE", i:"🏮"}, {n:"RHUBARBE", i:"🌿"}, {n:"TOMATE", i:"🍅"}, {n:"TOMATE CERISE", i:"🍅"}
+        ],
+        "🍓 FRUITS": [
+            {n:"ANANAS", i:"🍍"}, {n:"AVOCAT", i:"🥑"}, {n:"BANANE", i:"🍌"}, {n:"CERISE", i:"🍒"}, 
+            {n:"CITRON", i:"🍋"}, {n:"CITRON VERT", i:"🍋"}, {n:"CLEMENTINE", i:"🍊"}, {n:"FIGUE", i:"🫐"}, 
+            {n:"FRAISE", i:"🍓"}, {n:"FRAMBOISE", i:"🍓"}, {n:"GRENADE", i:"🍎"}, {n:"KAKI", i:"🍊"}, 
+            {n:"KIWI", i:"🥝"}, {n:"MANGUE", i:"🥭"}, {n:"MELON", i:"🍈"}, {n:"ORANGE GALA", i:"🍊"}, 
+            {n:"ORANGE JUS", i:"🍊"}, {n:"PAMPLEMOUSSE", i:"🍊"}, {n:"POIRE", i:"🍐"}, {n:"RAISIN", i:"🍇"}
+        ],
+        "🌿 HERBES": [
+            {n:"ANETH", i:"🌿"}, {n:"BASILIC", i:"🌿"}, {n:"CIBOULETTE", i:"🌿"}, {n:"CORIANDRE", i:"🌿"}, 
+            {n:"ESTRAGON", i:"🌿"}, {n:"MENTHE", i:"🌿"}, {n:"OSEILLE", i:"🌿"}, {n:"PERSIL", i:"🌿"}, 
+            {n:"THYM LAURIER", i:"🌿"}
+        ]
     };
 
     let order = {};
-    const STORAGE_KEY = 'noisy_hybrid_final_v5';
+    const STORAGE_KEY = 'noisy_visual_v1';
 
     function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(order)); }
-    
     function saveExtraInfo() {
-        const extra = {
-            date: document.getElementById('order-date').value,
-            time: document.getElementById('order-time').value,
-            note: document.getElementById('order-note').value
-        };
+        const extra = { date: document.getElementById('order-date').value, time: document.getElementById('order-time').value, note: document.getElementById('order-note').value };
         localStorage.setItem(STORAGE_KEY + '_extra', JSON.stringify(extra));
     }
 
@@ -123,9 +140,8 @@
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) { order = JSON.parse(saved); }
         for (const cat in inventory) {
-            inventory[cat].forEach(name => { if (!order[name]) order[name] = { weight: 0, piece: 0 }; });
+            inventory[cat].forEach(obj => { if (!order[obj.n]) order[obj.n] = { weight: 0, piece: 0 }; });
         }
-        
         const savedExtra = localStorage.getItem(STORAGE_KEY + '_extra');
         if (savedExtra) {
             const extra = JSON.parse(savedExtra);
@@ -144,11 +160,13 @@
             sectionHeader.innerText = category;
             listEl.appendChild(sectionHeader);
 
-            inventory[category].forEach((name) => {
+            inventory[category].forEach((obj) => {
+                const name = obj.n;
+                const icon = obj.i;
                 const card = document.createElement('div');
                 card.className = 'item-card';
                 card.innerHTML = `
-                    <div class="item-name">${name}</div>
+                    <div class="item-header-row"><span class="item-emoji">${icon}</span><span class="item-name">${name}</span></div>
                     <div class="row-label">⚖️ Poids</div>
                     <div class="control-row">
                         <div class="btn-stack"><button class="btn-small btn-sub" onclick="updateQty('${name}', 'weight', -1)">-1kg</button><button class="btn-small btn-sub" onclick="updateQty('${name}', 'weight', -0.1)">-100g</button></div>
@@ -172,9 +190,7 @@
 
     function updateQty(name, type, delta) {
         order[name][type] = Math.max(0, parseFloat((order[name][type] + delta).toFixed(1)));
-        refreshCard(name);
-        saveData();
-        updateBadge();
+        refreshCard(name); saveData(); updateBadge();
     }
 
     function refreshCard(name) {
@@ -195,13 +211,10 @@
     }
 
     function resetOrder() {
-        if(confirm("Vider complètement le panier et les notes ?")) {
-            localStorage.removeItem(STORAGE_KEY);
-            localStorage.removeItem(STORAGE_KEY + '_extra');
+        if(confirm("Tout effacer ?")) {
+            localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_KEY + '_extra');
             for(let name in order) { order[name].weight = 0; order[name].piece = 0; refreshCard(name); }
-            document.getElementById('order-date').value = '';
-            document.getElementById('order-time').value = '';
-            document.getElementById('order-note').value = '';
+            document.getElementById('order-date').value = ''; document.getElementById('order-time').value = ''; document.getElementById('order-note').value = '';
             updateBadge();
         }
     }
@@ -216,34 +229,28 @@
     }
 
     function sendOrder() {
-        const date = document.getElementById('order-date').value;
-        const time = document.getElementById('order-time').value;
-        const note = document.getElementById('order-note').value;
-
-        let text = "🛒 COMMANDE - AUX VERGERS DE NOISY\n";
-        text += `📅 JOUR : ${date || 'Non précisé'}\n`;
-        text += `⏰ HEURE : ${time || 'Non précisée'}\n`;
-        if(note) text += `📝 NOTE : ${note}\n`;
-        
+        const d = document.getElementById('order-date').value;
+        const t = document.getElementById('order-time').value;
+        const n = document.getElementById('order-note').value;
+        let text = `🛒 COMMANDE NOISY\n📅 ${d || '?'}\n⏰ ${t || '?'}\n${n ? '📝 '+n+'\n' : ''}`;
         let hasData = false;
         for (const cat in inventory) {
             let catText = "";
-            inventory[cat].forEach(name => {
-                const item = order[name];
+            inventory[cat].forEach(obj => {
+                const item = order[obj.n];
                 if (item.weight > 0 || item.piece > 0) {
                     let parts = [];
                     if(item.weight > 0) parts.push(item.weight >= 1 ? item.weight + "kg" : (item.weight*1000) + "g");
                     if(item.piece > 0) parts.push(item.piece + "pce");
-                    catText += `\n✅ ${name} : ${parts.join(" + ")}`;
+                    catText += `\n✅ ${obj.n} : ${parts.join(" + ")}`;
                     hasData = true;
                 }
             });
             if(catText) text += `\n${cat}${catText}\n`;
         }
-
-        if (!hasData) return alert("Votre panier est vide !");
+        if (!hasData) return alert("Panier vide !");
         if (navigator.share) navigator.share({ title: 'Commande Noisy', text: text });
-        else { navigator.clipboard.writeText(text); alert("Commande copiée !"); }
+        else { navigator.clipboard.writeText(text); alert("Copié !"); }
     }
     init();
 </script>
