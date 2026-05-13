@@ -4,108 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Commande Aux Vergers de Noisy</title>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <style>
         :root {
-            --brand-green: #2d6a4f;
-            --brand-light-green: #d8f3dc;
-            --ios-bg: #f2f2f7;
-            --ios-card: #ffffff;
-            --system-red: #ff3b30;
-            --text-dark: #1c1c1e;
-            --text-muted: #8e8e93;
+            --brand-green: #2d6a4f; --brand-light-green: #d8f3dc; --ios-bg: #f2f2f7;
+            --ios-card: #ffffff; --system-red: #ff3b30; --text-dark: #1c1c1e; --text-muted: #8e8e93;
         }
-
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: var(--ios-bg); 
-            color: var(--text-dark); 
-            margin: 0; 
-            padding-bottom: 120px;
-            -webkit-font-smoothing: antialiased;
+            background-color: var(--ios-bg); color: var(--text-dark); margin: 0; padding-bottom: 120px; -webkit-font-smoothing: antialiased;
         }
-
-        .header {
-            background: var(--ios-card);
-            padding: 40px 20px 25px;
-            text-align: center;
-            border-bottom: 0.5px solid rgba(0,0,0,0.1);
-        }
-        
+        .header { background: var(--ios-card); padding: 40px 20px 25px; text-align: center; border-bottom: 0.5px solid rgba(0,0,0,0.1); }
         .header h1 { margin: 0; font-size: 1.5rem; font-weight: 800; color: var(--brand-green); text-transform: uppercase; }
-
         .nav-tools {
-            position: sticky; top: 0; z-index: 1000;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            padding: 12px 20px; display: flex; gap: 10px;
-            border-bottom: 0.5px solid rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 1000; background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 12px 20px; display: flex; gap: 10px; border-bottom: 0.5px solid rgba(0,0,0,0.05);
         }
-
         .search-container { position: relative; flex: 1; }
         .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
-        .search-box { 
-            width: 100%; padding: 10px 15px 10px 40px; 
-            border: none; border-radius: 12px; 
-            background: rgba(142, 142, 147, 0.12); font-size: 1rem; outline: none;
-        }
-
+        .search-box { width: 100%; padding: 10px 15px 10px 40px; border: none; border-radius: 12px; background: rgba(142, 142, 147, 0.12); font-size: 1rem; outline: none; }
         .btn-reset-all { background: none; border: none; color: var(--system-red); font-weight: 600; cursor: pointer; }
-
         .container { max-width: 600px; margin: auto; padding: 15px; }
-
-        .item-card { 
-            background: var(--ios-card); border-radius: 18px;
-            padding: 18px; margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-
+        .item-card { background: var(--ios-card); border-radius: 18px; padding: 18px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
         .item-name { font-weight: 700; font-size: 1.1rem; color: var(--text-dark); margin-bottom: 12px; text-align: center; }
-
+        .mode-selector { display: flex; background: var(--ios-bg); border-radius: 10px; padding: 3px; margin-bottom: 15px; }
+        .mode-btn { flex: 1; border: none; padding: 8px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; background: transparent; color: var(--text-muted); transition: 0.2s; }
+        .mode-btn.active { background: white; color: var(--brand-green); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .qty-controls { display: grid; grid-template-columns: 1fr 1.2fr 1fr; align-items: center; gap: 10px; }
-
-        .qty-display {
-            text-align: center; background: var(--ios-bg);
-            padding: 15px 5px; border-radius: 12px;
-            font-weight: 800; font-size: 1.1rem; color: var(--brand-green);
-        }
-
+        .qty-display { text-align: center; background: var(--ios-bg); padding: 15px 5px; border-radius: 12px; font-weight: 800; font-size: 1rem; color: var(--brand-green); min-height: 52px; display: flex; align-items: center; justify-content: center; }
         .btn-stack { display: flex; flex-direction: column; gap: 8px; }
-
-        .btn-small {
-            border: none; border-radius: 10px;
-            padding: 10px 5px; font-weight: 800; font-size: 0.85rem; cursor: pointer;
-        }
-
+        .btn-small { border: none; border-radius: 10px; padding: 10px 5px; font-weight: 800; font-size: 0.85rem; cursor: pointer; }
         .btn-add { background: var(--brand-green); color: white; }
         .btn-sub { background: #e5e5ea; color: var(--text-dark); }
         .btn-small:active { transform: scale(0.92); opacity: 0.8; }
-
-        .section-title { margin: 30px 10px 10px; font-size: 0.8rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
-
         .dock { position: fixed; bottom: 25px; left: 20px; right: 20px; z-index: 2000; }
-
-        .btn-send {
-            width: 100%; background: var(--brand-green); color: white;
-            border: none; padding: 20px; border-radius: 20px;
-            font-weight: 700; font-size: 1.1rem;
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            box-shadow: 0 10px 25px rgba(45, 106, 79, 0.3);
-        }
-
+        .btn-send { width: 100%; background: var(--brand-green); color: white; border: none; padding: 20px; border-radius: 20px; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 10px 25px rgba(45, 106, 79, 0.3); }
         .counter-badge { background: white; color: var(--brand-green); padding: 2px 8px; border-radius: 8px; }
+        .section-header { margin: 30px 10px 15px; font-size: 0.85rem; font-weight: 800; color: var(--brand-green); text-transform: uppercase; letter-spacing: 1px; border-left: 4px solid var(--brand-green); padding-left: 10px; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <i class="fa-solid fa-basket-shopping" style="color:var(--brand-green); font-size: 2.2rem; margin-bottom: 12px;"></i>
+    <i class="fa-solid fa-leaf" style="color:var(--brand-green); font-size: 2.2rem; margin-bottom: 12px;"></i>
     <h1>Aux Vergers de Noisy</h1>
-    <p>Commande au Kilo ou à l'Unité</p>
+    <p>Sélectionnez vos produits</p>
 </div>
 
 <div class="nav-tools">
@@ -116,111 +60,144 @@
     <button class="btn-reset-all" onclick="resetOrder()">Vider</button>
 </div>
 
-<div class="container">
-    <div id="item-list"></div>
-</div>
+<div class="container"><div id="item-list"></div></div>
 
 <div class="dock">
     <button class="btn-send" onclick="sendOrder()">
-        <i class="fa-solid fa-paper-plane"></i> Envoyer commande 
-        <span id="order-count" class="counter-badge">0</span>
+        <i class="fa-solid fa-paper-plane"></i> Envoyer commande <span id="order-count" class="counter-badge">0</span>
     </button>
 </div>
 
 <script>
-    // Liste des articles vendus à la pièce/unité/botte
-    const articlesPiece = [
-        "AIL", "ANANAS", "ARTICHAUT", "AVOCAT", "BETTERAVE", "BROCOLI", "CITRON", "CITRON VERT", 
-        "CONCOMBRE", "FENOUIL", "GRENADE", "KAKI", "KIWI", "MANGUE", "MELON", 
-        "PAMPLEMOUSSE", "RADIS ROSE", "SALADE", "ANETH", "BASILIC", "CIBOULETTE", 
-        "CORIANDRE", "ESTRAGON", "MENTHE", "OSEILLE", "PERSIL", "THYM LAURIER"
-    ];
-
-    const articlesKilo = [
-        "AUBERGINE", "BANANE", "Blette", "BUTTERNUT", "CAROTTE", "Celeri", "CERISE", "CHOU", 
-        "CHAMPI", "CLEMENTINE", "COURGETTE", "ECHALOTE", "ENDIVE", "EPINARD", "FEVE", "FIGUE", 
-        "FRAISE", "FRAMBOISE", "GINGEMBRE", "HARICOT Vert", "MACHE", "NAVET", "NOIX", "OIGNON", 
-        "ORANGE", "PATATE DOUCE", "POMME DE TERRE", "PETIT POIS", "POIRE", "POIREAU", 
-        "POIVRON", "POMME", "POTIMARRON", "RAISIN", "RHUBARBE", "TOMATE"
-    ];
+    const inventory = {
+        "🍏 POMMES": [
+            "POMME CHANTECLER", "POMME GALA", "POMME GOLDEN", "POMME GOLDRUSH", 
+            "POMME GRANNY", "POMME OPALE", "POMME PATTE DE LOUP", "POMME PINK LADY"
+        ],
+        "🥬 SALADES": [
+            "SALADE BATAVIA", "SALADE LAITUE", "SALADE FEUILLE DE CHENE", "MACHE", "EPINARD"
+        ],
+        "🌶️ POIVRONS": [
+            "POIVRON ROUGE", "POIVRON JAUNE", "POIVRON VERT"
+        ],
+        "🥕 LÉGUMES": [
+            "AIL", "ARTICHAUT", "AUBERGINE", "BETTERAVE", "BLETTE", "BROCOLI", "BUTTERNUT", 
+            "CAROTTE", "CAROTTE FANE", "CELERI", "CHAMPIGNON DE PARIS", "CHOU BLANC", 
+            "CHOU ROUGE", "CHOU-FLEUR", "CONCOMBRE", "COURGETTE", "ECHALOTE", "ENDIVE", 
+            "FENOUIL", "FEVE", "HARICOT VERT", "NAVET", "OIGNON JAUNE", "OIGNON ROUGE", 
+            "PATATE DOUCE", "PETIT POIS", "POIREAU", "POMME DE TERRE", "POTIMARRON", 
+            "RADIS ROSE", "RHUBARBE", "TOMATE", "TOMATE CERISE"
+        ],
+        "🍓 FRUITS": [
+            "ANANAS", "AVOCAT", "BANANE", "CERISE", "CITRON", "CITRON VERT", "CLEMENTINE", 
+            "FIGUE", "FRAISE", "FRAMBOISE", "GRENADE", "KAKI", "KIWI", "MANGUE", "MELON", 
+            "ORANGE GALA", "ORANGE JUS", "PAMPLEMOUSSE", "POIRE", "RAISIN"
+        ],
+        "🌿 HERBES": [
+            "ANETH", "BASILIC", "CIBOULETTE", "CORIANDRE", "ESTRAGON", "MENTHE", 
+            "OSEILLE", "PERSIL", "THYM LAURIER"
+        ]
+    };
 
     let order = {};
+    const STORAGE_KEY = 'noisy_customer_order_v4';
+
+    function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(order)); }
+
+    function loadData() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) { order = JSON.parse(saved); }
+        for (const cat in inventory) {
+            inventory[cat].forEach(name => {
+                if (!order[name]) order[name] = { val: 0, mode: "weight" };
+            });
+        }
+    }
 
     function init() {
+        loadData();
         const listEl = document.getElementById('item-list');
-        
-        // Affichage des articles par type
-        renderSection(listEl, "📦 Articles à l'Unité / Pièce", articlesPiece, true);
-        renderSection(listEl, "⚖️ Articles au Poids (Kilo)", articlesKilo, false);
-    }
+        for (const category in inventory) {
+            const sectionHeader = document.createElement('div');
+            sectionHeader.className = 'section-header';
+            sectionHeader.innerText = category;
+            listEl.appendChild(sectionHeader);
 
-    function renderSection(container, title, list, isPiece) {
-        const h = document.createElement('div');
-        h.className = 'section-title';
-        h.innerText = title;
-        container.appendChild(h);
-
-        list.forEach((name) => {
-            order[name] = 0;
-            const card = document.createElement('div');
-            card.className = 'item-card';
-            
-            let controls = "";
-            if(isPiece) {
-                // Contrôles pour Unité (+1 / -1)
-                controls = `
-                    <div class="btn-stack"><button class="btn-small btn-sub" onclick="changeQty('${name}', -1, true)">-1</button></div>
-                    <div class="qty-display" id="q-${name}">0 pièce</div>
-                    <div class="btn-stack"><button class="btn-small btn-add" onclick="changeQty('${name}', 1, true)">+1</button></div>
-                `;
-            } else {
-                // Contrôles pour Poids (+1kg / +100g)
-                controls = `
-                    <div class="btn-stack">
-                        <button class="btn-small btn-sub" onclick="changeQty('${name}', -1, false)">-1kg</button>
-                        <button class="btn-small btn-sub" onclick="changeQty('${name}', -0.1, false)">-100g</button>
+            inventory[category].forEach((name) => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.innerHTML = `
+                    <div class="item-name">${name}</div>
+                    <div class="mode-selector">
+                        <button id="mode-w-${name}" class="mode-btn" onclick="setMode('${name}', 'weight')">⚖️ Poids</button>
+                        <button id="mode-p-${name}" class="mode-btn" onclick="setMode('${name}', 'piece')">📦 Pièce</button>
                     </div>
-                    <div class="qty-display" id="q-${name}">0 kg</div>
-                    <div class="btn-stack">
-                        <button class="btn-small btn-add" onclick="changeQty('${name}', 1, false)">+1kg</button>
-                        <button class="btn-small btn-add" onclick="changeQty('${name}', 0.1, false)">+100g</button>
+                    <div class="qty-controls">
+                        <div class="btn-stack" id="subs-${name}"></div>
+                        <div class="qty-display" id="q-${name}">0 kg</div>
+                        <div class="btn-stack" id="adds-${name}"></div>
                     </div>
                 `;
-            }
-
-            card.innerHTML = `<div class="item-name">${name}</div><div class="qty-controls">${controls}</div>`;
-            container.appendChild(card);
-        });
-    }
-
-    function changeQty(name, val, isPiece) {
-        let newVal = (order[name] || 0) + val;
-        order[name] = Math.max(0, parseFloat(newVal.toFixed(1)));
-        
-        const display = document.getElementById(`q-${name}`);
-        if(isPiece) {
-            display.innerText = order[name] + (order[name] > 1 ? " pièces" : " pièce");
-        } else {
-            if(order[name] >= 1) display.innerText = order[name] + " kg";
-            else if (order[name] > 0) display.innerText = (order[name] * 1000) + " g";
-            else display.innerText = "0 kg";
+                listEl.appendChild(card);
+                updateUI(name);
+            });
         }
         updateBadge();
     }
 
+    function setMode(name, mode) {
+        order[name].mode = mode;
+        order[name].val = 0; 
+        updateUI(name);
+        saveData();
+        updateBadge();
+    }
+
+    function updateUI(name) {
+        const item = order[name];
+        const mode = item.mode;
+        document.getElementById(`mode-w-${name}`).className = mode === 'weight' ? 'mode-btn active' : 'mode-btn';
+        document.getElementById(`mode-p-${name}`).className = mode === 'piece' ? 'mode-btn active' : 'mode-btn';
+        const subStack = document.getElementById(`subs-${name}`);
+        const addStack = document.getElementById(`adds-${name}`);
+        if(mode === 'piece') {
+            subStack.innerHTML = `<button class="btn-small btn-sub" style="height:100%" onclick="changeQty('${name}', -1)">-1</button>`;
+            addStack.innerHTML = `<button class="btn-small btn-add" style="height:100%" onclick="changeQty('${name}', 1)">+1</button>`;
+        } else {
+            subStack.innerHTML = `<button class="btn-small btn-sub" onclick="changeQty('${name}', -1)">-1kg</button><button class="btn-small btn-sub" onclick="changeQty('${name}', -0.1)">-100g</button>`;
+            addStack.innerHTML = `<button class="btn-small btn-add" onclick="changeQty('${name}', 1)">+1kg</button><button class="btn-small btn-add" onclick="changeQty('${name}', 0.1)">+100g</button>`;
+        }
+        refreshDisplay(name);
+    }
+
+    function changeQty(name, delta) {
+        order[name].val = Math.max(0, parseFloat((order[name].val + delta).toFixed(1)));
+        refreshDisplay(name);
+        saveData();
+        updateBadge();
+    }
+
+    function refreshDisplay(name) {
+        const item = order[name];
+        const display = document.getElementById(`q-${name}`);
+        if(item.mode === 'piece') display.innerText = item.val + (item.val > 1 ? " pièces" : " pièce");
+        else {
+            if(item.val >= 1) display.innerText = item.val + " kg";
+            else if (item.val > 0) display.innerText = (item.val * 1000) + " g";
+            else display.innerText = "0 kg";
+        }
+    }
+
     function updateBadge() {
-        let totalItems = 0;
-        for (let item in order) { if(order[item] > 0) totalItems++; }
-        document.getElementById('order-count').innerText = totalItems;
+        let count = 0;
+        for (let name in order) { if(order[name].val > 0) count++; }
+        document.getElementById('order-count').innerText = count;
     }
 
     function resetOrder() {
-        if(confirm("Voulez-vous vider votre panier ?")) {
-            for (let name in order) {
-                order[name] = 0;
-                const el = document.getElementById(`q-${name}`);
-                if(el) el.innerText = articlesPiece.includes(name) ? "0 pièce" : "0 kg";
-            }
+        if(confirm("Vider le panier ?")) {
+            localStorage.removeItem(STORAGE_KEY);
+            for(let name in order) { order[name].val = 0; refreshDisplay(name); }
             updateBadge();
         }
     }
@@ -228,29 +205,45 @@
     function filterItems() {
         let q = document.getElementById('search').value.toLowerCase();
         let cards = document.getElementsByClassName('item-card');
+        let headers = document.getElementsByClassName('section-header');
+        
         Array.from(cards).forEach(card => {
             let name = card.querySelector('.item-name').innerText.toLowerCase();
             card.style.display = name.includes(q) ? 'block' : 'none';
+        });
+
+        // Cache les titres de section si aucun article de la section n'est visible
+        Array.from(headers).forEach(header => {
+            let next = header.nextElementSibling;
+            let hasVisible = false;
+            while(next && !next.classList.contains('section-header')) {
+                if(next.style.display !== 'none') hasVisible = true;
+                next = next.nextElementSibling;
+            }
+            header.style.display = hasVisible ? 'block' : 'none';
         });
     }
 
     function sendOrder() {
         let text = "🛒 COMMANDE - AUX VERGERS DE NOISY\n";
         let hasData = false;
-        for (let item in order) {
-            if (order[item] > 0) {
-                let unit = articlesPiece.includes(item) ? (order[item] > 1 ? " pièces" : " pièce") : (order[item] >= 1 ? order[item] + "kg" : (order[item]*1000) + "g");
-                text += `\n✅ ${item} : ${unit}`;
-                hasData = true;
-            }
+        for (const cat in inventory) {
+            let catText = "";
+            inventory[cat].forEach(name => {
+                let item = order[name];
+                if (item.val > 0) {
+                    let qtyStr = item.mode === 'piece' ? item.val + (item.val > 1 ? " pièces" : " pièce") : (item.val >= 1 ? item.val + "kg" : (item.val*1000) + "g");
+                    catText += `\n✅ ${name} : ${qtyStr}`;
+                    hasData = true;
+                }
+            });
+            if(catText) text += `\n${cat}${catText}\n`;
         }
-        if (!hasData) return alert("Votre panier est vide !");
+        if (!hasData) return alert("Panier vide !");
         if (navigator.share) navigator.share({ title: 'Ma Commande Noisy', text: text });
         else { navigator.clipboard.writeText(text); alert("Commande copiée !"); }
     }
-
     init();
 </script>
-
 </body>
 </html>
