@@ -13,7 +13,7 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: var(--ios-bg); color: var(--text-dark); margin: 0; padding-bottom: 120px; -webkit-font-smoothing: antialiased;
+            background-color: var(--ios-bg); color: var(--text-dark); margin: 0; padding-bottom: 140px; -webkit-font-smoothing: antialiased;
         }
         .header { background: var(--ios-card); padding: 40px 20px 25px; text-align: center; border-bottom: 0.5px solid rgba(0,0,0,0.1); }
         .header h1 { margin: 0; font-size: 1.5rem; font-weight: 800; color: var(--brand-green); text-transform: uppercase; }
@@ -26,22 +26,27 @@
         .search-box { width: 100%; padding: 10px 15px 10px 40px; border: none; border-radius: 12px; background: rgba(142, 142, 147, 0.12); font-size: 1rem; outline: none; }
         .btn-reset-all { background: none; border: none; color: var(--system-red); font-weight: 600; cursor: pointer; }
         .container { max-width: 600px; margin: auto; padding: 15px; }
-        .item-card { background: var(--ios-card); border-radius: 18px; padding: 18px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        .item-name { font-weight: 700; font-size: 1.1rem; color: var(--text-dark); margin-bottom: 12px; text-align: center; }
-        .mode-selector { display: flex; background: var(--ios-bg); border-radius: 10px; padding: 3px; margin-bottom: 15px; }
-        .mode-btn { flex: 1; border: none; padding: 8px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; background: transparent; color: var(--text-muted); transition: 0.2s; }
-        .mode-btn.active { background: white; color: var(--brand-green); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .qty-controls { display: grid; grid-template-columns: 1fr 1.2fr 1fr; align-items: center; gap: 10px; }
-        .qty-display { text-align: center; background: var(--ios-bg); padding: 15px 5px; border-radius: 12px; font-weight: 800; font-size: 1rem; color: var(--brand-green); min-height: 52px; display: flex; align-items: center; justify-content: center; }
-        .btn-stack { display: flex; flex-direction: column; gap: 8px; }
-        .btn-small { border: none; border-radius: 10px; padding: 10px 5px; font-weight: 800; font-size: 0.85rem; cursor: pointer; }
+        
+        /* CARTE ARTICLE */
+        .item-card { background: var(--ios-card); border-radius: 18px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .item-name { font-weight: 800; font-size: 1.1rem; color: var(--brand-green); margin-bottom: 15px; text-align: center; border-bottom: 1px solid var(--ios-bg); padding-bottom: 10px; }
+        
+        .control-row { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 8px; margin-bottom: 10px; }
+        .row-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; text-align: center; grid-column: span 3; margin-bottom: 2px; }
+        
+        .btn-stack { display: flex; flex-direction: column; gap: 4px; }
+        .btn-small { border: none; border-radius: 8px; padding: 8px 5px; font-weight: 800; font-size: 0.75rem; cursor: pointer; }
         .btn-add { background: var(--brand-green); color: white; }
         .btn-sub { background: #e5e5ea; color: var(--text-dark); }
-        .btn-small:active { transform: scale(0.92); opacity: 0.8; }
+        
+        .display-val { text-align: center; font-weight: 800; font-size: 0.95rem; color: var(--brand-green); background: var(--ios-bg); padding: 8px; border-radius: 8px; }
+        
+        .item-total { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e5e5ea; font-size: 0.85rem; font-weight: 700; color: var(--brand-green); text-align: center; min-height: 20px; }
+
         .dock { position: fixed; bottom: 25px; left: 20px; right: 20px; z-index: 2000; }
         .btn-send { width: 100%; background: var(--brand-green); color: white; border: none; padding: 20px; border-radius: 20px; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 10px 25px rgba(45, 106, 79, 0.3); }
         .counter-badge { background: white; color: var(--brand-green); padding: 2px 8px; border-radius: 8px; }
-        .section-header { margin: 30px 10px 15px; font-size: 0.85rem; font-weight: 800; color: var(--brand-green); text-transform: uppercase; letter-spacing: 1px; border-left: 4px solid var(--brand-green); padding-left: 10px; }
+        .section-header { margin: 25px 10px 10px; font-size: 0.85rem; font-weight: 800; color: var(--brand-green); text-transform: uppercase; border-left: 4px solid var(--brand-green); padding-left: 10px; }
     </style>
 </head>
 <body>
@@ -49,13 +54,13 @@
 <div class="header">
     <i class="fa-solid fa-leaf" style="color:var(--brand-green); font-size: 2.2rem; margin-bottom: 12px;"></i>
     <h1>Aux Vergers de Noisy</h1>
-    <p>Sélectionnez vos produits</p>
+    <p>Commande au poids ET à la pièce</p>
 </div>
 
 <div class="nav-tools">
     <div class="search-container">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input type="text" id="search" class="search-box" placeholder="Chercher un produit..." onkeyup="filterItems()">
+        <input type="text" id="search" class="search-box" placeholder="Produit (ex: Tomate...)" onkeyup="filterItems()">
     </div>
     <button class="btn-reset-all" onclick="resetOrder()">Vider</button>
 </div>
@@ -70,37 +75,15 @@
 
 <script>
     const inventory = {
-        "🍏 POMMES": [
-            "POMME CHANTECLER", "POMME GALA", "POMME GOLDEN", "POMME GOLDRUSH", 
-            "POMME GRANNY", "POMME OPALE", "POMME PATTE DE LOUP", "POMME PINK LADY"
-        ],
-        "🥬 SALADES": [
-            "SALADE BATAVIA", "SALADE LAITUE", "SALADE FEUILLE DE CHENE", "MACHE", "EPINARD"
-        ],
-        "🌶️ POIVRONS": [
-            "POIVRON ROUGE", "POIVRON JAUNE", "POIVRON VERT"
-        ],
-        "🥕 LÉGUMES": [
-            "AIL", "ARTICHAUT", "AUBERGINE", "BETTERAVE", "BLETTE", "BROCOLI", "BUTTERNUT", 
-            "CAROTTE", "CAROTTE FANE", "CELERI", "CHAMPIGNON DE PARIS", "CHOU BLANC", 
-            "CHOU ROUGE", "CHOU-FLEUR", "CONCOMBRE", "COURGETTE", "ECHALOTE", "ENDIVE", 
-            "FENOUIL", "FEVE", "HARICOT VERT", "NAVET", "OIGNON JAUNE", "OIGNON ROUGE", 
-            "PATATE DOUCE", "PETIT POIS", "POIREAU", "POMME DE TERRE", "POTIMARRON", 
-            "RADIS ROSE", "RHUBARBE", "TOMATE", "TOMATE CERISE"
-        ],
-        "🍓 FRUITS": [
-            "ANANAS", "AVOCAT", "BANANE", "CERISE", "CITRON", "CITRON VERT", "CLEMENTINE", 
-            "FIGUE", "FRAISE", "FRAMBOISE", "GRENADE", "KAKI", "KIWI", "MANGUE", "MELON", 
-            "ORANGE GALA", "ORANGE JUS", "PAMPLEMOUSSE", "POIRE", "RAISIN"
-        ],
-        "🌿 HERBES": [
-            "ANETH", "BASILIC", "CIBOULETTE", "CORIANDRE", "ESTRAGON", "MENTHE", 
-            "OSEILLE", "PERSIL", "THYM LAURIER"
-        ]
+        "🍏 POMMES": ["POMME CHANTECLER", "POMME GALA", "POMME GOLDEN", "POMME GOLDRUSH", "POMME GRANNY", "POMME OPALE", "POMME PATTE DE LOUP", "POMME PINK LADY"],
+        "🥬 SALADES": ["SALADE BATAVIA", "SALADE LAITUE", "SALADE FEUILLE DE CHENE", "MACHE", "EPINARD"],
+        "🥕 LÉGUMES": ["AIL", "ARTICHAUT", "AUBERGINE", "BETTERAVE", "BLETTE", "BROCOLI", "BUTTERNUT", "CAROTTE", "CAROTTE FANE", "CELERI", "CHAMPIGNON DE PARIS", "CHOU BLANC", "CHOU ROUGE", "CHOU-FLEUR", "CONCOMBRE", "COURGETTE", "ECHALOTE", "ENDIVE", "FENOUIL", "FEVE", "HARICOT VERT", "NAVET", "OIGNON JAUNE", "OIGNON ROUGE", "PATATE DOUCE", "PETIT POIS", "POIREAU", "POMME DE TERRE", "POTIMARRON", "POIVRON ROUGE", "POIVRON JAUNE", "POIVRON VERT", "RADIS ROSE", "RHUBARBE", "TOMATE", "TOMATE CERISE"],
+        "🍓 FRUITS": ["ANANAS", "AVOCAT", "BANANE", "CERISE", "CITRON", "CITRON VERT", "CLEMENTINE", "FIGUE", "FRAISE", "FRAMBOISE", "GRENADE", "KAKI", "KIWI", "MANGUE", "MELON", "ORANGE GALA", "ORANGE JUS", "PAMPLEMOUSSE", "POIRE", "RAISIN"],
+        "🌿 HERBES": ["ANETH", "BASILIC", "CIBOULETTE", "CORIANDRE", "ESTRAGON", "MENTHE", "OSEILLE", "PERSIL", "THYM LAURIER"]
     };
 
     let order = {};
-    const STORAGE_KEY = 'noisy_customer_order_v4';
+    const STORAGE_KEY = 'noisy_hybrid_order_v1';
 
     function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(order)); }
 
@@ -109,7 +92,7 @@
         if (saved) { order = JSON.parse(saved); }
         for (const cat in inventory) {
             inventory[cat].forEach(name => {
-                if (!order[name]) order[name] = { val: 0, mode: "weight" };
+                if (!order[name]) order[name] = { weight: 0, piece: 0 };
             });
         }
     }
@@ -128,76 +111,71 @@
                 card.className = 'item-card';
                 card.innerHTML = `
                     <div class="item-name">${name}</div>
-                    <div class="mode-selector">
-                        <button id="mode-w-${name}" class="mode-btn" onclick="setMode('${name}', 'weight')">⚖️ Poids</button>
-                        <button id="mode-p-${name}" class="mode-btn" onclick="setMode('${name}', 'piece')">📦 Pièce</button>
+                    
+                    <div class="row-label">⚖️ Au Poids</div>
+                    <div class="control-row">
+                        <div class="btn-stack">
+                            <button class="btn-small btn-sub" onclick="updateQty('${name}', 'weight', -1)">-1kg</button>
+                            <button class="btn-small btn-sub" onclick="updateQty('${name}', 'weight', -0.1)">-100g</button>
+                        </div>
+                        <div class="display-val" id="w-${name}">0 kg</div>
+                        <div class="btn-stack">
+                            <button class="btn-small btn-add" onclick="updateQty('${name}', 'weight', 1)">+1kg</button>
+                            <button class="btn-small btn-add" onclick="updateQty('${name}', 'weight', 0.1)">+100g</button>
+                        </div>
                     </div>
-                    <div class="qty-controls">
-                        <div class="btn-stack" id="subs-${name}"></div>
-                        <div class="qty-display" id="q-${name}">0 kg</div>
-                        <div class="btn-stack" id="adds-${name}"></div>
+
+                    <div class="row-label">📦 À la Pièce</div>
+                    <div class="control-row">
+                        <button class="btn-small btn-sub" style="height:40px" onclick="updateQty('${name}', 'piece', -1)">-1</button>
+                        <div class="display-val" id="p-${name}">0 pièce</div>
+                        <button class="btn-small btn-add" style="height:40px" onclick="updateQty('${name}', 'piece', 1)">+1</button>
                     </div>
+
+                    <div class="item-total" id="total-${name}"></div>
                 `;
                 listEl.appendChild(card);
-                updateUI(name);
+                refreshCard(name);
             });
         }
         updateBadge();
     }
 
-    function setMode(name, mode) {
-        order[name].mode = mode;
-        order[name].val = 0; 
-        updateUI(name);
+    function updateQty(name, type, delta) {
+        order[name][type] = Math.max(0, parseFloat((order[name][type] + delta).toFixed(1)));
+        refreshCard(name);
         saveData();
         updateBadge();
     }
 
-    function updateUI(name) {
+    function refreshCard(name) {
         const item = order[name];
-        const mode = item.mode;
-        document.getElementById(`mode-w-${name}`).className = mode === 'weight' ? 'mode-btn active' : 'mode-btn';
-        document.getElementById(`mode-p-${name}`).className = mode === 'piece' ? 'mode-btn active' : 'mode-btn';
-        const subStack = document.getElementById(`subs-${name}`);
-        const addStack = document.getElementById(`adds-${name}`);
-        if(mode === 'piece') {
-            subStack.innerHTML = `<button class="btn-small btn-sub" style="height:100%" onclick="changeQty('${name}', -1)">-1</button>`;
-            addStack.innerHTML = `<button class="btn-small btn-add" style="height:100%" onclick="changeQty('${name}', 1)">+1</button>`;
-        } else {
-            subStack.innerHTML = `<button class="btn-small btn-sub" onclick="changeQty('${name}', -1)">-1kg</button><button class="btn-small btn-sub" onclick="changeQty('${name}', -0.1)">-100g</button>`;
-            addStack.innerHTML = `<button class="btn-small btn-add" onclick="changeQty('${name}', 1)">+1kg</button><button class="btn-small btn-add" onclick="changeQty('${name}', 0.1)">+100g</button>`;
-        }
-        refreshDisplay(name);
-    }
+        // Update Weight Display
+        const wDisp = document.getElementById(`w-${name}`);
+        if(item.weight >= 1) wDisp.innerText = item.weight + " kg";
+        else if (item.weight > 0) wDisp.innerText = (item.weight * 1000) + " g";
+        else wDisp.innerText = "0 kg";
 
-    function changeQty(name, delta) {
-        order[name].val = Math.max(0, parseFloat((order[name].val + delta).toFixed(1)));
-        refreshDisplay(name);
-        saveData();
-        updateBadge();
-    }
+        // Update Piece Display
+        document.getElementById(`p-${name}`).innerText = item.piece + (item.piece > 1 ? " pièces" : " pièce");
 
-    function refreshDisplay(name) {
-        const item = order[name];
-        const display = document.getElementById(`q-${name}`);
-        if(item.mode === 'piece') display.innerText = item.val + (item.val > 1 ? " pièces" : " pièce");
-        else {
-            if(item.val >= 1) display.innerText = item.val + " kg";
-            else if (item.val > 0) display.innerText = (item.val * 1000) + " g";
-            else display.innerText = "0 kg";
-        }
+        // Update Summary Line
+        let summary = [];
+        if(item.weight > 0) summary.push(wDisp.innerText);
+        if(item.piece > 0) summary.push(item.piece + (item.piece > 1 ? " pièces" : " pièce"));
+        document.getElementById(`total-${name}`).innerText = summary.length > 0 ? "Panier : " + summary.join(" + ") : "";
     }
 
     function updateBadge() {
         let count = 0;
-        for (let name in order) { if(order[name].val > 0) count++; }
+        for (let name in order) { if(order[name].weight > 0 || order[name].piece > 0) count++; }
         document.getElementById('order-count').innerText = count;
     }
 
     function resetOrder() {
         if(confirm("Vider le panier ?")) {
             localStorage.removeItem(STORAGE_KEY);
-            for(let name in order) { order[name].val = 0; refreshDisplay(name); }
+            for(let name in order) { order[name].weight = 0; order[name].piece = 0; refreshCard(name); }
             updateBadge();
         }
     }
@@ -205,22 +183,9 @@
     function filterItems() {
         let q = document.getElementById('search').value.toLowerCase();
         let cards = document.getElementsByClassName('item-card');
-        let headers = document.getElementsByClassName('section-header');
-        
         Array.from(cards).forEach(card => {
             let name = card.querySelector('.item-name').innerText.toLowerCase();
             card.style.display = name.includes(q) ? 'block' : 'none';
-        });
-
-        // Cache les titres de section si aucun article de la section n'est visible
-        Array.from(headers).forEach(header => {
-            let next = header.nextElementSibling;
-            let hasVisible = false;
-            while(next && !next.classList.contains('section-header')) {
-                if(next.style.display !== 'none') hasVisible = true;
-                next = next.nextElementSibling;
-            }
-            header.style.display = hasVisible ? 'block' : 'none';
         });
     }
 
@@ -230,10 +195,12 @@
         for (const cat in inventory) {
             let catText = "";
             inventory[cat].forEach(name => {
-                let item = order[name];
-                if (item.val > 0) {
-                    let qtyStr = item.mode === 'piece' ? item.val + (item.val > 1 ? " pièces" : " pièce") : (item.val >= 1 ? item.val + "kg" : (item.val*1000) + "g");
-                    catText += `\n✅ ${name} : ${qtyStr}`;
+                const item = order[name];
+                if (item.weight > 0 || item.piece > 0) {
+                    let parts = [];
+                    if(item.weight > 0) parts.push(item.weight >= 1 ? item.weight + "kg" : (item.weight*1000) + "g");
+                    if(item.piece > 0) parts.push(item.piece + "pce");
+                    catText += `\n✅ ${name} : ${parts.join(" + ")}`;
                     hasData = true;
                 }
             });
