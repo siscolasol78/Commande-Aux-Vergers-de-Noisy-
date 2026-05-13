@@ -74,7 +74,7 @@
         <div class="info-title">Infos retrait</div>
         <div class="form-group"><label>DATE</label><input type="date" id="order-date" class="form-input" onchange="saveExtraInfo()"></div>
         <div class="form-group"><label>HEURE DE PASSAGE</label><input type="time" id="order-time" class="form-input" onchange="saveExtraInfo()"></div>
-        <div class="form-group"><label>COMMENTAIRE</label><textarea id="order-note" class="form-input" rows="3" oninput="saveExtraInfo()"></textarea></div>
+        <div class="form-group"><label>COMMENTAIRE</label><textarea id="order-note" class="form-input" rows="3" oninput="saveExtraInfo()" placeholder="Variété précise, maturité, etc."></textarea></div>
     </div>
 </div>
 
@@ -85,6 +85,7 @@
 </div>
 
 <script>
+    // Liste avec emojis pour les sections uniquement
     const inventory = {
         "🍏 POMMES": ["POMME CHANTECLER", "POMME GALA", "POMME GOLDEN", "POMME GOLDRUSH", "POMME GRANNY", "POMME OPALE", "POMME PATTE DE LOUP", "POMME PINK LADY"],
         "🥬 SALADES": ["SALADE BATAVIA", "SALADE LAITUE", "SALADE FEUILLE DE CHENE", "MACHE", "EPINARD"],
@@ -94,7 +95,7 @@
     };
 
     let order = {};
-    const STORAGE_KEY = 'noisy_standard_v2';
+    const STORAGE_KEY = 'noisy_standard_v3';
 
     function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(order)); }
     function saveExtraInfo() {
