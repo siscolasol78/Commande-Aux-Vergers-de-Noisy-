@@ -26,23 +26,16 @@
         .search-box { width: 100%; padding: 10px 15px 10px 40px; border: none; border-radius: 12px; background: rgba(142, 142, 147, 0.12); font-size: 1rem; outline: none; }
         .btn-reset-all { background: none; border: none; color: var(--system-red); font-weight: 600; cursor: pointer; }
         .container { max-width: 600px; margin: auto; padding: 15px; }
-        
-        /* CARTE ARTICLE */
         .item-card { background: var(--ios-card); border-radius: 18px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
         .item-name { font-weight: 800; font-size: 1.1rem; color: var(--brand-green); margin-bottom: 15px; text-align: center; border-bottom: 1px solid var(--ios-bg); padding-bottom: 10px; }
-        
         .control-row { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 8px; margin-bottom: 10px; }
         .row-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; text-align: center; grid-column: span 3; margin-bottom: 2px; }
-        
         .btn-stack { display: flex; flex-direction: column; gap: 4px; }
         .btn-small { border: none; border-radius: 8px; padding: 8px 5px; font-weight: 800; font-size: 0.75rem; cursor: pointer; }
         .btn-add { background: var(--brand-green); color: white; }
         .btn-sub { background: #e5e5ea; color: var(--text-dark); }
-        
         .display-val { text-align: center; font-weight: 800; font-size: 0.95rem; color: var(--brand-green); background: var(--ios-bg); padding: 8px; border-radius: 8px; }
-        
         .item-total { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e5e5ea; font-size: 0.85rem; font-weight: 700; color: var(--brand-green); text-align: center; min-height: 20px; }
-
         .dock { position: fixed; bottom: 25px; left: 20px; right: 20px; z-index: 2000; }
         .btn-send { width: 100%; background: var(--brand-green); color: white; border: none; padding: 20px; border-radius: 20px; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 10px 25px rgba(45, 106, 79, 0.3); }
         .counter-badge { background: white; color: var(--brand-green); padding: 2px 8px; border-radius: 8px; }
@@ -54,13 +47,13 @@
 <div class="header">
     <i class="fa-solid fa-leaf" style="color:var(--brand-green); font-size: 2.2rem; margin-bottom: 12px;"></i>
     <h1>Aux Vergers de Noisy</h1>
-    <p>Commande au poids ET à la pièce</p>
+    <p>Commande Poids & Unité</p>
 </div>
 
 <div class="nav-tools">
     <div class="search-container">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input type="text" id="search" class="search-box" placeholder="Produit (ex: Tomate...)" onkeyup="filterItems()">
+        <input type="text" id="search" class="search-box" placeholder="Produit..." onkeyup="filterItems()">
     </div>
     <button class="btn-reset-all" onclick="resetOrder()">Vider</button>
 </div>
@@ -77,13 +70,13 @@
     const inventory = {
         "🍏 POMMES": ["POMME CHANTECLER", "POMME GALA", "POMME GOLDEN", "POMME GOLDRUSH", "POMME GRANNY", "POMME OPALE", "POMME PATTE DE LOUP", "POMME PINK LADY"],
         "🥬 SALADES": ["SALADE BATAVIA", "SALADE LAITUE", "SALADE FEUILLE DE CHENE", "MACHE", "EPINARD"],
-        "🥕 LÉGUMES": ["AIL", "ARTICHAUT", "AUBERGINE", "BETTERAVE", "BLETTE", "BROCOLI", "BUTTERNUT", "CAROTTE", "CAROTTE FANE", "CELERI", "CHAMPIGNON DE PARIS", "CHOU BLANC", "CHOU ROUGE", "CHOU-FLEUR", "CONCOMBRE", "COURGETTE", "ECHALOTE", "ENDIVE", "FENOUIL", "FEVE", "HARICOT VERT", "NAVET", "OIGNON JAUNE", "OIGNON ROUGE", "PATATE DOUCE", "PETIT POIS", "POIREAU", "POMME DE TERRE", "POTIMARRON", "POIVRON ROUGE", "POIVRON JAUNE", "POIVRON VERT", "RADIS ROSE", "RHUBARBE", "TOMATE", "TOMATE CERISE"],
+        "🥕 LÉGUMES": ["AIL", "ARTICHAUT", "AUBERGINE", "BETTERAVE", "BLETTE", "BROCOLI", "BUTTERNUT", "CAROTTE", "CAROTTE FANE", "CAROTTE SABLE", "CELERI", "CHAMPIGNON DE PARIS", "CHOU BLANC", "CHOU ROUGE", "CHOU-FLEUR", "CONCOMBRE", "COURGETTE", "ECHALOTE", "ENDIVE", "FENOUIL", "FEVE", "HARICOT VERT", "NAVET", "OIGNON JAUNE", "OIGNON ROUGE", "PATATE DOUCE", "PETIT POIS", "POIREAU", "POMME DE TERRE", "POTIMARRON", "POIVRON ROUGE", "POIVRON JAUNE", "POIVRON VERT", "RADIS ROSE", "RHUBARBE", "TOMATE", "TOMATE CERISE"],
         "🍓 FRUITS": ["ANANAS", "AVOCAT", "BANANE", "CERISE", "CITRON", "CITRON VERT", "CLEMENTINE", "FIGUE", "FRAISE", "FRAMBOISE", "GRENADE", "KAKI", "KIWI", "MANGUE", "MELON", "ORANGE GALA", "ORANGE JUS", "PAMPLEMOUSSE", "POIRE", "RAISIN"],
         "🌿 HERBES": ["ANETH", "BASILIC", "CIBOULETTE", "CORIANDRE", "ESTRAGON", "MENTHE", "OSEILLE", "PERSIL", "THYM LAURIER"]
     };
 
     let order = {};
-    const STORAGE_KEY = 'noisy_hybrid_order_v1';
+    const STORAGE_KEY = 'noisy_hybrid_final_v2';
 
     function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(order)); }
 
@@ -111,27 +104,18 @@
                 card.className = 'item-card';
                 card.innerHTML = `
                     <div class="item-name">${name}</div>
-                    
-                    <div class="row-label">⚖️ Au Poids</div>
+                    <div class="row-label">⚖️ Poids</div>
                     <div class="control-row">
-                        <div class="btn-stack">
-                            <button class="btn-small btn-sub" onclick="updateQty('${name}', 'weight', -1)">-1kg</button>
-                            <button class="btn-small btn-sub" onclick="updateQty('${name}', 'weight', -0.1)">-100g</button>
-                        </div>
+                        <div class="btn-stack"><button class="btn-small btn-sub" onclick="updateQty('${name}', 'weight', -1)">-1kg</button><button class="btn-small btn-sub" onclick="updateQty('${name}', 'weight', -0.1)">-100g</button></div>
                         <div class="display-val" id="w-${name}">0 kg</div>
-                        <div class="btn-stack">
-                            <button class="btn-small btn-add" onclick="updateQty('${name}', 'weight', 1)">+1kg</button>
-                            <button class="btn-small btn-add" onclick="updateQty('${name}', 'weight', 0.1)">+100g</button>
-                        </div>
+                        <div class="btn-stack"><button class="btn-small btn-add" onclick="updateQty('${name}', 'weight', 1)">+1kg</button><button class="btn-small btn-add" onclick="updateQty('${name}', 'weight', 0.1)">+100g</button></div>
                     </div>
-
-                    <div class="row-label">📦 À la Pièce</div>
+                    <div class="row-label">📦 Unité</div>
                     <div class="control-row">
                         <button class="btn-small btn-sub" style="height:40px" onclick="updateQty('${name}', 'piece', -1)">-1</button>
-                        <div class="display-val" id="p-${name}">0 pièce</div>
+                        <div class="display-val" id="p-${name}">0 pce</div>
                         <button class="btn-small btn-add" style="height:40px" onclick="updateQty('${name}', 'piece', 1)">+1</button>
                     </div>
-
                     <div class="item-total" id="total-${name}"></div>
                 `;
                 listEl.appendChild(card);
@@ -150,20 +134,13 @@
 
     function refreshCard(name) {
         const item = order[name];
-        // Update Weight Display
         const wDisp = document.getElementById(`w-${name}`);
-        if(item.weight >= 1) wDisp.innerText = item.weight + " kg";
-        else if (item.weight > 0) wDisp.innerText = (item.weight * 1000) + " g";
-        else wDisp.innerText = "0 kg";
-
-        // Update Piece Display
-        document.getElementById(`p-${name}`).innerText = item.piece + (item.piece > 1 ? " pièces" : " pièce");
-
-        // Update Summary Line
+        wDisp.innerText = item.weight >= 1 ? item.weight + " kg" : (item.weight > 0 ? (item.weight * 1000) + " g" : "0 kg");
+        document.getElementById(`p-${name}`).innerText = item.piece + " pce";
         let summary = [];
         if(item.weight > 0) summary.push(wDisp.innerText);
-        if(item.piece > 0) summary.push(item.piece + (item.piece > 1 ? " pièces" : " pièce"));
-        document.getElementById(`total-${name}`).innerText = summary.length > 0 ? "Panier : " + summary.join(" + ") : "";
+        if(item.piece > 0) summary.push(item.piece + " pce");
+        document.getElementById(`total-${name}`).innerText = summary.length > 0 ? "Prévu : " + summary.join(" + ") : "";
     }
 
     function updateBadge() {
