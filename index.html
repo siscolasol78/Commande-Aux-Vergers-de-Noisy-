@@ -22,7 +22,7 @@
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 12px 20px; display: flex; gap: 10px; border-bottom: 0.5px solid rgba(0,0,0,0.05);
         }
         .search-container { position: relative; flex: 1; }
-        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(50%); color: var(--text-muted); }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
         .search-box { width: 100%; padding: 10px 15px 10px 40px; border: none; border-radius: 12px; background: rgba(142, 142, 147, 0.12); font-size: 1rem; outline: none; }
         .btn-reset-all { background: none; border: none; color: var(--system-red); font-weight: 600; cursor: pointer; }
         .container { max-width: 600px; margin: auto; padding: 15px; }
@@ -68,14 +68,12 @@
 </div>
 
 <div class="container">
-    <!-- INFOS RETRAIT EN HAUT -->
     <div class="order-info-card">
         <div class="info-title">Infos retrait</div>
         <div class="form-group"><label>DATE</label><input type="date" id="order-date" class="form-input" onchange="saveExtraInfo()"></div>
         <div class="form-group"><label>HEURE DE PASSAGE</label><input type="time" id="order-time" class="form-input" onchange="saveExtraInfo()"></div>
         <div class="form-group"><label>COMMENTAIRE</label><textarea id="order-note" class="form-input" rows="3" oninput="saveExtraInfo()" placeholder="Variété précise, maturité, etc."></textarea></div>
     </div>
-
     <div id="item-list"></div>
 </div>
 
@@ -95,7 +93,7 @@
     };
 
     let order = {};
-    const STORAGE_KEY = 'noisy_standard_final_v1';
+    const STORAGE_KEY = 'noisy_v3_final';
 
     function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(order)); }
     function saveExtraInfo() {
@@ -194,9 +192,7 @@
     }
 
     function sendOrder() {
-        const d = document.getElementById('order-date').value;
-        const t = document.getElementById('order-time').value;
-        const n = document.getElementById('order-note').value;
+        const d = document.getElementById('order-date').value, t = document.getElementById('order-time').value, n = document.getElementById('order-note').value;
         let text = `🛒 COMMANDE NOISY\n📅 ${d || '?'}\n⏰ ${t || '?'}\n${n ? '📝 '+n+'\n' : ''}`;
         let hasData = false;
         for (const cat in inventory) {
@@ -214,8 +210,7 @@
             if(catText) text += `\n${cat}${catText}\n`;
         }
         if (!hasData) return alert("Panier vide !");
-        if (navigator.share) navigator.share({ title: 'Commande Noisy', text: text });
-        else { navigator.clipboard.writeText(text); alert("Copié !"); }
+        window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
     }
     init();
 </script>
