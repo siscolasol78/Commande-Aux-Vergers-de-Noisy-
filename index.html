@@ -13,7 +13,7 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: var(--ios-bg); color: var(--text-dark); margin: 0; padding-bottom: 140px; -webkit-font-smoothing: antialiased;
+            background-color: var(--ios-bg); color: var(--text-dark); margin: 0; padding-bottom: 160px; -webkit-font-smoothing: antialiased;
         }
         .header { background: var(--ios-card); padding: 40px 20px 25px; text-align: center; border-bottom: 0.5px solid rgba(0,0,0,0.1); }
         .header h1 { margin: 0; font-size: 1.5rem; font-weight: 800; color: var(--brand-green); text-transform: uppercase; }
@@ -26,16 +26,27 @@
         .search-box { width: 100%; padding: 10px 15px 10px 40px; border: none; border-radius: 12px; background: rgba(142, 142, 147, 0.12); font-size: 1rem; outline: none; }
         .btn-reset-all { background: none; border: none; color: var(--system-red); font-weight: 600; cursor: pointer; }
         .container { max-width: 600px; margin: auto; padding: 15px; }
+        
+        /* CARTES ET CONTROLES */
         .item-card { background: var(--ios-card); border-radius: 18px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
         .item-name { font-weight: 800; font-size: 1.1rem; color: var(--brand-green); margin-bottom: 15px; text-align: center; border-bottom: 1px solid var(--ios-bg); padding-bottom: 10px; }
         .control-row { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 8px; margin-bottom: 10px; }
-        .row-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; text-align: center; grid-column: span 3; margin-bottom: 2px; }
+        .row-label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; text-align: center; grid-column: span 3; margin-bottom: 2px; }
         .btn-stack { display: flex; flex-direction: column; gap: 4px; }
         .btn-small { border: none; border-radius: 8px; padding: 8px 5px; font-weight: 800; font-size: 0.75rem; cursor: pointer; }
         .btn-add { background: var(--brand-green); color: white; }
         .btn-sub { background: #e5e5ea; color: var(--text-dark); }
         .display-val { text-align: center; font-weight: 800; font-size: 0.95rem; color: var(--brand-green); background: var(--ios-bg); padding: 8px; border-radius: 8px; }
         .item-total { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e5e5ea; font-size: 0.85rem; font-weight: 700; color: var(--brand-green); text-align: center; min-height: 20px; }
+
+        /* FORMULAIRE FINAL */
+        .order-info-card { background: white; border-radius: 18px; padding: 20px; margin-top: 30px; border: 2px solid var(--brand-green); }
+        .info-title { font-weight: 800; color: var(--brand-green); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 5px; color: var(--text-muted); }
+        .form-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #e5e5ea; font-family: inherit; font-size: 1rem; outline: none; }
+        .form-input:focus { border-color: var(--brand-green); }
+
         .dock { position: fixed; bottom: 25px; left: 20px; right: 20px; z-index: 2000; }
         .btn-send { width: 100%; background: var(--brand-green); color: white; border: none; padding: 20px; border-radius: 20px; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 10px 25px rgba(45, 106, 79, 0.3); }
         .counter-badge { background: white; color: var(--brand-green); padding: 2px 8px; border-radius: 8px; }
@@ -47,7 +58,7 @@
 <div class="header">
     <i class="fa-solid fa-leaf" style="color:var(--brand-green); font-size: 2.2rem; margin-bottom: 12px;"></i>
     <h1>Aux Vergers de Noisy</h1>
-    <p>Commande Poids & Unité</p>
+    <p>Commande Hybride & Personnalisée</p>
 </div>
 
 <div class="nav-tools">
@@ -58,7 +69,26 @@
     <button class="btn-reset-all" onclick="resetOrder()">Vider</button>
 </div>
 
-<div class="container"><div id="item-list"></div></div>
+<div class="container">
+    <div id="item-list"></div>
+
+    <!-- SECTION INFOS COMMANDE -->
+    <div class="order-info-card">
+        <div class="info-title"><i class="fa-solid fa-clock"></i> RDV & NOTES</div>
+        <div class="form-group">
+            <label>JOUR DE RETRAIT</label>
+            <input type="date" id="order-date" class="form-input" onchange="saveExtraInfo()">
+        </div>
+        <div class="form-group">
+            <label>HEURE ESTIMÉE</label>
+            <input type="time" id="order-time" class="form-input" onchange="saveExtraInfo()">
+        </div>
+        <div class="form-group">
+            <label>NOTE PARTICULIÈRE (Optionnel)</label>
+            <textarea id="order-note" class="form-input" rows="3" placeholder="Ex: Bananes pas trop mûres..." oninput="saveExtraInfo()"></textarea>
+        </div>
+    </div>
+</div>
 
 <div class="dock">
     <button class="btn-send" onclick="sendOrder()">
@@ -76,17 +106,32 @@
     };
 
     let order = {};
-    const STORAGE_KEY = 'noisy_hybrid_final_v2';
+    const STORAGE_KEY = 'noisy_hybrid_final_v5';
 
     function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(order)); }
+    
+    function saveExtraInfo() {
+        const extra = {
+            date: document.getElementById('order-date').value,
+            time: document.getElementById('order-time').value,
+            note: document.getElementById('order-note').value
+        };
+        localStorage.setItem(STORAGE_KEY + '_extra', JSON.stringify(extra));
+    }
 
     function loadData() {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) { order = JSON.parse(saved); }
         for (const cat in inventory) {
-            inventory[cat].forEach(name => {
-                if (!order[name]) order[name] = { weight: 0, piece: 0 };
-            });
+            inventory[cat].forEach(name => { if (!order[name]) order[name] = { weight: 0, piece: 0 }; });
+        }
+        
+        const savedExtra = localStorage.getItem(STORAGE_KEY + '_extra');
+        if (savedExtra) {
+            const extra = JSON.parse(savedExtra);
+            document.getElementById('order-date').value = extra.date || '';
+            document.getElementById('order-time').value = extra.time || '';
+            document.getElementById('order-note').value = extra.note || '';
         }
     }
 
@@ -150,9 +195,13 @@
     }
 
     function resetOrder() {
-        if(confirm("Vider le panier ?")) {
+        if(confirm("Vider complètement le panier et les notes ?")) {
             localStorage.removeItem(STORAGE_KEY);
+            localStorage.removeItem(STORAGE_KEY + '_extra');
             for(let name in order) { order[name].weight = 0; order[name].piece = 0; refreshCard(name); }
+            document.getElementById('order-date').value = '';
+            document.getElementById('order-time').value = '';
+            document.getElementById('order-note').value = '';
             updateBadge();
         }
     }
@@ -167,7 +216,15 @@
     }
 
     function sendOrder() {
+        const date = document.getElementById('order-date').value;
+        const time = document.getElementById('order-time').value;
+        const note = document.getElementById('order-note').value;
+
         let text = "🛒 COMMANDE - AUX VERGERS DE NOISY\n";
+        text += `📅 JOUR : ${date || 'Non précisé'}\n`;
+        text += `⏰ HEURE : ${time || 'Non précisée'}\n`;
+        if(note) text += `📝 NOTE : ${note}\n`;
+        
         let hasData = false;
         for (const cat in inventory) {
             let catText = "";
@@ -183,8 +240,9 @@
             });
             if(catText) text += `\n${cat}${catText}\n`;
         }
-        if (!hasData) return alert("Panier vide !");
-        if (navigator.share) navigator.share({ title: 'Ma Commande Noisy', text: text });
+
+        if (!hasData) return alert("Votre panier est vide !");
+        if (navigator.share) navigator.share({ title: 'Commande Noisy', text: text });
         else { navigator.clipboard.writeText(text); alert("Commande copiée !"); }
     }
     init();
