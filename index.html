@@ -96,47 +96,48 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             display: flex;
             flex-direction: column;
-            gap: 15px;
-        }
-
-        .item-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
+            gap: 12px;
         }
 
         .item-name { font-weight: 700; font-size: 1.1rem; color: var(--text-dark); }
 
+        /* Nouveaux contrôles Kilos / Grammes */
         .qty-controls {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr;
             align-items: center;
-            justify-content: space-between;
-            background: var(--ios-bg);
-            border-radius: 14px;
-            padding: 5px;
+            gap: 10px;
         }
 
-        .btn-qty {
-            width: 45px;
-            height: 45px;
-            border: none;
-            border-radius: 10px;
-            background: white;
-            color: var(--brand-green);
-            font-size: 1.2rem;
-            font-weight: 800;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .btn-qty:active { background: var(--brand-light-green); transform: scale(0.95); }
-
-        .current-qty {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--brand-green);
-            min-width: 60px;
+        .qty-display {
             text-align: center;
+            background: var(--ios-bg);
+            padding: 10px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--brand-green);
         }
+
+        .btn-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .btn-small {
+            border: none;
+            border-radius: 8px;
+            padding: 8px 5px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .btn-add { background: var(--brand-green); color: white; }
+        .btn-sub { background: #e5e5ea; color: var(--text-dark); }
+        .btn-small:active { transform: scale(0.95); opacity: 0.8; }
 
         .section-title {
             margin: 30px 10px 10px;
@@ -171,8 +172,6 @@
             box-shadow: 0 10px 25px rgba(45, 106, 79, 0.3);
         }
 
-        .btn-send:active { transform: scale(0.98); opacity: 0.9; }
-
         .counter-badge {
             background: white;
             color: var(--brand-green);
@@ -187,7 +186,7 @@
 <div class="header">
     <i class="fa-solid fa-basket-shopping" style="color:var(--brand-green); font-size: 2.2rem; margin-bottom: 12px;"></i>
     <h1>Aux Vergers de Noisy</h1>
-    <p>Préparez votre commande</p>
+    <p>Commande au Kilo ou Gramme</p>
 </div>
 
 <div class="nav-tools">
@@ -204,7 +203,7 @@
 
 <div class="dock">
     <button class="btn-send" onclick="sendOrder()">
-        <i class="fa-solid fa-paper-plane"></i> Envoyer ma commande 
+        <i class="fa-solid fa-paper-plane"></i> Envoyer commande 
         <span id="order-count" class="counter-badge">0</span>
     </button>
 </div>
@@ -233,13 +232,17 @@
             const card = document.createElement('div');
             card.className = 'item-card';
             card.innerHTML = `
-                <div class="item-header">
-                    <span class="item-name">${name}</span>
-                </div>
+                <div class="item-name">${name}</div>
                 <div class="qty-controls">
-                    <button class="btn-qty" onclick="changeQty('${name}', -1)">-</button>
-                    <span class="current-qty" id="q-${name}">0</span>
-                    <button class="btn-qty" onclick="changeQty('${name}', 1)">+</button>
+                    <div class="btn-stack">
+                        <button class="btn-small btn-sub" onclick="changeQty('${name}', -1)">-1kg</button>
+                        <button class="btn-small btn-sub" onclick="changeQty('${name}', -0.1)">-100g</button>
+                    </div>
+                    <div class="qty-display" id="q-${name}">0 kg</div>
+                    <div class="btn-stack">
+                        <button class="btn-small btn-add" onclick="changeQty('${name}', 1)">+1kg</button>
+                        <button class="btn-small btn-add" onclick="changeQty('${name}', 0.1)">+100g</button>
+                    </div>
                 </div>
             `;
             listEl.appendChild(card);
@@ -247,16 +250,24 @@
     }
 
     function changeQty(name, val) {
-        order[name] = Math.max(0, order[name] + val);
-        document.getElementById(`q-${name}`).innerText = order[name];
+        // Fix pour éviter les erreurs de calcul flottant (ex: 0.3000000000004)
+        let newVal = (order[name] || 0) + val;
+        order[name] = Math.max(0, parseFloat(newVal.toFixed(1)));
+        
+        const display = document.getElementById(`q-${name}`);
+        if(order[name] >= 1) {
+            display.innerText = order[name] + " kg";
+        } else if (order[name] > 0) {
+            display.innerText = (order[name] * 1000) + " g";
+        } else {
+            display.innerText = "0 kg";
+        }
         updateBadge();
     }
 
     function updateBadge() {
         let totalItems = 0;
-        for (let item in order) {
-            if(order[item] > 0) totalItems++;
-        }
+        for (let item in order) { if(order[item] > 0) totalItems++; }
         document.getElementById('order-count').innerText = totalItems;
     }
 
@@ -265,7 +276,7 @@
             for (let name in order) {
                 order[name] = 0;
                 const el = document.getElementById(`q-${name}`);
-                if(el) el.innerText = "0";
+                if(el) el.innerText = "0 kg";
             }
             updateBadge();
         }
@@ -281,23 +292,22 @@
     }
 
     function sendOrder() {
-        let text = "🛒 NOUVELLE COMMANDE - AUX VERGERS DE NOISY\n";
+        let text = "🛒 COMMANDE - AUX VERGERS DE NOISY\n";
         let hasData = false;
-        
         for (let item in order) {
             if (order[item] > 0) {
-                text += `\n✅ ${item} : ${order[item]}`;
+                let qtyStr = order[item] >= 1 ? order[item] + "kg" : (order[item]*1000) + "g";
+                text += `\n✅ ${item} : ${qtyStr}`;
                 hasData = true;
             }
         }
-        
         if (!hasData) return alert("Votre panier est vide !");
         
         if (navigator.share) {
             navigator.share({ title: 'Ma Commande Noisy', text: text });
         } else {
             navigator.clipboard.writeText(text);
-            alert("Commande copiée ! Vous pouvez la coller dans un message.");
+            alert("Commande copiée !");
         }
     }
 
