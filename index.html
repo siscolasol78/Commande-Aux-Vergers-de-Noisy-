@@ -36,149 +36,68 @@
             border-bottom: 0.5px solid rgba(0,0,0,0.1);
         }
         
-        .header h1 { 
-            margin: 0; 
-            font-size: 1.5rem; 
-            font-weight: 800; 
-            color: var(--brand-green);
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-        }
-
-        .header p {
-            margin: 8px 0 0;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
+        .header h1 { margin: 0; font-size: 1.5rem; font-weight: 800; color: var(--brand-green); text-transform: uppercase; }
 
         .nav-tools {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            position: sticky; top: 0; z-index: 1000;
             background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 12px 20px;
-            display: flex;
-            gap: 10px;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 12px 20px; display: flex; gap: 10px;
             border-bottom: 0.5px solid rgba(0,0,0,0.05);
         }
 
         .search-container { position: relative; flex: 1; }
         .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
         .search-box { 
-            width: 100%;
-            padding: 10px 15px 10px 40px; 
-            border: none; 
-            border-radius: 12px; 
-            background: rgba(142, 142, 147, 0.12);
-            font-size: 1rem;
-            outline: none;
+            width: 100%; padding: 10px 15px 10px 40px; 
+            border: none; border-radius: 12px; 
+            background: rgba(142, 142, 147, 0.12); font-size: 1rem; outline: none;
         }
 
-        .btn-reset-all {
-            background: none;
-            border: none;
-            color: var(--system-red);
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
+        .btn-reset-all { background: none; border: none; color: var(--system-red); font-weight: 600; cursor: pointer; }
 
         .container { max-width: 600px; margin: auto; padding: 15px; }
 
         .item-card { 
-            background: var(--ios-card);
-            border-radius: 18px;
-            padding: 18px;
-            margin-bottom: 12px;
+            background: var(--ios-card); border-radius: 18px;
+            padding: 18px; margin-bottom: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
         }
 
-        .item-name { font-weight: 700; font-size: 1.1rem; color: var(--text-dark); }
+        .item-name { font-weight: 700; font-size: 1.1rem; color: var(--text-dark); margin-bottom: 12px; text-align: center; }
 
-        /* Nouveaux contrôles Kilos / Grammes */
-        .qty-controls {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr 1fr;
-            align-items: center;
-            gap: 10px;
-        }
+        .qty-controls { display: grid; grid-template-columns: 1fr 1.2fr 1fr; align-items: center; gap: 10px; }
 
         .qty-display {
-            text-align: center;
-            background: var(--ios-bg);
-            padding: 10px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 1.1rem;
-            color: var(--brand-green);
+            text-align: center; background: var(--ios-bg);
+            padding: 15px 5px; border-radius: 12px;
+            font-weight: 800; font-size: 1.1rem; color: var(--brand-green);
         }
 
-        .btn-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
+        .btn-stack { display: flex; flex-direction: column; gap: 8px; }
 
         .btn-small {
-            border: none;
-            border-radius: 8px;
-            padding: 8px 5px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: 0.1s;
+            border: none; border-radius: 10px;
+            padding: 10px 5px; font-weight: 800; font-size: 0.85rem; cursor: pointer;
         }
 
         .btn-add { background: var(--brand-green); color: white; }
         .btn-sub { background: #e5e5ea; color: var(--text-dark); }
-        .btn-small:active { transform: scale(0.95); opacity: 0.8; }
+        .btn-small:active { transform: scale(0.92); opacity: 0.8; }
 
-        .section-title {
-            margin: 30px 10px 10px;
-            font-size: 0.8rem;
-            font-weight: 800;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .section-title { margin: 30px 10px 10px; font-size: 0.8rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
 
-        .dock {
-            position: fixed;
-            bottom: 25px;
-            left: 20px;
-            right: 20px;
-            z-index: 2000;
-        }
+        .dock { position: fixed; bottom: 25px; left: 20px; right: 20px; z-index: 2000; }
 
         .btn-send {
-            width: 100%;
-            background: var(--brand-green);
-            color: white;
-            border: none;
-            padding: 18px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
+            width: 100%; background: var(--brand-green); color: white;
+            border: none; padding: 20px; border-radius: 20px;
+            font-weight: 700; font-size: 1.1rem;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
             box-shadow: 0 10px 25px rgba(45, 106, 79, 0.3);
         }
 
-        .counter-badge {
-            background: white;
-            color: var(--brand-green);
-            padding: 2px 8px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-        }
+        .counter-badge { background: white; color: var(--brand-green); padding: 2px 8px; border-radius: 8px; }
     </style>
 </head>
 <body>
@@ -186,7 +105,7 @@
 <div class="header">
     <i class="fa-solid fa-basket-shopping" style="color:var(--brand-green); font-size: 2.2rem; margin-bottom: 12px;"></i>
     <h1>Aux Vergers de Noisy</h1>
-    <p>Commande au Kilo ou Gramme</p>
+    <p>Commande au Kilo ou à l'Unité</p>
 </div>
 
 <div class="nav-tools">
@@ -209,58 +128,82 @@
 </div>
 
 <script>
-    const articles = [
-        "AIL", "ANANAS", "ARTICHAUT", "AUBERGINE", "AVOCAT", "BANANE", "BETTERAVE", "Blette", "BROCOLI", "BUTTERNUT", "CAROTTE", "Celeri", "CERISE", "CHOU", "CHAMPI", "CITRON", "CITRON VERT", "CLEMENTINE", "CONCOMBRE", "COURGETTE", "ECHALOTE", "ENDIVE", "EPINARD", "FENOUIL", "FEVE", "FIGUE", "FRAISE", "FRAMBOISE", "GINGEMBRE", "GRENADE", "HARICOT Vert", "KAKI", "KIWI", "MACHE", "MANGUE", "MELON", "NAVET", "NOIX", "OIGNON", "ORANGE", "PAMPLEMOUSSE", "PATATE DOUCE", "POMME DE TERRE", "PETIT POIS", "POIRE", "POIREAU", "POIVRON", "POMME", "POTIMARRON", "RADIS", "RAISIN", "RHUBARBE", "SALADE", "TOMATE",
-        "TITRE_HERBES",
-        "ANETH", "BASILIC", "CIBOULETTE", "CORIANDRE", "ESTRAGON", "MENTHE", "OSEILLE", "PERSIL", "THYM LAURIER"
+    // Liste des articles vendus à la pièce/unité/botte
+    const articlesPiece = [
+        "AIL", "ANANAS", "ARTICHAUT", "AVOCAT", "BETTERAVE", "BROCOLI", "CITRON", "CITRON VERT", 
+        "CONCOMBRE", "FENOUIL", "GRENADE", "KAKI", "KIWI", "MANGUE", "MELON", 
+        "PAMPLEMOUSSE", "RADIS ROSE", "SALADE", "ANETH", "BASILIC", "CIBOULETTE", 
+        "CORIANDRE", "ESTRAGON", "MENTHE", "OSEILLE", "PERSIL", "THYM LAURIER"
+    ];
+
+    const articlesKilo = [
+        "AUBERGINE", "BANANE", "Blette", "BUTTERNUT", "CAROTTE", "Celeri", "CERISE", "CHOU", 
+        "CHAMPI", "CLEMENTINE", "COURGETTE", "ECHALOTE", "ENDIVE", "EPINARD", "FEVE", "FIGUE", 
+        "FRAISE", "FRAMBOISE", "GINGEMBRE", "HARICOT Vert", "MACHE", "NAVET", "NOIX", "OIGNON", 
+        "ORANGE", "PATATE DOUCE", "POMME DE TERRE", "PETIT POIS", "POIRE", "POIREAU", 
+        "POIVRON", "POMME", "POTIMARRON", "RAISIN", "RHUBARBE", "TOMATE"
     ];
 
     let order = {};
 
     function init() {
         const listEl = document.getElementById('item-list');
-        articles.forEach((name) => {
-            if(name === "TITRE_HERBES") {
-                const h = document.createElement('div');
-                h.className = 'section-title';
-                h.innerText = "🍃 Herbes Fraîches";
-                listEl.appendChild(h);
-                return;
-            }
+        
+        // Affichage des articles par type
+        renderSection(listEl, "📦 Articles à l'Unité / Pièce", articlesPiece, true);
+        renderSection(listEl, "⚖️ Articles au Poids (Kilo)", articlesKilo, false);
+    }
 
+    function renderSection(container, title, list, isPiece) {
+        const h = document.createElement('div');
+        h.className = 'section-title';
+        h.innerText = title;
+        container.appendChild(h);
+
+        list.forEach((name) => {
             order[name] = 0;
             const card = document.createElement('div');
             card.className = 'item-card';
-            card.innerHTML = `
-                <div class="item-name">${name}</div>
-                <div class="qty-controls">
+            
+            let controls = "";
+            if(isPiece) {
+                // Contrôles pour Unité (+1 / -1)
+                controls = `
+                    <div class="btn-stack"><button class="btn-small btn-sub" onclick="changeQty('${name}', -1, true)">-1</button></div>
+                    <div class="qty-display" id="q-${name}">0 pièce</div>
+                    <div class="btn-stack"><button class="btn-small btn-add" onclick="changeQty('${name}', 1, true)">+1</button></div>
+                `;
+            } else {
+                // Contrôles pour Poids (+1kg / +100g)
+                controls = `
                     <div class="btn-stack">
-                        <button class="btn-small btn-sub" onclick="changeQty('${name}', -1)">-1kg</button>
-                        <button class="btn-small btn-sub" onclick="changeQty('${name}', -0.1)">-100g</button>
+                        <button class="btn-small btn-sub" onclick="changeQty('${name}', -1, false)">-1kg</button>
+                        <button class="btn-small btn-sub" onclick="changeQty('${name}', -0.1, false)">-100g</button>
                     </div>
                     <div class="qty-display" id="q-${name}">0 kg</div>
                     <div class="btn-stack">
-                        <button class="btn-small btn-add" onclick="changeQty('${name}', 1)">+1kg</button>
-                        <button class="btn-small btn-add" onclick="changeQty('${name}', 0.1)">+100g</button>
+                        <button class="btn-small btn-add" onclick="changeQty('${name}', 1, false)">+1kg</button>
+                        <button class="btn-small btn-add" onclick="changeQty('${name}', 0.1, false)">+100g</button>
                     </div>
-                </div>
-            `;
-            listEl.appendChild(card);
+                `;
+            }
+
+            card.innerHTML = `<div class="item-name">${name}</div><div class="qty-controls">${controls}</div>`;
+            container.appendChild(card);
         });
     }
 
-    function changeQty(name, val) {
-        // Fix pour éviter les erreurs de calcul flottant (ex: 0.3000000000004)
+    function changeQty(name, val, isPiece) {
         let newVal = (order[name] || 0) + val;
         order[name] = Math.max(0, parseFloat(newVal.toFixed(1)));
         
         const display = document.getElementById(`q-${name}`);
-        if(order[name] >= 1) {
-            display.innerText = order[name] + " kg";
-        } else if (order[name] > 0) {
-            display.innerText = (order[name] * 1000) + " g";
+        if(isPiece) {
+            display.innerText = order[name] + (order[name] > 1 ? " pièces" : " pièce");
         } else {
-            display.innerText = "0 kg";
+            if(order[name] >= 1) display.innerText = order[name] + " kg";
+            else if (order[name] > 0) display.innerText = (order[name] * 1000) + " g";
+            else display.innerText = "0 kg";
         }
         updateBadge();
     }
@@ -276,7 +219,7 @@
             for (let name in order) {
                 order[name] = 0;
                 const el = document.getElementById(`q-${name}`);
-                if(el) el.innerText = "0 kg";
+                if(el) el.innerText = articlesPiece.includes(name) ? "0 pièce" : "0 kg";
             }
             updateBadge();
         }
@@ -287,7 +230,7 @@
         let cards = document.getElementsByClassName('item-card');
         Array.from(cards).forEach(card => {
             let name = card.querySelector('.item-name').innerText.toLowerCase();
-            card.style.display = name.includes(q) ? 'flex' : 'none';
+            card.style.display = name.includes(q) ? 'block' : 'none';
         });
     }
 
@@ -296,19 +239,14 @@
         let hasData = false;
         for (let item in order) {
             if (order[item] > 0) {
-                let qtyStr = order[item] >= 1 ? order[item] + "kg" : (order[item]*1000) + "g";
-                text += `\n✅ ${item} : ${qtyStr}`;
+                let unit = articlesPiece.includes(item) ? (order[item] > 1 ? " pièces" : " pièce") : (order[item] >= 1 ? order[item] + "kg" : (order[item]*1000) + "g");
+                text += `\n✅ ${item} : ${unit}`;
                 hasData = true;
             }
         }
         if (!hasData) return alert("Votre panier est vide !");
-        
-        if (navigator.share) {
-            navigator.share({ title: 'Ma Commande Noisy', text: text });
-        } else {
-            navigator.clipboard.writeText(text);
-            alert("Commande copiée !");
-        }
+        if (navigator.share) navigator.share({ title: 'Ma Commande Noisy', text: text });
+        else { navigator.clipboard.writeText(text); alert("Commande copiée !"); }
     }
 
     init();
