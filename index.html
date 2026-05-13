@@ -85,7 +85,6 @@
 </div>
 
 <script>
-    // Liste avec emojis pour les sections uniquement
     const inventory = {
         "🍏 POMMES": ["POMME CHANTECLER", "POMME GALA", "POMME GOLDEN", "POMME GOLDRUSH", "POMME GRANNY", "POMME OPALE", "POMME PATTE DE LOUP", "POMME PINK LADY"],
         "🥬 SALADES": ["SALADE BATAVIA", "SALADE LAITUE", "SALADE FEUILLE DE CHENE", "MACHE", "EPINARD"],
@@ -95,7 +94,7 @@
     };
 
     let order = {};
-    const STORAGE_KEY = 'noisy_standard_v3';
+    const STORAGE_KEY = 'noisy_standard_final_v1';
 
     function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(order)); }
     function saveExtraInfo() {
