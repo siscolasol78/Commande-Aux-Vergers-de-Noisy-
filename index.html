@@ -22,7 +22,7 @@
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 12px 20px; display: flex; gap: 10px; border-bottom: 0.5px solid rgba(0,0,0,0.05);
         }
         .search-container { position: relative; flex: 1; }
-        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(50%); color: var(--text-muted); }
         .search-box { width: 100%; padding: 10px 15px 10px 40px; border: none; border-radius: 12px; background: rgba(142, 142, 147, 0.12); font-size: 1rem; outline: none; }
         .btn-reset-all { background: none; border: none; color: var(--system-red); font-weight: 600; cursor: pointer; }
         .container { max-width: 600px; margin: auto; padding: 15px; }
@@ -39,7 +39,7 @@
         .display-val { text-align: center; font-weight: 800; font-size: 0.95rem; color: var(--brand-green); background: var(--ios-bg); padding: 8px; border-radius: 8px; }
         .item-total { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e5e5ea; font-size: 0.85rem; font-weight: 700; color: var(--brand-green); text-align: center; min-height: 20px; }
 
-        .order-info-card { background: white; border-radius: 18px; padding: 20px; margin-top: 30px; border: 2px solid var(--brand-green); }
+        .order-info-card { background: white; border-radius: 18px; padding: 20px; margin-bottom: 20px; border: 2px solid var(--brand-green); }
         .info-title { font-weight: 800; color: var(--brand-green); margin-bottom: 15px; text-transform: uppercase; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 5px; color: var(--text-muted); }
@@ -68,14 +68,15 @@
 </div>
 
 <div class="container">
-    <div id="item-list"></div>
-
+    <!-- INFOS RETRAIT EN HAUT -->
     <div class="order-info-card">
         <div class="info-title">Infos retrait</div>
         <div class="form-group"><label>DATE</label><input type="date" id="order-date" class="form-input" onchange="saveExtraInfo()"></div>
         <div class="form-group"><label>HEURE DE PASSAGE</label><input type="time" id="order-time" class="form-input" onchange="saveExtraInfo()"></div>
         <div class="form-group"><label>COMMENTAIRE</label><textarea id="order-note" class="form-input" rows="3" oninput="saveExtraInfo()" placeholder="Variété précise, maturité, etc."></textarea></div>
     </div>
+
+    <div id="item-list"></div>
 </div>
 
 <div class="dock">
