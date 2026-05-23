@@ -600,13 +600,11 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
     <h1><i class="fa-solid fa-basket-shopping"></i> Aux Vergers de Noisy</h1>
     <p>Préparez votre liste facilement</p>
 </div>
 
-<!-- RÉSUMÉ COMMANDE FLOTTANT -->
 <div class="order-summary" id="orderSummary">
     <div class="summary-left">
         <i class="fa-solid fa-check-circle" style="font-size: 1.2rem;"></i>
@@ -623,7 +621,6 @@
     </div>
 </div>
 
-<!-- OUTILS DE RECHERCHE -->
 <div class="nav-tools">
     <div class="search-container">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -634,13 +631,10 @@
     </button>
 </div>
 
-<!-- ONGLETS CATÉGORIES -->
 <div class="category-tabs" id="categoryTabs"></div>
 
-<!-- CONTAINER PRINCIPAL -->
 <div class="container">
     
-    <!-- INFOS RETRAIT -->
     <div class="order-info-card">
         <div class="info-title">📅 Infos de retrait</div>
         <div class="form-group">
@@ -657,7 +651,6 @@
         </div>
     </div>
     
-    <!-- PRÉSETS (COMMANDES HABITUELLES) -->
     <div class="presets-section" id="presetsSection">
         <div class="presets-title">⭐ Mes commandes habituelles</div>
         <div class="preset-buttons" id="presetButtons"></div>
@@ -666,12 +659,10 @@
         </button>
     </div>
     
-    <!-- ARTICLES PAR CATÉGORIE -->
     <div id="item-list"></div>
     
 </div>
 
-<!-- DOCK ENVOI COMMANDE -->
 <div class="dock">
     <button class="btn-send-order" onclick="openContactModal()">
         <i class="fa-solid fa-paper-plane"></i> 
@@ -679,7 +670,6 @@
     </button>
 </div>
 
-<!-- MODAL CONTACT -->
 <div class="modal-overlay" id="contactModal">
     <div class="modal-card">
         <div class="modal-title">📲 Qui le reçoit ?</div>
@@ -716,7 +706,7 @@
     const inventory = {
         "🍏 POMMES": ["POMME CHANTECLER", "POMME GALA", "POMME GOLDEN", "POMME GOLDRUSH", "POMME GRANNY", "POMME OPALE", "POMME PATTE DE LOUP", "POMME PINK LADY"],
         "🥬 SALADES": ["SALADE BATAVIA", "SALADE LAITUE", "SALADE FEUILLE DE CHENE", "FRISÉE", "SCAROLE", "ROUGETTE", "MACHE", "EPINARD"],
-        "🥕 LÉGUMES": ["AIL", "ARTICHAUT", "AUBERGINE", "BETTERAVE", "BLETTE", "BROCOLI", "BUTTERNUT", "CAROTTE", "CAROTTE FANE", "CAROTTE SABLE", "CELERI", "CHAMPIGNON DE PARIS", "CHOU BLANC", "CHOU FLEUR", "CHOU KALE", "CHOU ROUGE", "CITROUILLE", "COURGETTE", "CRESSON", "ÉCHALOTE", "ENDIVE", "FENOUIL", "FÈVE", "GERME DE BLÉ", "GINGEMBRE", "HARICOT", "IGNAME", "LAITUE", "LENTILLE", "MAÏS", "NAVET", "OIGNON", "OIGNON BLANC", "OIGNON ROUGE", "OSEILLE", "PATATE DOUCE", "PETIT POIS", "PIMENT", "POIREAU", "POIS GOURMAND", "POIVRON", "POIVRON ROUGE", "POTIMARRON", "POTIRON", "RADIS", "RADIS NOIR", "RAIFORT", "RHUBARBE", "ROQUETTE", "RUTABAGA", "SALSIFIS", "SCORSONÈRE", "SOJA", "SOJA JAUNE", "TOMATE", "TOMATE CERISE", "TOMATE GRAPPE", "TOMATE RONDE", "TOMATE ROMA", "TRUFFE", "TURNEPS", "VANILLE"],
+        "🥕 LÉGUMES": ["AIL", "ARTICHAUT", "AUBERGINE", "BETTERAVE", "BLETTE", "BROCOLI", "BUTTERNUT", "CAROTTE", "CAROTTE FANE", "CAROTTE SABLE", "CELERI", "CHAMPIGNON DE PARIS", "CHOU BLANC", "CHOU FLEUR", "CHOU KALE", "CHOU ROUGE", "CITROUILLE", "COURGETTE", "CRESSON", "ÉCHALOTE", "ENDIVE", "FENOUIL", "FÈVE", "GERME DE BLÉ", "GINGEMBRE", "HARICOT", "IGNAME", "LAITUE", "LENTILLE", "MAÏS", "NAVET", "OIGNON", "OIGNON BLANC", "OIGNON ROUGE", "OSEILLE", "PATATE DOUCE", "PETIT POIS", "PIMENT", "POIREAU", "POIS GOURMAND", "POIVRON", "POIVRON ROUGE", "POMME DE TERRE CHARLOTTE", "POMME DE TERRE GRENAILLES", "POMME DE TERRE MONA LISA", "POMME DE TERRE RATTE", "POMME DE TERRE SPUNTA", "POTIMARRON", "POTIRON", "RADIS", "RADIS NOIR", "RAIFORT", "RHUBARBE", "ROQUETTE", "RUTABAGA", "SALSIFIS", "SCORSONÈRE", "SOJA", "SOJA JAUNE", "TOMATE", "TOMATE CERISE", "TOMATE GRAPPE", "TOMATE RONDE", "TOMATE ROMA", "TRUFFE", "TURNEPS", "VANILLE"],
         "🍓 FRUITS": ["ANANAS", "AVOCAT", "BANANE", "CERISE", "CITRON", "CITRON VERT", "CLEMENTINE", "FIGUE", "FRAISE", "FRAMBOISE", "GRENADE", "KAKI", "KIWI", "MANGUE", "MELON", "ORANGE GALA", "ORANGE SANGUINE", "ORANGE VALENCE", "PAMPLEMOUSSE", "PAPAYE", "PASTÈQUE", "PÊCHE", "PÊCHE BLANCHE", "PÊCHE JAUNE", "PÊCHE PLATE", "PÊCHE ROUGE", "POIRE", "POMME", "PRUNE", "PRUNE JAUNE", "PRUNE NOIRE", "PRUNE ROUGE", "RAISIN", "RAISIN BLANC", "RAISIN ROUGE", "RAMBUTAN", "REDBOR", "REINE CLAUDE"],
         "🌿 HERBES": ["ANETH", "BASILIC", "CIBOULETTE", "CORIANDRE", "ESTRAGON", "MENTHE", "OSEILLE", "PERSIL", "THYM LAURIER"]
     };
