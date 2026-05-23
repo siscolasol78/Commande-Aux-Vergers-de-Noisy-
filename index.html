@@ -737,7 +737,8 @@
         buildItemList();
         loadPresets();
         displayPresets();
-        setActiveTab(localStorage.getItem(ACTIVE_TAB_KEY) || Object.keys(inventory)[0]);
+        const savedTab = localStorage.getItem(ACTIVE_TAB_KEY) || Object.keys(inventory)[0];
+        setActiveTab(savedTab);
         updateSummary();
     }
 
@@ -805,8 +806,12 @@
         // Afficher/masquer sections
         document.querySelectorAll('.category-section').forEach(section => {
             section.classList.remove('active');
-            if (section.id === `cat-${category}`) section.classList.add('active');
         });
+        
+        const activeSection = document.getElementById(`cat-${category}`);
+        if (activeSection) {
+            activeSection.classList.add('active');
+        }
     }
 
     // ===== CONSTRUCTION ARTICLES =====
@@ -823,7 +828,7 @@
             title.className = 'section-title';
             title.innerHTML = `
                 <span>${category}</span>
-                <span class="section-count" id="count-${category}">${inventory[category].length}</span>
+                <span class="section-count">${inventory[category].length} articles</span>
             `;
             section.appendChild(title);
             
@@ -831,7 +836,7 @@
                 const card = document.createElement('div');
                 card.className = 'item-card';
                 card.id = `card-${name}`;
-                card.dataset.name = name;
+                card.dataset.name = name.toLowerCase();
                 card.innerHTML = `
                     <div class="item-header">
                         <div class="item-name">${name}</div>
@@ -880,6 +885,8 @@
         const wDisp = document.getElementById(`w-${name}`);
         const pDisp = document.getElementById(`p-${name}`);
         
+        if (!wDisp || !pDisp) return;
+        
         wDisp.innerText = item.weight >= 1 ? item.weight + " kg" : (item.weight > 0 ? (item.weight * 1000).toFixed(0) + " g" : "0 kg");
         pDisp.innerText = item.piece;
         
@@ -888,23 +895,29 @@
         if (item.piece > 0) summary.push(item.piece + " pce");
         
         const totalEl = document.getElementById(`total-${name}`);
-        totalEl.innerText = summary.length > 0 ? "✓ " + summary.join(" + ") : "";
+        if (totalEl) {
+            totalEl.innerText = summary.length > 0 ? "✓ " + summary.join(" + ") : "";
+        }
         
         const card = document.getElementById(`card-${name}`);
-        if (item.weight > 0 || item.piece > 0) {
-            card.classList.add('selected');
-        } else {
-            card.classList.remove('selected');
+        if (card) {
+            if (item.weight > 0 || item.piece > 0) {
+                card.classList.add('selected');
+            } else {
+                card.classList.remove('selected');
+            }
         }
     }
 
     function toggleFavorite(name) {
         favorites[name] = !favorites[name];
         const btn = document.querySelector(`#card-${name} .item-favorite`);
-        btn.classList.toggle('starred');
-        const icon = btn.querySelector('i');
-        icon.classList.toggle('fa-solid');
-        icon.classList.toggle('fa-regular');
+        if (btn) {
+            btn.classList.toggle('starred');
+            const icon = btn.querySelector('i');
+            icon.classList.toggle('fa-solid');
+            icon.classList.toggle('fa-regular');
+        }
         saveData();
     }
 
@@ -954,6 +967,7 @@
 
     function displayPresets() {
         const container = document.getElementById('presetButtons');
+        if (!container) return;
         container.innerHTML = '';
         
         presets.forEach((preset, idx) => {
@@ -968,13 +982,13 @@
     function loadPreset(idx) {
         if (confirm(`Charger "${presets[idx].name}" ?`)) {
             order = JSON.parse(JSON.stringify(presets[idx].data));
-            for (const name in inventory[Object.keys(inventory)[0]]) {
-                const category = Object.keys(inventory).find(cat => inventory[cat].includes(name));
-                if (category) refreshCard(name);
-            }
+            
             Object.keys(inventory).forEach(cat => {
-                inventory[cat].forEach(name => refreshCard(name));
+                inventory[cat].forEach(name => {
+                    refreshCard(name);
+                });
             });
+            
             saveData();
             updateSummary();
         }
@@ -983,14 +997,37 @@
     // ===== RECHERCHE =====
     function filterItems() {
         const q = document.getElementById('search').value.toLowerCase();
-        let matchCount = 0;
+        let hasVisibleItems = false;
         
         document.querySelectorAll('.item-card').forEach(card => {
-            const name = card.dataset.name.toLowerCase();
+            const name = card.dataset.name;
             const matches = name.includes(q);
-            card.classList.toggle('hidden', !matches);
-            if (matches && q.length > 0) matchCount++;
+            
+            if (matches && q.length > 0) {
+                card.classList.remove('hidden');
+                hasVisibleItems = true;
+            } else if (q.length > 0) {
+                card.classList.add('hidden');
+            } else {
+                card.classList.remove('hidden');
+                hasVisibleItems = true;
+            }
         });
+        
+        // Masquer les sections qui n'ont pas d'articles visibles quand on recherche
+        if (q.length > 0) {
+            document.querySelectorAll('.category-section').forEach(section => {
+                const visibleCards = section.querySelectorAll('.item-card:not(.hidden)');
+                section.style.display = visibleCards.length > 0 ? 'block' : 'none';
+            });
+        } else {
+            // Restaurer l'affichage normal
+            document.querySelectorAll('.category-section').forEach(section => {
+                const category = section.id.replace('cat-', '');
+                const isActive = currentTab === category;
+                section.style.display = isActive ? 'block' : 'none';
+            });
+        }
     }
 
     // ===== RÉINITIALISATION =====
