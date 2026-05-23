@@ -54,7 +54,7 @@
             opacity: 0.9;
         }
         
-        /* ===== RÉSUMÉ COMMANDE FLOTTANT ===== */
+        /* ===== RÉSUMÉ COMMANDE FLOTTANT EN HAUT ===== */
         .order-summary {
             background: white;
             border-bottom: 2px solid var(--brand-green);
@@ -84,7 +84,7 @@
         
         .stat-item {
             display: flex;
-            flex-direction: column; /* Aligne le chiffre au-dessus du mot panier */
+            flex-direction: column;
             align-items: center;
             font-size: 0.85rem;
             line-height: 1.2;
@@ -762,7 +762,8 @@
         loadPresets();
         displayPresets();
         
-        const savedTab = localStorage.getItem(ACTIVE_TAB_KEY) || 'BASKET_TAB';
+        // Au démarrage, on force l'ouverture sur les Pommes pour voir les articles de suite
+        const savedTab = localStorage.getItem(ACTIVE_TAB_KEY) || Object.keys(inventory)[0];
         setActiveTab(savedTab);
         updateSummary();
     }
@@ -1104,3 +1105,98 @@
             if (matches && q.length > 0) {
                 card.classList.remove('hidden');
             } else if (q.length > 0) {
+                card.classList.add('hidden');
+            } else {
+                card.classList.remove('hidden');
+            }
+        });
+        
+        if (q.length > 0) {
+            document.querySelectorAll('.category-section').forEach(section => {
+                const visibleCards = section.querySelectorAll('.item-card:not(.hidden)');
+                section.style.display = visibleCards.length > 0 ? 'block' : 'none';
+            });
+        } else {
+            document.querySelectorAll('.category-section').forEach(section => {
+                if (section.id === 'basket-section') {
+                    section.style.display = currentTab === 'BASKET_TAB' ? 'block' : 'none';
+                } else {
+                    const category = section.id.replace('cat-', '');
+                    const isActive = currentTab === category;
+                    section.style.display = isActive ? 'block' : 'none';
+                }
+            });
+        }
+    }
+
+    // ===== RÉINITIALISATION =====
+    function resetOrder() {
+        if (confirm("Effacer toute la commande ?")) {
+            for (let name in order) {
+                order[name].weight = 0;
+                order[name].piece = 0;
+            }
+            Object.keys(inventory).forEach(cat => {
+                inventory[cat].forEach(name => refreshCard(name));
+            });
+            document.getElementById('order-date').value = '';
+            document.getElementById('order-time').value = '';
+            document.getElementById('order-note').value = '';
+            saveData();
+            updateSummary();
+            if (currentTab === 'BASKET_TAB') renderBasketView();
+        }
+    }
+
+    // ===== MODAL ET SMS =====
+    function openContactModal() {
+        const { hasData } = buildOrderText();
+        if (!hasData) return alert("Panier vide !");
+        document.getElementById('contactModal').style.display = 'flex';
+    }
+
+    function closeContactModal() {
+        document.getElementById('contactModal').style.display = 'none';
+    }
+
+    function buildOrderText() {
+        const d = document.getElementById('order-date').value;
+        const t = document.getElementById('order-time').value;
+        const n = document.getElementById('order-note').value;
+        let text = `🛒 COMMANDE NOISY\n📅 ${d || '?'}\n⏰ ${t || '?'}\n${n ? '📝 '+n+'\n' : ''}`;
+        let hasData = false;
+        
+        for (const cat in inventory) {
+            let catText = "";
+            inventory[cat].forEach(name => {
+                const item = order[name];
+                if (item.weight > 0 || item.piece > 0) {
+                    let parts = [];
+                    if(item.weight > 0) parts.push(item.weight >= 1 ? item.weight + "kg" : (item.weight*1000).toFixed(0) + "g");
+                    if(item.piece > 0) parts.push(item.piece + "pce");
+                    catText += `\n✅ ${name} : ${parts.join(" + ")}`;
+                    hasData = true;
+                }
+            });
+            if(catText) text += `\n${cat}${catText}\n`;
+        }
+        return { text, hasData };
+    }
+
+    function sendSMSDirect(phoneNumber) {
+        const { text } = buildOrderText();
+        closeContactModal();
+        
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        const separator = isIOS ? '&' : '?';
+        const smsUrl = `sms:${phoneNumber}${separator}body=${encodeURIComponent(text)}`;
+        
+        window.location.href = smsUrl;
+    }
+
+    // Lancer l'app
+    init();
+</script>
+
+</body>
+</html>
