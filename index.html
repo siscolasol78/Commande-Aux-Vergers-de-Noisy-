@@ -183,6 +183,18 @@
             border-color: var(--brand-green);
         }
         
+        /* Onglet spécifique Panier */
+        .category-tab.tab-basket {
+            background: #efefef;
+            border: 1px dashed var(--brand-green);
+            color: var(--brand-green);
+        }
+        .category-tab.tab-basket.active {
+            background: var(--brand-dark-green);
+            border-color: var(--brand-dark-green);
+            color: white;
+        }
+        
         /* ===== CONTAINER ===== */
         .container { 
             max-width: 600px; 
@@ -271,6 +283,19 @@
             padding: 2px 8px;
             border-radius: 12px;
             font-size: 0.8rem;
+        }
+
+        /* Message Panier Vide */
+        .empty-basket-msg {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 1rem;
+            background: white;
+            border-radius: 12px;
+            border: 1px dashed #ccc;
+            margin-top: 10px;
         }
         
         /* ===== CARTES ARTICLES ===== */
@@ -635,7 +660,7 @@
 
 <div class="container">
     
-    <div class="order-info-card">
+    <div class="order-info-card" id="infoCard">
         <div class="info-title">📅 Infos de retrait</div>
         <div class="form-group">
             <label>Date</label>
@@ -659,6 +684,14 @@
         </button>
     </div>
     
+    <div id="basket-section" class="category-section">
+        <div class="section-title">
+            <span>🛒 Mon Panier Sélectionné</span>
+            <span class="section-count" id="basket-count-title">0 article</span>
+        </div>
+        <div id="basket-items-container"></div>
+    </div>
+
     <div id="item-list"></div>
     
 </div>
@@ -774,6 +807,7 @@
         const tabsContainer = document.getElementById('categoryTabs');
         tabsContainer.innerHTML = '';
         
+        // Onglets normaux
         for (const category in inventory) {
             const tab = document.createElement('button');
             tab.className = 'category-tab';
@@ -781,6 +815,13 @@
             tab.onclick = () => setActiveTab(category);
             tabsContainer.appendChild(tab);
         }
+
+        // Nouvel Onglet Panier en fin de ligne
+        const basketTab = document.createElement('button');
+        basketTab.className = 'category-tab tab-basket';
+        basketTab.innerHTML = '🛒 PANIER';
+        basketTab.onclick = () => setActiveTab('BASKET_TAB');
+        tabsContainer.appendChild(basketTab);
     }
 
     function setActiveTab(category) {
@@ -790,17 +831,89 @@
         // Mettre à jour visuels onglets
         document.querySelectorAll('.category-tab').forEach(tab => {
             tab.classList.remove('active');
-            if (tab.innerText === category) tab.classList.add('active');
+            if (category === 'BASKET_TAB' && tab.classList.contains('tab-basket')) tab.classList.add('active');
+            else if (tab.innerText === category) tab.classList.add('active');
         });
         
-        // Afficher/masquer sections
+        // Masquer toutes les sections classiques et la section panier
         document.querySelectorAll('.category-section').forEach(section => {
             section.classList.remove('active');
         });
+        document.getElementById('basket-section').classList.remove('active');
         
-        const activeSection = document.getElementById(`cat-${category}`);
-        if (activeSection) {
-            activeSection.classList.add('active');
+        // Cacher ou afficher les infos de retrait et commandes habituelles
+        if (category === 'BASKET_TAB') {
+            document.getElementById('infoCard').style.display = 'block'; // On les laisse visibles pour la fin
+            document.getElementById('presetsSection').style.display = 'none';
+            document.getElementById('basket-section').classList.add('active');
+            renderBasketView();
+        } else {
+            document.getElementById('infoCard').style.display = 'block';
+            document.getElementById('presetsSection').style.display = 'block';
+            const activeSection = document.getElementById(`cat-${category}`);
+            if (activeSection) activeSection.classList.add('active');
+        }
+    }
+
+    // ===== VUE PANIER COMPACTE =====
+    function renderBasketView() {
+        const container = document.getElementById('basket-items-container');
+        container.innerHTML = '';
+        let hasItems = false;
+        let basketItemCount = 0;
+
+        for (let name in order) {
+            if (order[name].weight > 0 || order[name].piece > 0) {
+                hasItems = true;
+                basketItemCount++;
+                
+                // On clone la carte d'origine ou on recrée la même structure pour pouvoir ajouter/retirer du panier
+                const card = document.createElement('div');
+                card.className = 'item-card selected';
+                card.innerHTML = `
+                    <div class="item-header">
+                        <div class="item-name">${name}</div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="control-section">
+                            <div class="control-label">Poids</div>
+                            <div class="control-buttons">
+                                <button class="btn-control btn-minus" onclick="updateQty('${name}', 'weight', -1); renderBasketView();">-1kg</button>
+                                <div class="display-value" id="basket-w-${name}">0 kg</div>
+                                <button class="btn-control btn-plus" onclick="updateQty('${name}', 'weight', 1); renderBasketView();">+1kg</button>
+                            </div>
+                        </div>
+                        <div class="control-section">
+                            <div class="control-label">Unité</div>
+                            <div class="control-buttons">
+                                <button class="btn-control btn-minus" onclick="updateQty('${name}', 'piece', -1); renderBasketView();">-</button>
+                                <div class="display-value" id="basket-p-${name}">0</div>
+                                <button class="btn-control btn-plus" onclick="updateQty('${name}', 'piece', 1); renderBasketView();">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-total" id="basket-total-${name}"></div>
+                `;
+                container.appendChild(card);
+                
+                // Mettre à jour les valeurs dans la vue panier
+                const item = order[name];
+                const wDisp = card.querySelector(`#basket-w-${name}`);
+                const pDisp = card.querySelector(`#basket-p-${name}`);
+                wDisp.innerText = item.weight >= 1 ? item.weight + " kg" : (item.weight > 0 ? (item.weight * 1000).toFixed(0) + " g" : "0 kg");
+                pDisp.innerText = item.piece;
+                
+                let summary = [];
+                if (item.weight > 0) summary.push(wDisp.innerText);
+                if (item.piece > 0) summary.push(item.piece + " pce");
+                card.querySelector(`#basket-total-${name}`).innerText = "✓ " + summary.join(" + ");
+            }
+        }
+
+        document.getElementById('basket-count-title').innerText = `${basketItemCount} article${basketItemCount > 1 ? 's' : ''}`;
+
+        if (!hasItems) {
+            container.innerHTML = `<div class="empty-basket-msg">🛒 Votre panier est vide pour le moment.</div>`;
         }
     }
 
@@ -981,6 +1094,7 @@
             
             saveData();
             updateSummary();
+            if (currentTab === 'BASKET_TAB') renderBasketView();
         }
     }
 
@@ -1004,18 +1118,20 @@
             }
         });
         
-        // Masquer les sections qui n'ont pas d'articles visibles quand on recherche
         if (q.length > 0) {
             document.querySelectorAll('.category-section').forEach(section => {
                 const visibleCards = section.querySelectorAll('.item-card:not(.hidden)');
                 section.style.display = visibleCards.length > 0 ? 'block' : 'none';
             });
         } else {
-            // Restaurer l'affichage normal
             document.querySelectorAll('.category-section').forEach(section => {
-                const category = section.id.replace('cat-', '');
-                const isActive = currentTab === category;
-                section.style.display = isActive ? 'block' : 'none';
+                if (section.id === 'basket-section') {
+                    section.style.display = currentTab === 'BASKET_TAB' ? 'block' : 'none';
+                } else {
+                    const category = section.id.replace('cat-', '');
+                    const isActive = currentTab === category;
+                    section.style.display = isActive ? 'block' : 'none';
+                }
             });
         }
     }
@@ -1035,6 +1151,7 @@
             document.getElementById('order-note').value = '';
             saveData();
             updateSummary();
+            if (currentTab === 'BASKET_TAB') renderBasketView();
         }
     }
 
