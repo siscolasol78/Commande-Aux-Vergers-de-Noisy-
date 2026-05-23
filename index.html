@@ -874,13 +874,13 @@
 
     // ===== GESTION ARTICLES =====
     function updateQty(name, type, delta) {
-        order[name][type] = Math.max(0, parseFloat((order[name][type] + delta).toFixed(1)));
-        refreshCard(name);
-        saveData();
-        updateSummary();
-        // Si la modale est ouverte, rafraîchir
-        if(document.getElementById('cartModal').style.display === 'flex') openCartModal();
-    }
+    // Change .toFixed(1) en .toFixed(2)
+    order[name][type] = Math.max(0, parseFloat((order[name][type] + delta).toFixed(2))); 
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(order));
+    refreshCard(name);
+    updateSummary();
+    if(document.getElementById('cartModal').style.display === 'flex') openCartModal();
+}
 
     function refreshCard(name) {
         const item = order[name];
