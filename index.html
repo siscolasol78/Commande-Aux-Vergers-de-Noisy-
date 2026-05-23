@@ -18,17 +18,6 @@
         }
         .header { background: var(--ios-card); padding: 40px 20px 25px; text-align: center; border-bottom: 0.5px solid rgba(0,0,0,0.1); }
         .header h1 { margin: 0; font-size: 1.5rem; font-weight: 800; color: var(--brand-green); text-transform: uppercase; }
-        
-        /* --- RÉSUMÉ COMMANDE (NOUVEAU) --- */
-        .order-summary {
-            background: linear-gradient(135deg, var(--brand-green), #3d8568);
-            color: white; padding: 12px 20px; margin: 10px 15px; border-radius: 14px;
-            box-shadow: 0 4px 12px rgba(45, 106, 79, 0.2); font-size: 0.95rem; font-weight: 600;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .order-summary-left { display: flex; gap: 8px; align-items: center; }
-        .order-summary-count { background: rgba(255,255,255,0.3); padding: 2px 8px; border-radius: 20px; font-weight: 700; }
-        
         .nav-tools {
             position: sticky; top: 0; z-index: 1000; background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 12px 20px; display: flex; gap: 10px; border-bottom: 0.5px solid rgba(0,0,0,0.05);
@@ -37,70 +26,23 @@
         .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
         .search-box { width: 100%; padding: 10px 15px 10px 40px; border: none; border-radius: 12px; background: rgba(142, 142, 147, 0.12); font-size: 1rem; outline: none; }
         .btn-reset-all { background: none; border: none; color: var(--system-red); font-weight: 600; cursor: pointer; }
-        
         .container { max-width: 600px; margin: auto; padding: 15px; }
-        
-        /* --- SECTION COMMANDE (Infos retrait) --- */
+        .item-card { background: var(--ios-card); border-radius: 18px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .item-name { font-weight: 800; font-size: 1.1rem; color: var(--brand-green); text-align: center; margin-bottom: 15px; border-bottom: 1px solid var(--ios-bg); padding-bottom: 10px; }
+        .control-row { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 8px; margin-bottom: 10px; }
+        .row-label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; text-align: center; grid-column: span 3; margin-bottom: 2px; }
+        .btn-stack { display: flex; flex-direction: column; gap: 4px; }
+        .btn-small { border: none; border-radius: 8px; padding: 8px 5px; font-weight: 800; font-size: 0.75rem; cursor: pointer; }
+        .btn-add { background: var(--brand-green); color: white; }
+        .btn-sub { background: #e5e5ea; color: var(--text-dark); }
+        .display-val { text-align: center; font-weight: 800; font-size: 0.95rem; color: var(--brand-green); background: var(--ios-bg); padding: 8px; border-radius: 8px; }
+        .item-total { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e5e5ea; font-size: 0.85rem; font-weight: 700; color: var(--brand-green); text-align: center; min-height: 20px; }
         .order-info-card { background: white; border-radius: 18px; padding: 20px; margin-bottom: 20px; border: 2px solid var(--brand-green); }
         .info-title { font-weight: 800; color: var(--brand-green); margin-bottom: 15px; text-transform: uppercase; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 5px; color: var(--text-muted); }
         .form-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #e5e5ea; font-family: inherit; font-size: 1rem; outline: none; }
         
-        /* --- CATÉGORIES ACCORDÉON (NOUVEAU) --- */
-        .category-section { margin-bottom: 8px; }
-        .category-header {
-            background: white; border-radius: 14px; padding: 14px 16px; cursor: pointer;
-            display: flex; justify-content: space-between; align-items: center; border: 1px solid #e5e5ea;
-            transition: all 0.3s ease;
-        }
-        .category-header:active { background: var(--brand-light-green); }
-        .category-header-left { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--brand-green); font-size: 1rem; }
-        .category-count { background: var(--brand-light-green); color: var(--brand-green); padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; font-weight: 800; }
-        .category-toggle { color: var(--text-muted); transition: transform 0.3s ease; font-size: 1.1rem; }
-        .category-section.collapsed .category-toggle { transform: rotate(-90deg); }
-        
-        .category-items { 
-            max-height: 2000px; overflow: hidden; transition: max-height 0.3s ease, opacity 0.3s ease;
-            opacity: 1;
-        }
-        .category-section.collapsed .category-items { max-height: 0; opacity: 0; }
-        
-        /* --- ARTICLES (COMPACT) --- */
-        .item-card { 
-            background: var(--ios-card); border-radius: 12px; padding: 12px; margin: 8px 0; 
-            box-shadow: 0 1px 4px rgba(0,0,0,0.03); border: 0.5px solid #f0f0f0;
-        }
-        .item-name { font-weight: 700; font-size: 0.95rem; color: var(--brand-green); margin-bottom: 8px; }
-        
-        /* --- CONTRÔLES EN LIGNE (COMPACT) --- */
-        .control-row { 
-            display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 8px; 
-            margin-bottom: 6px;
-        }
-        .row-label { 
-            font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; 
-            grid-column: span 3; margin-bottom: 2px;
-        }
-        .btn-small { 
-            border: none; border-radius: 6px; padding: 6px 4px; font-weight: 700; font-size: 0.7rem; 
-            cursor: pointer; transition: all 0.15s ease;
-        }
-        .btn-add { background: var(--brand-green); color: white; }
-        .btn-add:active { transform: scale(0.95); opacity: 0.8; }
-        .btn-sub { background: #e5e5ea; color: var(--text-dark); }
-        .btn-sub:active { transform: scale(0.95); }
-        
-        .display-val { 
-            text-align: center; font-weight: 700; font-size: 0.85rem; color: var(--brand-green); 
-            background: var(--brand-light-green); padding: 6px; border-radius: 6px; min-height: 24px;
-        }
-        .item-total { 
-            margin-top: 4px; padding-top: 6px; border-top: 0.5px dashed #e5e5ea; 
-            font-size: 0.8rem; font-weight: 600; color: #34c759; text-align: center; min-height: 18px;
-        }
-        
-        /* --- DOCK COMMANDE --- */
         .dock { 
             position: fixed; bottom: 25px; left: 20px; right: 20px; z-index: 2000; 
         }
@@ -111,8 +53,7 @@
         }
         .btn-send-order:active { transform: scale(0.98); opacity: 0.9; }
         .counter-badge { background: white; color: var(--brand-green); padding: 2px 8px; border-radius: 8px; font-weight: 800; }
-        
-        /* --- MODAL CONTACT --- */
+
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);
             z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px;
@@ -134,11 +75,13 @@
             width: 100%; background: transparent; border: none; padding: 10px; color: var(--system-red);
             font-weight: 700; font-size: 0.95rem; cursor: pointer; margin-top: 5px;
         }
-        
+
         @keyframes popUp {
             from { transform: scale(0.9); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
+
+        .section-header { margin: 25px 10px 10px; font-size: 0.85rem; font-weight: 800; color: var(--brand-green); text-transform: uppercase; border-left: 4px solid var(--brand-green); padding-left: 10px; }
     </style>
 </head>
 <body>
@@ -147,15 +90,6 @@
     <i class="fa-solid fa-basket-shopping" style="color:var(--brand-green); font-size: 2.2rem; margin-bottom: 12px;"></i>
     <h1>Aux Vergers de Noisy</h1>
     <p>Préparez votre liste</p>
-</div>
-
-<!-- RÉSUMÉ COMMANDE EN TEMPS RÉEL -->
-<div class="order-summary" id="orderSummary">
-    <div class="order-summary-left">
-        <i class="fa-solid fa-check-circle"></i>
-        <span id="summaryText">0 article</span>
-    </div>
-    <div class="order-summary-count" id="summaryCount">0</div>
 </div>
 
 <div class="nav-tools">
@@ -215,8 +149,7 @@
     };
 
     let order = {};
-    const STORAGE_KEY = 'noisy_v6_accordeon';
-    const CATEGORIES_STORAGE = 'noisy_categories_state';
+    const STORAGE_KEY = 'noisy_v5_final';
 
     function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(order)); }
     function saveExtraInfo() {
@@ -239,50 +172,14 @@
         }
     }
 
-    function getCategoryState() {
-        const saved = localStorage.getItem(CATEGORIES_STORAGE);
-        return saved ? JSON.parse(saved) : {};
-    }
-
-    function saveCategoryState(state) {
-        localStorage.setItem(CATEGORIES_STORAGE, JSON.stringify(state));
-    }
-
-    function toggleCategory(categoryName) {
-        const section = document.getElementById(`cat-${categoryName}`);
-        const state = getCategoryState();
-        const isCollapsed = section.classList.toggle('collapsed');
-        state[categoryName] = isCollapsed;
-        saveCategoryState(state);
-    }
-
     function init() {
         loadData();
         const listEl = document.getElementById('item-list');
-        const categoryState = getCategoryState();
-
         for (const category in inventory) {
-            const categorySection = document.createElement('div');
-            categorySection.className = 'category-section';
-            if (categoryState[category]) categorySection.classList.add('collapsed');
-            categorySection.id = `cat-${category}`;
-
-            // Compter les articles de la catégorie
-            const itemCount = inventory[category].length;
-
-            const categoryHeader = document.createElement('div');
-            categoryHeader.className = 'category-header';
-            categoryHeader.onclick = () => toggleCategory(category);
-            categoryHeader.innerHTML = `
-                <div class="category-header-left">
-                    <span>${category}</span>
-                    <div class="category-count">${itemCount}</div>
-                </div>
-                <div class="category-toggle"><i class="fa-solid fa-chevron-down"></i></div>
-            `;
-
-            const categoryItems = document.createElement('div');
-            categoryItems.className = 'category-items';
+            const sectionHeader = document.createElement('div');
+            sectionHeader.className = 'section-header';
+            sectionHeader.innerText = category;
+            listEl.appendChild(sectionHeader);
 
             inventory[category].forEach((name) => {
                 const card = document.createElement('div');
@@ -291,25 +188,21 @@
                     <div class="item-name">${name}</div>
                     <div class="row-label">Poids</div>
                     <div class="control-row">
-                        <button class="btn-small btn-sub" onclick="updateQty('${name}', 'weight', -1)">-1kg</button>
+                        <div class="btn-stack"><button class="btn-small btn-sub" onclick="updateQty('${name}', 'weight', -1)">-1kg</button><button class="btn-small btn-sub" onclick="updateQty('${name}', 'weight', -0.5)">-500g</button></div>
                         <div class="display-val" id="w-${name}">0 kg</div>
-                        <button class="btn-small btn-add" onclick="updateQty('${name}', 'weight', 1)">+1kg</button>
+                        <div class="btn-stack"><button class="btn-small btn-add" onclick="updateQty('${name}', 'weight', 0.5)">+500g</button><button class="btn-small btn-add" onclick="updateQty('${name}', 'weight', 1)">+1kg</button></div>
                     </div>
                     <div class="row-label">Unité</div>
                     <div class="control-row">
-                        <button class="btn-small btn-sub" style="height:32px; padding:5px 4px;" onclick="updateQty('${name}', 'piece', -1)">-1</button>
+                        <button class="btn-small btn-sub" style="height:40px" onclick="updateQty('${name}', 'piece', -1)">-1</button>
                         <div class="display-val" id="p-${name}">0 pce</div>
-                        <button class="btn-small btn-add" style="height:32px; padding:5px 4px;" onclick="updateQty('${name}', 'piece', 1)">+1</button>
+                        <button class="btn-small btn-add" style="height:40px" onclick="updateQty('${name}', 'piece', 1)">+1</button>
                     </div>
                     <div class="item-total" id="total-${name}"></div>
                 `;
-                categoryItems.appendChild(card);
+                listEl.appendChild(card);
                 refreshCard(name);
             });
-
-            categorySection.appendChild(categoryHeader);
-            categorySection.appendChild(categoryItems);
-            listEl.appendChild(categorySection);
         }
         updateBadge();
     }
@@ -327,54 +220,20 @@
         let summary = [];
         if(item.weight > 0) summary.push(wDisp.innerText);
         if(item.piece > 0) summary.push(item.piece + " pce");
-        document.getElementById(`total-${name}`).innerText = summary.length > 0 ? "✓ " + summary.join(" + ") : "";
+        document.getElementById(`total-${name}`).innerText = summary.length > 0 ? "Prévu : " + summary.join(" + ") : "";
     }
 
     function updateBadge() {
         let count = 0;
-        let totalWeight = 0;
-        let totalPieces = 0;
-
-        for (let name in order) { 
-            if(order[name].weight > 0 || order[name].piece > 0) {
-                count++;
-                totalWeight += order[name].weight;
-                totalPieces += order[name].piece;
-            }
-        }
-
+        for (let name in order) { if(order[name].weight > 0 || order[name].piece > 0) count++; }
         document.getElementById('order-count').innerText = count;
-
-        // Mise à jour du résumé en temps réel
-        let summaryText = '';
-        if (count === 0) {
-            summaryText = '0 article';
-        } else if (count === 1) {
-            summaryText = '1 article sélectionné';
-        } else {
-            summaryText = `${count} articles sélectionnés`;
-        }
-
-        let details = [];
-        if (totalWeight > 0) details.push(totalWeight >= 1 ? totalWeight.toFixed(1) + " kg" : (totalWeight * 1000).toFixed(0) + " g");
-        if (totalPieces > 0) details.push(totalPieces + " pce");
-
-        if (details.length > 0) {
-            summaryText += ' • ' + details.join(' + ');
-        }
-
-        document.getElementById('summaryText').innerText = summaryText;
-        document.getElementById('summaryCount').innerText = count > 0 ? count : '—';
     }
 
     function resetOrder() {
         if(confirm("Tout effacer ?")) {
-            localStorage.removeItem(STORAGE_KEY); 
-            localStorage.removeItem(STORAGE_KEY + '_extra');
+            localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_KEY + '_extra');
             for(let name in order) { order[name].weight = 0; order[name].piece = 0; refreshCard(name); }
-            document.getElementById('order-date').value = ''; 
-            document.getElementById('order-time').value = ''; 
-            document.getElementById('order-note').value = '';
+            document.getElementById('order-date').value = ''; document.getElementById('order-time').value = ''; document.getElementById('order-note').value = '';
             updateBadge();
         }
     }
