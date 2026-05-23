@@ -7,131 +7,704 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --brand-green: #2d6a4f; --brand-light-green: #d8f3dc; --ios-bg: #f2f2f7;
-            --ios-card: #ffffff; --system-red: #ff3b30; --text-dark: #1c1c1e; --text-muted: #8e8e93;
+            --brand-green: #2d6a4f; 
+            --brand-light-green: #d8f3dc; 
+            --brand-dark-green: #1b4332;
+            --ios-bg: #f2f2f7;
+            --ios-card: #ffffff; 
+            --system-red: #ff3b30; 
+            --text-dark: #1c1c1e; 
+            --text-muted: #8e8e93;
+            --success-green: #34c759;
         }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: var(--ios-bg); color: var(--text-dark); margin: 0; padding-bottom: 120px;
+            background-color: var(--ios-bg); 
+            color: var(--text-dark); 
+            margin: 0; 
+            padding-bottom: 140px;
             -webkit-font-smoothing: antialiased;
         }
-        .header { background: var(--ios-card); padding: 40px 20px 25px; text-align: center; border-bottom: 0.5px solid rgba(0,0,0,0.1); }
-        .header h1 { margin: 0; font-size: 1.5rem; font-weight: 800; color: var(--brand-green); text-transform: uppercase; }
-        .nav-tools {
-            position: sticky; top: 0; z-index: 1000; background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 12px 20px; display: flex; gap: 10px; border-bottom: 0.5px solid rgba(0,0,0,0.05);
-        }
-        .search-container { position: relative; flex: 1; }
-        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
-        .search-box { width: 100%; padding: 10px 15px 10px 40px; border: none; border-radius: 12px; background: rgba(142, 142, 147, 0.12); font-size: 1rem; outline: none; }
-        .btn-reset-all { background: none; border: none; color: var(--system-red); font-weight: 600; cursor: pointer; }
-        .container { max-width: 600px; margin: auto; padding: 15px; }
-        .item-card { background: var(--ios-card); border-radius: 18px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        .item-name { font-weight: 800; font-size: 1.1rem; color: var(--brand-green); text-align: center; margin-bottom: 15px; border-bottom: 1px solid var(--ios-bg); padding-bottom: 10px; }
-        .control-row { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 8px; margin-bottom: 10px; }
-        .row-label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; text-align: center; grid-column: span 3; margin-bottom: 2px; }
-        .btn-stack { display: flex; flex-direction: column; gap: 4px; }
-        .btn-small { border: none; border-radius: 8px; padding: 8px 5px; font-weight: 800; font-size: 0.75rem; cursor: pointer; }
-        .btn-add { background: var(--brand-green); color: white; }
-        .btn-sub { background: #e5e5ea; color: var(--text-dark); }
-        .display-val { text-align: center; font-weight: 800; font-size: 0.95rem; color: var(--brand-green); background: var(--ios-bg); padding: 8px; border-radius: 8px; }
-        .item-total { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e5e5ea; font-size: 0.85rem; font-weight: 700; color: var(--brand-green); text-align: center; min-height: 20px; }
-        .order-info-card { background: white; border-radius: 18px; padding: 20px; margin-bottom: 20px; border: 2px solid var(--brand-green); }
-        .info-title { font-weight: 800; color: var(--brand-green); margin-bottom: 15px; text-transform: uppercase; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 5px; color: var(--text-muted); }
-        .form-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #e5e5ea; font-family: inherit; font-size: 1rem; outline: none; }
         
+        /* ===== HEADER ===== */
+        .header { 
+            background: linear-gradient(135deg, var(--brand-green), var(--brand-dark-green));
+            color: white;
+            padding: 20px 20px 15px; 
+            text-align: center; 
+            border-bottom: none;
+        }
+        
+        .header h1 { 
+            margin: 0 0 5px 0; 
+            font-size: 1.3rem; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+        }
+        
+        .header p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* ===== RÉSUMÉ COMMANDE FLOTTANT ===== */
+        .order-summary {
+            background: white;
+            border-bottom: 2px solid var(--brand-green);
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--brand-green);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+        
+        .summary-left {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .summary-stats {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+        }
+        
+        .stat-value {
+            font-weight: 800;
+            font-size: 1rem;
+        }
+        
+        /* ===== OUTILS DE NAVIGATION ===== */
+        .nav-tools {
+            position: sticky; 
+            top: 50px; 
+            z-index: 998; 
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            padding: 10px 15px; 
+            display: flex; 
+            gap: 8px; 
+            border-bottom: 0.5px solid rgba(0,0,0,0.05);
+        }
+        
+        .search-container { 
+            position: relative; 
+            flex: 1; 
+        }
+        
+        .search-icon { 
+            position: absolute; 
+            left: 12px; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            color: var(--text-muted); 
+            font-size: 0.95rem;
+        }
+        
+        .search-box { 
+            width: 100%; 
+            padding: 8px 12px 8px 35px; 
+            border: 1px solid #e5e5ea;
+            border-radius: 10px; 
+            background: #f2f2f7; 
+            font-size: 0.95rem; 
+            outline: none;
+            color: var(--text-dark);
+        }
+        
+        .search-box::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .btn-reset-all { 
+            background: none; 
+            border: none; 
+            color: var(--system-red); 
+            font-weight: 700; 
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 8px 12px;
+        }
+        
+        /* ===== ONGLETS CATÉGORIES ===== */
+        .category-tabs {
+            display: flex;
+            gap: 8px;
+            padding: 10px 15px;
+            overflow-x: auto;
+            background: white;
+            border-bottom: 1px solid #e5e5ea;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .category-tab {
+            background: #f2f2f7;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            border: 1px solid #e5e5ea;
+        }
+        
+        .category-tab:active {
+            transform: scale(0.95);
+        }
+        
+        .category-tab.active {
+            background: var(--brand-green);
+            color: white;
+            border-color: var(--brand-green);
+        }
+        
+        /* ===== CONTAINER ===== */
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            padding: 15px; 
+        }
+        
+        /* ===== INFOS RETRAIT ===== */
+        .order-info-card { 
+            background: white; 
+            border-radius: 14px; 
+            padding: 15px; 
+            margin-bottom: 20px; 
+            border: 2px solid var(--brand-green);
+            box-shadow: 0 2px 8px rgba(45, 106, 79, 0.1);
+        }
+        
+        .info-title { 
+            font-weight: 800; 
+            color: var(--brand-green); 
+            margin-bottom: 12px; 
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        
+        .form-group { 
+            margin-bottom: 12px; 
+        }
+        
+        .form-group label { 
+            display: block; 
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            margin-bottom: 4px; 
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        
+        .form-input { 
+            width: 100%; 
+            padding: 10px; 
+            border-radius: 8px; 
+            border: 1px solid #e5e5ea; 
+            font-family: inherit; 
+            font-size: 1rem; 
+            outline: none;
+            background: #f9f9f9;
+        }
+        
+        .form-input:focus {
+            background: white;
+            border-color: var(--brand-green);
+        }
+        
+        /* ===== SECTIONS CATÉGORIES ===== */
+        .category-section {
+            display: none;
+            margin-bottom: 20px;
+        }
+        
+        .category-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: white;
+            background: var(--brand-green);
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-count {
+            background: rgba(255,255,255,0.25);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        
+        /* ===== CARTES ARTICLES ===== */
+        .item-card { 
+            background: white; 
+            border-radius: 12px; 
+            padding: 12px; 
+            margin-bottom: 10px; 
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            border: 1px solid #f0f0f0;
+            transition: all 0.2s ease;
+        }
+        
+        .item-card.hidden {
+            display: none;
+        }
+        
+        .item-card.selected {
+            border-color: var(--success-green);
+            background: rgba(52, 199, 89, 0.02);
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        
+        .item-name { 
+            font-weight: 700; 
+            font-size: 0.95rem; 
+            color: var(--brand-green);
+            flex: 1;
+        }
+        
+        .item-favorite {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 2px 6px;
+        }
+        
+        .item-favorite.starred {
+            color: #ffd700;
+        }
+        
+        /* ===== CONTROLS COMPACTS ===== */
+        .item-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .control-section {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .control-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        
+        .control-buttons {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 6px;
+            align-items: center;
+        }
+        
+        .btn-control {
+            border: none;
+            border-radius: 6px;
+            padding: 8px 4px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        
+        .btn-minus {
+            background: #e5e5ea;
+            color: var(--text-dark);
+        }
+        
+        .btn-minus:active {
+            transform: scale(0.92);
+            background: #d1d1d6;
+        }
+        
+        .btn-plus {
+            background: var(--brand-green);
+            color: white;
+        }
+        
+        .btn-plus:active {
+            transform: scale(0.92);
+            background: var(--brand-dark-green);
+        }
+        
+        .display-value {
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--brand-green);
+            background: var(--brand-light-green);
+            padding: 6px 4px;
+            border-radius: 6px;
+            min-height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .item-total {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 0.5px dashed #e5e5ea;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--success-green);
+            text-align: center;
+            min-height: 18px;
+        }
+        
+        /* ===== PRÉSETS (COMMANDES HABITUELLES) ===== */
+        .presets-section {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px dashed var(--brand-green);
+        }
+        
+        .presets-title {
+            font-weight: 700;
+            color: var(--brand-green);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .preset-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .preset-btn {
+            background: var(--brand-light-green);
+            border: 1px solid var(--brand-green);
+            color: var(--brand-green);
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .preset-btn:active {
+            background: var(--brand-green);
+            color: white;
+            transform: scale(0.95);
+        }
+        
+        .preset-save-btn {
+            background: var(--success-green);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* ===== DOCK COMMANDE ===== */
         .dock { 
-            position: fixed; bottom: 25px; left: 20px; right: 20px; z-index: 2000; 
+            position: fixed; 
+            bottom: 20px; 
+            left: 15px; 
+            right: 15px; 
+            z-index: 2000;
         }
+        
         .btn-send-order {
-            width: 100%; background: var(--brand-green); color: white; border: none; padding: 20px; 
-            border-radius: 20px; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; 
-            justify-content: center; gap: 12px; box-shadow: 0 10px 25px rgba(45, 106, 79, 0.3); cursor: pointer;
+            width: 100%; 
+            background: linear-gradient(135deg, var(--brand-green), var(--brand-dark-green));
+            color: white; 
+            border: none; 
+            padding: 16px 20px; 
+            border-radius: 16px; 
+            font-weight: 700; 
+            font-size: 1rem; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px; 
+            box-shadow: 0 8px 20px rgba(45, 106, 79, 0.3); 
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-        .btn-send-order:active { transform: scale(0.98); opacity: 0.9; }
-        .counter-badge { background: white; color: var(--brand-green); padding: 2px 8px; border-radius: 8px; font-weight: 800; }
-
+        
+        .btn-send-order:active { 
+            transform: scale(0.96); 
+            opacity: 0.9; 
+        }
+        
+        .counter-badge { 
+            background: rgba(255,255,255,0.3); 
+            color: white; 
+            padding: 3px 10px; 
+            border-radius: 10px; 
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+        
+        /* ===== MODAL CONTACT ===== */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4);
-            z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px;
-            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            background: rgba(0,0,0,0.5);
+            z-index: 3000; 
+            display: none; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px;
+            backdrop-filter: blur(5px); 
+            -webkit-backdrop-filter: blur(5px);
         }
+        
         .modal-card {
-            background: white; border-radius: 20px; width: 100%; max-width: 400px; padding: 20px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2); animation: popUp 0.2s ease-out;
+            background: white; 
+            border-radius: 18px; 
+            width: 100%; 
+            max-width: 380px; 
+            padding: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25); 
+            animation: popUp 0.3s ease-out;
         }
-        .modal-title { font-weight: 800; font-size: 1.2rem; color: var(--brand-green); margin-bottom: 15px; text-align: center; }
+        
+        .modal-title { 
+            font-weight: 800; 
+            font-size: 1.15rem; 
+            color: var(--brand-green); 
+            margin-bottom: 15px; 
+            text-align: center; 
+        }
+        
         .contact-btn {
-            width: 100%; background: #f2f2f7; border: none; padding: 15px; border-radius: 12px;
-            margin-bottom: 10px; font-size: 1rem; font-weight: 700; color: var(--text-dark);
-            text-align: left; display: flex; align-items: center; justify-content: space-between; cursor: pointer;
+            width: 100%; 
+            background: #f2f2f7; 
+            border: none; 
+            padding: 14px; 
+            border-radius: 12px;
+            margin-bottom: 10px; 
+            font-size: 0.95rem; 
+            font-weight: 700; 
+            color: var(--text-dark);
+            text-align: left; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-        .contact-btn:active { background: var(--brand-light-green); }
-        .contact-btn i { color: #34c759; font-size: 1.2rem; }
+        
+        .contact-btn:active { 
+            background: var(--brand-light-green);
+            transform: scale(0.98);
+        }
+        
+        .contact-btn i { 
+            color: var(--success-green); 
+            font-size: 1.1rem; 
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .contact-name {
+            font-weight: 700;
+        }
+        
+        .contact-location {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        
         .btn-close-modal {
-            width: 100%; background: transparent; border: none; padding: 10px; color: var(--system-red);
-            font-weight: 700; font-size: 0.95rem; cursor: pointer; margin-top: 5px;
+            width: 100%; 
+            background: transparent; 
+            border: none; 
+            padding: 12px; 
+            color: var(--system-red);
+            font-weight: 700; 
+            font-size: 0.95rem; 
+            cursor: pointer; 
+            margin-top: 5px;
         }
-
+        
         @keyframes popUp {
-            from { transform: scale(0.9); opacity: 0; }
+            from { transform: scale(0.85); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
-
-        .section-header { margin: 25px 10px 10px; font-size: 0.85rem; font-weight: 800; color: var(--brand-green); text-transform: uppercase; border-left: 4px solid var(--brand-green); padding-left: 10px; }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.1rem; }
+            .container { padding: 12px; }
+            .item-card { padding: 10px; }
+        }
     </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="header">
-    <i class="fa-solid fa-basket-shopping" style="color:var(--brand-green); font-size: 2.2rem; margin-bottom: 12px;"></i>
-    <h1>Aux Vergers de Noisy</h1>
-    <p>Préparez votre liste</p>
+    <h1><i class="fa-solid fa-basket-shopping"></i> Aux Vergers de Noisy</h1>
+    <p>Préparez votre liste facilement</p>
 </div>
 
+<!-- RÉSUMÉ COMMANDE FLOTTANT -->
+<div class="order-summary" id="orderSummary">
+    <div class="summary-left">
+        <i class="fa-solid fa-check-circle" style="font-size: 1.2rem;"></i>
+        <div class="summary-stats">
+            <div class="stat-item">
+                <span class="stat-value" id="summaryCount">0</span>
+                <span>articles</span>
+            </div>
+            <div class="stat-item" style="border-left: 1px solid #e5e5ea; padding-left: 15px;">
+                <i class="fa-solid fa-weight"></i>
+                <span class="stat-value" id="summaryWeight">0</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- OUTILS DE RECHERCHE -->
 <div class="nav-tools">
     <div class="search-container">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input type="text" id="search" class="search-box" placeholder="Chercher un article..." onkeyup="filterItems()">
+        <input type="text" id="search" class="search-box" placeholder="Chercher..." onkeyup="filterItems()">
     </div>
-    <button class="btn-reset-all" onclick="resetOrder()">Vider</button>
-</div>
-
-<div class="container">
-    <div class="order-info-card">
-        <div class="info-title">Infos retrait</div>
-        <div class="form-group"><label>DATE</label><input type="date" id="order-date" class="form-input" onchange="saveExtraInfo()"></div>
-        <div class="form-group"><label>HEURE DE PASSAGE</label><input type="time" id="order-time" class="form-input" onchange="saveExtraInfo()"></div>
-        <div class="form-group"><label>COMMENTAIRE</label><textarea id="order-note" class="form-input" rows="3" oninput="saveExtraInfo()" placeholder="Variété précise, maturité, etc."></textarea></div>
-    </div>
-    <div id="item-list"></div>
-</div>
-
-<div class="dock">
-    <button class="btn-send-order" onclick="openContactModal()">
-        <i class="fa-solid fa-paper-plane"></i> Envoyer ma commande <span id="order-count" class="counter-badge">0</span>
+    <button class="btn-reset-all" onclick="resetOrder()">
+        <i class="fa-solid fa-trash"></i> Vider
     </button>
 </div>
 
+<!-- ONGLETS CATÉGORIES -->
+<div class="category-tabs" id="categoryTabs"></div>
+
+<!-- CONTAINER PRINCIPAL -->
+<div class="container">
+    
+    <!-- INFOS RETRAIT -->
+    <div class="order-info-card">
+        <div class="info-title">📅 Infos de retrait</div>
+        <div class="form-group">
+            <label>Date</label>
+            <input type="date" id="order-date" class="form-input" onchange="saveExtraInfo()">
+        </div>
+        <div class="form-group">
+            <label>Heure de passage</label>
+            <input type="time" id="order-time" class="form-input" onchange="saveExtraInfo()">
+        </div>
+        <div class="form-group">
+            <label>Commentaire</label>
+            <textarea id="order-note" class="form-input" rows="2" oninput="saveExtraInfo()" placeholder="Variété, maturité, etc."></textarea>
+        </div>
+    </div>
+    
+    <!-- PRÉSETS (COMMANDES HABITUELLES) -->
+    <div class="presets-section" id="presetsSection">
+        <div class="presets-title">⭐ Mes commandes habituelles</div>
+        <div class="preset-buttons" id="presetButtons"></div>
+        <button class="preset-save-btn" onclick="saveAsPreset()" style="width: 100%; margin-top: 8px;">
+            <i class="fa-solid fa-bookmark"></i> Sauvegarder cette commande
+        </button>
+    </div>
+    
+    <!-- ARTICLES PAR CATÉGORIE -->
+    <div id="item-list"></div>
+    
+</div>
+
+<!-- DOCK ENVOI COMMANDE -->
+<div class="dock">
+    <button class="btn-send-order" onclick="openContactModal()">
+        <i class="fa-solid fa-paper-plane"></i> 
+        Envoyer <span class="counter-badge" id="order-count">0</span>
+    </button>
+</div>
+
+<!-- MODAL CONTACT -->
 <div class="modal-overlay" id="contactModal">
     <div class="modal-card">
-        <div class="modal-title">Destinataire du SMS</div>
+        <div class="modal-title">📲 Qui le reçoit ?</div>
         
         <button class="contact-btn" onclick="sendSMSDirect('+33777833884')">
-            <span>Georges <small style="display:block; font-weight:400; color:#8e8e93">Marché de Versailles</small></span>
+            <div class="contact-info">
+                <span class="contact-name">Georges</span>
+                <span class="contact-location">Marché de Versailles</span>
+            </div>
             <i class="fa-solid fa-comment-sms"></i>
         </button>
         
         <button class="contact-btn" onclick="sendSMSDirect('+33670419705')">
-            <span>Carlos <small style="display:block; font-weight:400; color:#8e8e93">Marché de Nanterre</small></span>
+            <div class="contact-info">
+                <span class="contact-name">Carlos</span>
+                <span class="contact-location">Marché de Nanterre</span>
+            </div>
             <i class="fa-solid fa-comment-sms"></i>
         </button>
         
         <button class="contact-btn" onclick="sendSMSDirect('+33666756957')">
-            <span>Alexandre <small style="display:block; font-weight:400; color:#8e8e93">Marché de Noisy</small></span>
+            <div class="contact-info">
+                <span class="contact-name">Alexandre</span>
+                <span class="contact-location">Marché de Noisy</span>
+            </div>
             <i class="fa-solid fa-comment-sms"></i>
         </button>
         
@@ -149,20 +722,53 @@
     };
 
     let order = {};
-    const STORAGE_KEY = 'noisy_v5_final';
+    let favorites = {};
+    let presets = [];
+    const STORAGE_KEY = 'noisy_v7_optimized';
+    const FAVORITES_KEY = 'noisy_favorites';
+    const PRESETS_KEY = 'noisy_presets';
+    const ACTIVE_TAB_KEY = 'noisy_active_tab';
+    let currentTab = null;
 
-    function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(order)); }
+    // ===== INITIALISATION =====
+    function init() {
+        loadData();
+        createCategoryTabs();
+        buildItemList();
+        loadPresets();
+        displayPresets();
+        setActiveTab(localStorage.getItem(ACTIVE_TAB_KEY) || Object.keys(inventory)[0]);
+        updateSummary();
+    }
+
+    // ===== GESTION DONNÉES =====
+    function saveData() { 
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(order));
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+    }
+
     function saveExtraInfo() {
-        const extra = { date: document.getElementById('order-date').value, time: document.getElementById('order-time').value, note: document.getElementById('order-note').value };
+        const extra = { 
+            date: document.getElementById('order-date').value, 
+            time: document.getElementById('order-time').value, 
+            note: document.getElementById('order-note').value 
+        };
         localStorage.setItem(STORAGE_KEY + '_extra', JSON.stringify(extra));
     }
 
     function loadData() {
         const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) { order = JSON.parse(saved); }
+        if (saved) order = JSON.parse(saved);
+        
+        const favsSaved = localStorage.getItem(FAVORITES_KEY);
+        if (favsSaved) favorites = JSON.parse(favsSaved);
+        
         for (const cat in inventory) {
-            inventory[cat].forEach(name => { if (!order[name]) order[name] = { weight: 0, piece: 0 }; });
+            inventory[cat].forEach(name => {
+                if (!order[name]) order[name] = { weight: 0, piece: 0 };
+            });
         }
+        
         const savedExtra = localStorage.getItem(STORAGE_KEY + '_extra');
         if (savedExtra) {
             const extra = JSON.parse(savedExtra);
@@ -172,102 +778,240 @@
         }
     }
 
-    function init() {
-        loadData();
-        const listEl = document.getElementById('item-list');
+    // ===== ONGLETS CATÉGORIES =====
+    function createCategoryTabs() {
+        const tabsContainer = document.getElementById('categoryTabs');
+        tabsContainer.innerHTML = '';
+        
         for (const category in inventory) {
-            const sectionHeader = document.createElement('div');
-            sectionHeader.className = 'section-header';
-            sectionHeader.innerText = category;
-            listEl.appendChild(sectionHeader);
+            const tab = document.createElement('button');
+            tab.className = 'category-tab';
+            tab.innerText = category;
+            tab.onclick = () => setActiveTab(category);
+            tabsContainer.appendChild(tab);
+        }
+    }
 
-            inventory[category].forEach((name) => {
+    function setActiveTab(category) {
+        currentTab = category;
+        localStorage.setItem(ACTIVE_TAB_KEY, category);
+        
+        // Mettre à jour visuels onglets
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.classList.remove('active');
+            if (tab.innerText === category) tab.classList.add('active');
+        });
+        
+        // Afficher/masquer sections
+        document.querySelectorAll('.category-section').forEach(section => {
+            section.classList.remove('active');
+            if (section.id === `cat-${category}`) section.classList.add('active');
+        });
+    }
+
+    // ===== CONSTRUCTION ARTICLES =====
+    function buildItemList() {
+        const listEl = document.getElementById('item-list');
+        listEl.innerHTML = '';
+        
+        for (const category in inventory) {
+            const section = document.createElement('div');
+            section.className = 'category-section';
+            section.id = `cat-${category}`;
+            
+            const title = document.createElement('div');
+            title.className = 'section-title';
+            title.innerHTML = `
+                <span>${category}</span>
+                <span class="section-count" id="count-${category}">${inventory[category].length}</span>
+            `;
+            section.appendChild(title);
+            
+            inventory[category].forEach(name => {
                 const card = document.createElement('div');
                 card.className = 'item-card';
+                card.id = `card-${name}`;
+                card.dataset.name = name;
                 card.innerHTML = `
-                    <div class="item-name">${name}</div>
-                    <div class="row-label">Poids</div>
-                    <div class="control-row">
-                        <div class="btn-stack"><button class="btn-small btn-sub" onclick="updateQty('${name}', 'weight', -1)">-1kg</button><button class="btn-small btn-sub" onclick="updateQty('${name}', 'weight', -0.5)">-500g</button></div>
-                        <div class="display-val" id="w-${name}">0 kg</div>
-                        <div class="btn-stack"><button class="btn-small btn-add" onclick="updateQty('${name}', 'weight', 0.5)">+500g</button><button class="btn-small btn-add" onclick="updateQty('${name}', 'weight', 1)">+1kg</button></div>
+                    <div class="item-header">
+                        <div class="item-name">${name}</div>
+                        <button class="item-favorite ${favorites[name] ? 'starred' : ''}" onclick="toggleFavorite('${name}')">
+                            <i class="fa-${favorites[name] ? 'solid' : 'regular'} fa-star"></i>
+                        </button>
                     </div>
-                    <div class="row-label">Unité</div>
-                    <div class="control-row">
-                        <button class="btn-small btn-sub" style="height:40px" onclick="updateQty('${name}', 'piece', -1)">-1</button>
-                        <div class="display-val" id="p-${name}">0 pce</div>
-                        <button class="btn-small btn-add" style="height:40px" onclick="updateQty('${name}', 'piece', 1)">+1</button>
+                    <div class="item-controls">
+                        <div class="control-section">
+                            <div class="control-label">Poids</div>
+                            <div class="control-buttons">
+                                <button class="btn-control btn-minus" onclick="updateQty('${name}', 'weight', -1)">-1kg</button>
+                                <div class="display-value" id="w-${name}">0 kg</div>
+                                <button class="btn-control btn-plus" onclick="updateQty('${name}', 'weight', 1)">+1kg</button>
+                            </div>
+                        </div>
+                        <div class="control-section">
+                            <div class="control-label">Unité</div>
+                            <div class="control-buttons">
+                                <button class="btn-control btn-minus" onclick="updateQty('${name}', 'piece', -1)">-</button>
+                                <div class="display-value" id="p-${name}">0</div>
+                                <button class="btn-control btn-plus" onclick="updateQty('${name}', 'piece', 1)">+</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="item-total" id="total-${name}"></div>
                 `;
-                listEl.appendChild(card);
+                section.appendChild(card);
                 refreshCard(name);
             });
+            
+            listEl.appendChild(section);
         }
-        updateBadge();
     }
 
+    // ===== GESTION ARTICLES =====
     function updateQty(name, type, delta) {
         order[name][type] = Math.max(0, parseFloat((order[name][type] + delta).toFixed(1)));
-        refreshCard(name); saveData(); updateBadge();
+        refreshCard(name);
+        saveData();
+        updateSummary();
     }
 
     function refreshCard(name) {
         const item = order[name];
         const wDisp = document.getElementById(`w-${name}`);
-        wDisp.innerText = item.weight >= 1 ? item.weight + " kg" : (item.weight > 0 ? (item.weight * 1000) + " g" : "0 kg");
-        document.getElementById(`p-${name}`).innerText = item.piece + " pce";
+        const pDisp = document.getElementById(`p-${name}`);
+        
+        wDisp.innerText = item.weight >= 1 ? item.weight + " kg" : (item.weight > 0 ? (item.weight * 1000).toFixed(0) + " g" : "0 kg");
+        pDisp.innerText = item.piece;
+        
         let summary = [];
-        if(item.weight > 0) summary.push(wDisp.innerText);
-        if(item.piece > 0) summary.push(item.piece + " pce");
-        document.getElementById(`total-${name}`).innerText = summary.length > 0 ? "Prévu : " + summary.join(" + ") : "";
+        if (item.weight > 0) summary.push(wDisp.innerText);
+        if (item.piece > 0) summary.push(item.piece + " pce");
+        
+        const totalEl = document.getElementById(`total-${name}`);
+        totalEl.innerText = summary.length > 0 ? "✓ " + summary.join(" + ") : "";
+        
+        const card = document.getElementById(`card-${name}`);
+        if (item.weight > 0 || item.piece > 0) {
+            card.classList.add('selected');
+        } else {
+            card.classList.remove('selected');
+        }
     }
 
-    function updateBadge() {
+    function toggleFavorite(name) {
+        favorites[name] = !favorites[name];
+        const btn = document.querySelector(`#card-${name} .item-favorite`);
+        btn.classList.toggle('starred');
+        const icon = btn.querySelector('i');
+        icon.classList.toggle('fa-solid');
+        icon.classList.toggle('fa-regular');
+        saveData();
+    }
+
+    // ===== RÉSUMÉ COMMANDE =====
+    function updateSummary() {
         let count = 0;
-        for (let name in order) { if(order[name].weight > 0 || order[name].piece > 0) count++; }
+        let totalWeight = 0;
+        let totalPieces = 0;
+        
+        for (let name in order) {
+            if (order[name].weight > 0 || order[name].piece > 0) {
+                count++;
+                totalWeight += order[name].weight;
+                totalPieces += order[name].piece;
+            }
+        }
+        
+        document.getElementById('summaryCount').innerText = count;
+        
+        let weightText = totalWeight >= 1 ? totalWeight.toFixed(1) + " kg" : (totalWeight > 0 ? (totalWeight * 1000).toFixed(0) + " g" : "0");
+        document.getElementById('summaryWeight').innerText = weightText;
         document.getElementById('order-count').innerText = count;
     }
 
-    function resetOrder() {
-        if(confirm("Tout effacer ?")) {
-            localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_KEY + '_extra');
-            for(let name in order) { order[name].weight = 0; order[name].piece = 0; refreshCard(name); }
-            document.getElementById('order-date').value = ''; document.getElementById('order-time').value = ''; document.getElementById('order-note').value = '';
-            updateBadge();
-        }
+    // ===== PRÉSETS =====
+    function loadPresets() {
+        const saved = localStorage.getItem(PRESETS_KEY);
+        presets = saved ? JSON.parse(saved) : [];
     }
 
-    function filterItems() {
-        let q = document.getElementById('search').value.toLowerCase();
-        let cards = document.getElementsByClassName('item-card');
-        Array.from(cards).forEach(card => {
-            let name = card.querySelector('.item-name').innerText.toLowerCase();
-            card.style.display = name.includes(q) ? 'block' : 'none';
+    function saveAsPreset() {
+        const name = prompt("Nom de cette commande :");
+        if (!name) return;
+        
+        const preset = {
+            name: name,
+            data: JSON.parse(JSON.stringify(order)),
+            timestamp: new Date().toLocaleString()
+        };
+        
+        presets = presets.filter(p => p.name !== name);
+        presets.push(preset);
+        localStorage.setItem(PRESETS_KEY, JSON.stringify(presets));
+        displayPresets();
+        alert("✓ Commande sauvegardée !");
+    }
+
+    function displayPresets() {
+        const container = document.getElementById('presetButtons');
+        container.innerHTML = '';
+        
+        presets.forEach((preset, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'preset-btn';
+            btn.innerHTML = `${preset.name} <i class="fa-solid fa-check-circle" style="margin-left: 4px; opacity: 0.6;"></i>`;
+            btn.onclick = () => loadPreset(idx);
+            container.appendChild(btn);
         });
     }
 
-    function buildOrderText() {
-        const d = document.getElementById('order-date').value, t = document.getElementById('order-time').value, n = document.getElementById('order-note').value;
-        let text = `🛒 COMMANDE NOISY\n📅 ${d || '?'}\n⏰ ${t || '?'}\n${n ? '📝 '+n+'\n' : ''}`;
-        let hasData = false;
-        for (const cat in inventory) {
-            let catText = "";
-            inventory[cat].forEach(name => {
-                const item = order[name];
-                if (item.weight > 0 || item.piece > 0) {
-                    let parts = [];
-                    if(item.weight > 0) parts.push(item.weight >= 1 ? item.weight + "kg" : (item.weight*1000) + "g");
-                    if(item.piece > 0) parts.push(item.piece + "pce");
-                    catText += `\n✅ ${name} : ${parts.join(" + ")}`;
-                    hasData = true;
-                }
+    function loadPreset(idx) {
+        if (confirm(`Charger "${presets[idx].name}" ?`)) {
+            order = JSON.parse(JSON.stringify(presets[idx].data));
+            for (const name in inventory[Object.keys(inventory)[0]]) {
+                const category = Object.keys(inventory).find(cat => inventory[cat].includes(name));
+                if (category) refreshCard(name);
+            }
+            Object.keys(inventory).forEach(cat => {
+                inventory[cat].forEach(name => refreshCard(name));
             });
-            if(catText) text += `\n${cat}${catText}\n`;
+            saveData();
+            updateSummary();
         }
-        return { text, hasData };
     }
 
+    // ===== RECHERCHE =====
+    function filterItems() {
+        const q = document.getElementById('search').value.toLowerCase();
+        let matchCount = 0;
+        
+        document.querySelectorAll('.item-card').forEach(card => {
+            const name = card.dataset.name.toLowerCase();
+            const matches = name.includes(q);
+            card.classList.toggle('hidden', !matches);
+            if (matches && q.length > 0) matchCount++;
+        });
+    }
+
+    // ===== RÉINITIALISATION =====
+    function resetOrder() {
+        if (confirm("Effacer toute la commande ?")) {
+            for (let name in order) {
+                order[name].weight = 0;
+                order[name].piece = 0;
+            }
+            Object.keys(inventory).forEach(cat => {
+                inventory[cat].forEach(name => refreshCard(name));
+            });
+            document.getElementById('order-date').value = '';
+            document.getElementById('order-time').value = '';
+            document.getElementById('order-note').value = '';
+            saveData();
+            updateSummary();
+        }
+    }
+
+    // ===== MODAL ET SMS =====
     function openContactModal() {
         const { hasData } = buildOrderText();
         if (!hasData) return alert("Panier vide !");
@@ -278,10 +1022,34 @@
         document.getElementById('contactModal').style.display = 'none';
     }
 
+    function buildOrderText() {
+        const d = document.getElementById('order-date').value;
+        const t = document.getElementById('order-time').value;
+        const n = document.getElementById('order-note').value;
+        let text = `🛒 COMMANDE NOISY\n📅 ${d || '?'}\n⏰ ${t || '?'}\n${n ? '📝 '+n+'\n' : ''}`;
+        let hasData = false;
+        
+        for (const cat in inventory) {
+            let catText = "";
+            inventory[cat].forEach(name => {
+                const item = order[name];
+                if (item.weight > 0 || item.piece > 0) {
+                    let parts = [];
+                    if(item.weight > 0) parts.push(item.weight >= 1 ? item.weight + "kg" : (item.weight*1000).toFixed(0) + "g");
+                    if(item.piece > 0) parts.push(item.piece + "pce");
+                    catText += `\n✅ ${name} : ${parts.join(" + ")}`;
+                    hasData = true;
+                }
+            });
+            if(catText) text += `\n${cat}${catText}\n`;
+        }
+        return { text, hasData };
+    }
+
     function sendSMSDirect(phoneNumber) {
         const { text } = buildOrderText();
         closeContactModal();
-
+        
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
         const separator = isIOS ? '&' : '?';
         const smsUrl = `sms:${phoneNumber}${separator}body=${encodeURIComponent(text)}`;
@@ -289,7 +1057,9 @@
         window.location.href = smsUrl;
     }
 
+    // Lancer l'app
     init();
 </script>
+
 </body>
 </html>
