@@ -844,14 +844,15 @@
                         </button>
                     </div>
                     <div class="item-controls">
-                        <div class="control-section">
-                            <div class="control-label">Poids</div>
-                            <div class="control-buttons">
-                                <button class="btn-control btn-minus" onclick="updateQty('${name}', 'weight', -1)">-</button>
-                                <div class="display-value" id="w-${name}">0 kg</div>
-                                <button class="btn-control btn-plus" onclick="updateQty('${name}', 'weight', 1)">+</button>
-                            </div>
-                        </div>
+                        // Remplace le bloc de boutons "Poids" dans ta fonction buildItemList par celui-ci :
+<div class="control-section">
+    <div class="control-label">Poids</div>
+    <div class="control-buttons">
+        <button class="btn-control btn-minus" onclick="updateQty('${name}', 'weight', -0.25)">-250g</button>
+        <div class="display-value" id="w-${name}">0 kg</div>
+        <button class="btn-control btn-plus" onclick="updateQty('${name}', 'weight', 0.25)">+250g</button>
+    </div>
+</div>
                         <div class="control-section">
                             <div class="control-label">Unité</div>
                             <div class="control-buttons">
