@@ -69,6 +69,7 @@
             top: 0;
             z-index: 999;
             box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            cursor: pointer;
         }
         
         .summary-left {
@@ -600,20 +601,18 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
     <h1><i class="fa-solid fa-basket-shopping"></i> Aux Vergers de Noisy</h1>
     <p>Préparez votre liste facilement</p>
 </div>
 
-<!-- RÉSUMÉ COMMANDE FLOTTANT -->
-<div class="order-summary" id="orderSummary">
+<div class="order-summary" id="orderSummary" onclick="openCartModal()">
     <div class="summary-left">
         <i class="fa-solid fa-check-circle" style="font-size: 1.2rem;"></i>
         <div class="summary-stats">
             <div class="stat-item">
                 <span class="stat-value" id="summaryCount">0</span>
-                <span>articles</span>
+                <span style="text-decoration: underline;">Panier</span>
             </div>
             <div class="stat-item" style="border-left: 1px solid #e5e5ea; padding-left: 15px;">
                 <i class="fa-solid fa-weight"></i>
@@ -623,7 +622,6 @@
     </div>
 </div>
 
-<!-- OUTILS DE RECHERCHE -->
 <div class="nav-tools">
     <div class="search-container">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -634,13 +632,10 @@
     </button>
 </div>
 
-<!-- ONGLETS CATÉGORIES -->
 <div class="category-tabs" id="categoryTabs"></div>
 
-<!-- CONTAINER PRINCIPAL -->
 <div class="container">
     
-    <!-- INFOS RETRAIT -->
     <div class="order-info-card">
         <div class="info-title">📅 Infos de retrait</div>
         <div class="form-group">
@@ -657,7 +652,6 @@
         </div>
     </div>
     
-    <!-- PRÉSETS (COMMANDES HABITUELLES) -->
     <div class="presets-section" id="presetsSection">
         <div class="presets-title">⭐ Mes commandes habituelles</div>
         <div class="preset-buttons" id="presetButtons"></div>
@@ -666,12 +660,10 @@
         </button>
     </div>
     
-    <!-- ARTICLES PAR CATÉGORIE -->
     <div id="item-list"></div>
     
 </div>
 
-<!-- DOCK ENVOI COMMANDE -->
 <div class="dock">
     <button class="btn-send-order" onclick="openContactModal()">
         <i class="fa-solid fa-paper-plane"></i> 
@@ -679,7 +671,14 @@
     </button>
 </div>
 
-<!-- MODAL CONTACT -->
+<div class="modal-overlay" id="cartModal">
+    <div class="modal-card">
+        <div class="modal-title">🛒 Votre Panier</div>
+        <div id="cartContentList"></div>
+        <button class="btn-close-modal" onclick="closeCartModal()">Fermer</button>
+    </div>
+</div>
+
 <div class="modal-overlay" id="contactModal">
     <div class="modal-card">
         <div class="modal-title">📲 Qui le reçoit ?</div>
@@ -848,9 +847,9 @@
                         <div class="control-section">
                             <div class="control-label">Poids</div>
                             <div class="control-buttons">
-                                <button class="btn-control btn-minus" onclick="updateQty('${name}', 'weight', -1)">-1kg</button>
+                                <button class="btn-control btn-minus" onclick="updateQty('${name}', 'weight', -1)">-</button>
                                 <div class="display-value" id="w-${name}">0 kg</div>
-                                <button class="btn-control btn-plus" onclick="updateQty('${name}', 'weight', 1)">+1kg</button>
+                                <button class="btn-control btn-plus" onclick="updateQty('${name}', 'weight', 1)">+</button>
                             </div>
                         </div>
                         <div class="control-section">
@@ -878,6 +877,8 @@
         refreshCard(name);
         saveData();
         updateSummary();
+        // Si la modale est ouverte, rafraîchir
+        if(document.getElementById('cartModal').style.display === 'flex') openCartModal();
     }
 
     function refreshCard(name) {
@@ -887,7 +888,7 @@
         
         if (!wDisp || !pDisp) return;
         
-        wDisp.innerText = item.weight >= 1 ? item.weight + " kg" : (item.weight > 0 ? (item.weight * 1000).toFixed(0) + " g" : "0 kg");
+        wDisp.innerText = item.weight + " kg";
         pDisp.innerText = item.piece;
         
         let summary = [];
@@ -937,7 +938,7 @@
         
         document.getElementById('summaryCount').innerText = count;
         
-        let weightText = totalWeight >= 1 ? totalWeight.toFixed(1) + " kg" : (totalWeight > 0 ? (totalWeight * 1000).toFixed(0) + " g" : "0");
+        let weightText = totalWeight.toFixed(1) + " kg";
         document.getElementById('summaryWeight').innerText = weightText;
         document.getElementById('order-count').innerText = count;
     }
@@ -997,37 +998,22 @@
     // ===== RECHERCHE =====
     function filterItems() {
         const q = document.getElementById('search').value.toLowerCase();
-        let hasVisibleItems = false;
         
         document.querySelectorAll('.item-card').forEach(card => {
             const name = card.dataset.name;
             const matches = name.includes(q);
             
-            if (matches && q.length > 0) {
+            if (matches) {
                 card.classList.remove('hidden');
-                hasVisibleItems = true;
-            } else if (q.length > 0) {
-                card.classList.add('hidden');
             } else {
-                card.classList.remove('hidden');
-                hasVisibleItems = true;
+                card.classList.add('hidden');
             }
         });
         
-        // Masquer les sections qui n'ont pas d'articles visibles quand on recherche
-        if (q.length > 0) {
-            document.querySelectorAll('.category-section').forEach(section => {
-                const visibleCards = section.querySelectorAll('.item-card:not(.hidden)');
-                section.style.display = visibleCards.length > 0 ? 'block' : 'none';
-            });
-        } else {
-            // Restaurer l'affichage normal
-            document.querySelectorAll('.category-section').forEach(section => {
-                const category = section.id.replace('cat-', '');
-                const isActive = currentTab === category;
-                section.style.display = isActive ? 'block' : 'none';
-            });
-        }
+        document.querySelectorAll('.category-section').forEach(section => {
+            const visibleCards = section.querySelectorAll('.item-card:not(.hidden)');
+            section.style.display = visibleCards.length > 0 ? 'block' : 'none';
+        });
     }
 
     // ===== RÉINITIALISATION =====
@@ -1045,7 +1031,38 @@
             document.getElementById('order-note').value = '';
             saveData();
             updateSummary();
+            location.reload();
         }
+    }
+
+    // ===== PANIER MODIFIABLE (LOGIQUE AJOUTÉE) =====
+    function openCartModal() {
+        const list = document.getElementById('cartContentList');
+        list.innerHTML = '';
+        let found = false;
+        for (const name in order) {
+            if (order[name].weight > 0 || order[name].piece > 0) {
+                found = true;
+                const div = document.createElement('div');
+                div.className = 'item-card selected';
+                div.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong>${name}</strong>
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <button class="btn-control btn-minus" onclick="updateQty('${name}', 'weight', -1)">-</button>
+                            <span>${order[name].weight}kg</span>
+                            <button class="btn-control btn-plus" onclick="updateQty('${name}', 'weight', 1)">+</button>
+                        </div>
+                    </div>`;
+                list.appendChild(div);
+            }
+        }
+        if (!found) list.innerHTML = '<p style="text-align:center;">Panier vide.</p>';
+        document.getElementById('cartModal').style.display = 'flex';
+    }
+
+    function closeCartModal() { 
+        document.getElementById('cartModal').style.display = 'none'; 
     }
 
     // ===== MODAL ET SMS =====
@@ -1072,7 +1089,7 @@
                 const item = order[name];
                 if (item.weight > 0 || item.piece > 0) {
                     let parts = [];
-                    if(item.weight > 0) parts.push(item.weight >= 1 ? item.weight + "kg" : (item.weight*1000).toFixed(0) + "g");
+                    if(item.weight > 0) parts.push(item.weight + "kg");
                     if(item.piece > 0) parts.push(item.piece + "pce");
                     catText += `\n✅ ${name} : ${parts.join(" + ")}`;
                     hasData = true;
