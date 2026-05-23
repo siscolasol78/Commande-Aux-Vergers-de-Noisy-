@@ -183,7 +183,7 @@
             border-color: var(--brand-green);
         }
         
-        /* Onglet spécifique Panier */
+        /* Onglet spécifique Panier - Placé à gauche */
         .category-tab.tab-basket {
             background: #efefef;
             border: 1px dashed var(--brand-green);
@@ -636,7 +636,7 @@
         <div class="summary-stats">
             <div class="stat-item">
                 <span class="stat-value" id="summaryCount">0</span>
-                <span>articles</span>
+                <span>panier</span>
             </div>
             <div class="stat-item" style="border-left: 1px solid #e5e5ea; padding-left: 15px;">
                 <i class="fa-solid fa-weight"></i>
@@ -760,7 +760,8 @@
         buildItemList();
         loadPresets();
         displayPresets();
-        const savedTab = localStorage.getItem(ACTIVE_TAB_KEY) || Object.keys(inventory)[0];
+        
+        const savedTab = localStorage.getItem(ACTIVE_TAB_KEY) || 'BASKET_TAB';
         setActiveTab(savedTab);
         updateSummary();
     }
@@ -807,7 +808,12 @@
         const tabsContainer = document.getElementById('categoryTabs');
         tabsContainer.innerHTML = '';
         
-        // Onglets normaux
+        const basketTab = document.createElement('button');
+        basketTab.className = 'category-tab tab-basket';
+        basketTab.innerHTML = '🛒 PANIER';
+        basketTab.onclick = () => setActiveTab('BASKET_TAB');
+        tabsContainer.appendChild(basketTab);
+
         for (const category in inventory) {
             const tab = document.createElement('button');
             tab.className = 'category-tab';
@@ -815,35 +821,25 @@
             tab.onclick = () => setActiveTab(category);
             tabsContainer.appendChild(tab);
         }
-
-        // Nouvel Onglet Panier en fin de ligne
-        const basketTab = document.createElement('button');
-        basketTab.className = 'category-tab tab-basket';
-        basketTab.innerHTML = '🛒 PANIER';
-        basketTab.onclick = () => setActiveTab('BASKET_TAB');
-        tabsContainer.appendChild(basketTab);
     }
 
     function setActiveTab(category) {
         currentTab = category;
         localStorage.setItem(ACTIVE_TAB_KEY, category);
         
-        // Mettre à jour visuels onglets
         document.querySelectorAll('.category-tab').forEach(tab => {
             tab.classList.remove('active');
             if (category === 'BASKET_TAB' && tab.classList.contains('tab-basket')) tab.classList.add('active');
             else if (tab.innerText === category) tab.classList.add('active');
         });
         
-        // Masquer toutes les sections classiques et la section panier
         document.querySelectorAll('.category-section').forEach(section => {
             section.classList.remove('active');
         });
         document.getElementById('basket-section').classList.remove('active');
         
-        // Cacher ou afficher les infos de retrait et commandes habituelles
         if (category === 'BASKET_TAB') {
-            document.getElementById('infoCard').style.display = 'block'; // On les laisse visibles pour la fin
+            document.getElementById('infoCard').style.display = 'block';
             document.getElementById('presetsSection').style.display = 'none';
             document.getElementById('basket-section').classList.add('active');
             renderBasketView();
@@ -855,7 +851,7 @@
         }
     }
 
-    // ===== VUE PANIER COMPACTE =====
+    // ===== VUE PANIER DYNAMIQUE =====
     function renderBasketView() {
         const container = document.getElementById('basket-items-container');
         container.innerHTML = '';
@@ -867,7 +863,6 @@
                 hasItems = true;
                 basketItemCount++;
                 
-                // On clone la carte d'origine ou on recrée la même structure pour pouvoir ajouter/retirer du panier
                 const card = document.createElement('div');
                 card.className = 'item-card selected';
                 card.innerHTML = `
@@ -896,7 +891,6 @@
                 `;
                 container.appendChild(card);
                 
-                // Mettre à jour les valeurs dans la vue panier
                 const item = order[name];
                 const wDisp = card.querySelector(`#basket-w-${name}`);
                 const pDisp = card.querySelector(`#basket-p-${name}`);
@@ -1101,7 +1095,6 @@
     // ===== RECHERCHE =====
     function filterItems() {
         const q = document.getElementById('search').value.toLowerCase();
-        let hasVisibleItems = false;
         
         document.querySelectorAll('.item-card').forEach(card => {
             const name = card.dataset.name;
@@ -1109,12 +1102,10 @@
             
             if (matches && q.length > 0) {
                 card.classList.remove('hidden');
-                hasVisibleItems = true;
             } else if (q.length > 0) {
                 card.classList.add('hidden');
             } else {
                 card.classList.remove('hidden');
-                hasVisibleItems = true;
             }
         });
         
