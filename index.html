@@ -600,18 +600,20 @@
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="header">
     <h1><i class="fa-solid fa-basket-shopping"></i> Aux Vergers de Noisy</h1>
     <p>Préparez votre liste facilement</p>
 </div>
 
+<!-- RÉSUMÉ COMMANDE FLOTTANT -->
 <div class="order-summary" id="orderSummary">
     <div class="summary-left">
         <i class="fa-solid fa-check-circle" style="font-size: 1.2rem;"></i>
         <div class="summary-stats">
             <div class="stat-item">
                 <span class="stat-value" id="summaryCount">0</span>
-                <span>panier</span>
+                <span>articles</span>
             </div>
             <div class="stat-item" style="border-left: 1px solid #e5e5ea; padding-left: 15px;">
                 <i class="fa-solid fa-weight"></i>
@@ -621,6 +623,7 @@
     </div>
 </div>
 
+<!-- OUTILS DE RECHERCHE -->
 <div class="nav-tools">
     <div class="search-container">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -631,10 +634,13 @@
     </button>
 </div>
 
+<!-- ONGLETS CATÉGORIES -->
 <div class="category-tabs" id="categoryTabs"></div>
 
+<!-- CONTAINER PRINCIPAL -->
 <div class="container">
     
+    <!-- INFOS RETRAIT -->
     <div class="order-info-card">
         <div class="info-title">📅 Infos de retrait</div>
         <div class="form-group">
@@ -651,6 +657,7 @@
         </div>
     </div>
     
+    <!-- PRÉSETS (COMMANDES HABITUELLES) -->
     <div class="presets-section" id="presetsSection">
         <div class="presets-title">⭐ Mes commandes habituelles</div>
         <div class="preset-buttons" id="presetButtons"></div>
@@ -659,10 +666,12 @@
         </button>
     </div>
     
+    <!-- ARTICLES PAR CATÉGORIE -->
     <div id="item-list"></div>
     
 </div>
 
+<!-- DOCK ENVOI COMMANDE -->
 <div class="dock">
     <button class="btn-send-order" onclick="openContactModal()">
         <i class="fa-solid fa-paper-plane"></i> 
@@ -670,6 +679,7 @@
     </button>
 </div>
 
+<!-- MODAL CONTACT -->
 <div class="modal-overlay" id="contactModal">
     <div class="modal-card">
         <div class="modal-title">📲 Qui le reçoit ?</div>
@@ -899,7 +909,6 @@
         }
     }
 
-    // ===== FAVORIS =====
     function toggleFavorite(name) {
         favorites[name] = !favorites[name];
         const btn = document.querySelector(`#card-${name} .item-favorite`);
@@ -1005,12 +1014,14 @@
             }
         });
         
+        // Masquer les sections qui n'ont pas d'articles visibles quand on recherche
         if (q.length > 0) {
             document.querySelectorAll('.category-section').forEach(section => {
                 const visibleCards = section.querySelectorAll('.item-card:not(.hidden)');
                 section.style.display = visibleCards.length > 0 ? 'block' : 'none';
             });
         } else {
+            // Restaurer l'affichage normal
             document.querySelectorAll('.category-section').forEach(section => {
                 const category = section.id.replace('cat-', '');
                 const isActive = currentTab === category;
