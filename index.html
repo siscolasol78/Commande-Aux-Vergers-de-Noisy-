@@ -54,7 +54,7 @@
             opacity: 0.9;
         }
         
-        /* ===== RÉSUMÉ COMMANDE FLOTTANT EN HAUT ===== */
+        /* ===== RÉSUMÉ COMMANDE FLOTTANT ===== */
         .order-summary {
             background: white;
             border-bottom: 2px solid var(--brand-green);
@@ -84,15 +84,14 @@
         
         .stat-item {
             display: flex;
-            flex-direction: column;
             align-items: center;
+            gap: 5px;
             font-size: 0.85rem;
-            line-height: 1.2;
         }
         
         .stat-value {
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         /* ===== OUTILS DE NAVIGATION ===== */
@@ -184,18 +183,6 @@
             border-color: var(--brand-green);
         }
         
-        /* Onglet spécifique Panier - Placé à gauche */
-        .category-tab.tab-basket {
-            background: #efefef;
-            border: 1px dashed var(--brand-green);
-            color: var(--brand-green);
-        }
-        .category-tab.tab-basket.active {
-            background: var(--brand-dark-green);
-            border-color: var(--brand-dark-green);
-            color: white;
-        }
-        
         /* ===== CONTAINER ===== */
         .container { 
             max-width: 600px; 
@@ -284,19 +271,6 @@
             padding: 2px 8px;
             border-radius: 12px;
             font-size: 0.8rem;
-        }
-
-        /* Message Panier Vide */
-        .empty-basket-msg {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 1rem;
-            background: white;
-            border-radius: 12px;
-            border: 1px dashed #ccc;
-            margin-top: 10px;
         }
         
         /* ===== CARTES ARTICLES ===== */
@@ -637,11 +611,11 @@
         <div class="summary-stats">
             <div class="stat-item">
                 <span class="stat-value" id="summaryCount">0</span>
-                <span style="color: var(--text-muted); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">panier</span>
+                <span>panier</span>
             </div>
             <div class="stat-item" style="border-left: 1px solid #e5e5ea; padding-left: 15px;">
+                <i class="fa-solid fa-weight"></i>
                 <span class="stat-value" id="summaryWeight">0</span>
-                <span style="color: var(--text-muted); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">total</span>
             </div>
         </div>
     </div>
@@ -661,7 +635,7 @@
 
 <div class="container">
     
-    <div class="order-info-card" id="infoCard">
+    <div class="order-info-card">
         <div class="info-title">📅 Infos de retrait</div>
         <div class="form-group">
             <label>Date</label>
@@ -685,14 +659,6 @@
         </button>
     </div>
     
-    <div id="basket-section" class="category-section">
-        <div class="section-title">
-            <span>🛒 Mon Panier Sélectionné</span>
-            <span class="section-count" id="basket-count-title">0 article</span>
-        </div>
-        <div id="basket-items-container"></div>
-    </div>
-
     <div id="item-list"></div>
     
 </div>
@@ -740,8 +706,8 @@
     const inventory = {
         "🍏 POMMES": ["POMME CHANTECLER", "POMME GALA", "POMME GOLDEN", "POMME GOLDRUSH", "POMME GRANNY", "POMME OPALE", "POMME PATTE DE LOUP", "POMME PINK LADY"],
         "🥬 SALADES": ["SALADE BATAVIA", "SALADE LAITUE", "SALADE FEUILLE DE CHENE", "FRISÉE", "SCAROLE", "ROUGETTE", "MACHE", "EPINARD"],
-        "🥕 LÉGUMES": ["AIL", "ARTICHAUT", "AUBERGINE", "BETTERAVE", "BLETTE", "BROCOLI", "BUTTERNUT", "CAROTTE", "CAROTTE FANE", "CAROTTE SABLE", "CELERI", "CHAMPIGNON DE PARIS", "CHOU BLANC", "CHOU FLEUR", "CHOU KALE", "CHOU ROUGE", "CITROUILLE", "COURGETTE", "CRESSON", "ÉCHALOTE", "ENDIVE", "FENOUIL", "FÈVE", "GERME DE BLÉ", "GINGEMBRE", "HARICOT", "IGNAME", "LAITUE", "LENTILLE", "MAÏS", "NAVET", "OIGNON", "OIGNON BLANC", "OIGNON ROUGE", "OSEILLE", "PATATE DOUCE", "PETIT POIS", "PIMENT", "POIREAU", "POIS GOURMAND", "POIVRON", "POIVRON ROUGE", "POMME DE TERRE CHARLOTTE", "POMME DE TERRE GRENAILLES", "POMME DE TERRE MONA LISA", "POMME DE TERRE RATTE", "POMME DE TERRE SPUNTA", "POTIMARRON", "POTIRON", "RADIS", "RADIS NOIR", "RAIFORT", "RHUBARBE", "ROQUETTE", "RUTABAGA", "SALSIFIS", "SCORSONÈRE", "SOJA", "SOJA JAUNE", "TOMATE", "TOMATE CERISE", "TOMATE GRAPPE", "TOMATE RONDE", "TOMATE ROMA", "TRUFFE", "TURNEPS", "VANILLE"],
-        "🍓 FRUITS": ["ANANAS", "AVOCAT", "BANANE", "CERISE", "CITRON", "CITRON VERT", "CLEMENTINE", "FIGUE", "FRAISE", "FRAMBOISE", "GRENADE", "KAKI", "KIWI", "MANGUE", "MELON", "ORANGE À JUS", "ORANGE DE TABLE", "ORANGE SANGUINE", "PAMPLEMOUSSE", "PAPAYE", "PASTÈQUE", "PÊCHE", "PÊCHE BLANCHE", "PÊCHE JAUNE", "PÊCHE PLATE", "PÊCHE ROUGE", "POIRE", "POMME", "PRUNE", "PRUNE JAUNE", "PRUNE NOIRE", "PRUNE ROUGE", "RAISIN", "RAISIN BLANC", "RAISIN ROUGE", "RAMBUTAN", "REDBOR", "REINE CLAUDE"],
+        "🥕 LÉGUMES": ["AIL", "ARTICHAUT", "AUBERGINE", "BETTERAVE", "BLETTE", "BROCOLI", "BUTTERNUT", "CAROTTE", "CAROTTE FANE", "CAROTTE SABLE", "CELERI", "CHAMPIGNON DE PARIS", "CHOU BLANC", "CHOU FLEUR", "CHOU KALE", "CHOU ROUGE", "CITROUILLE", "COURGETTE", "CRESSON", "ÉCHALOTE", "ENDIVE", "FENOUIL", "FÈVE", "GERME DE BLÉ", "GINGEMBRE", "HARICOT", "IGNAME", "LAITUE", "LENTILLE", "MAÏS", "NAVET", "OIGNON", "OIGNON BLANC", "OIGNON ROUGE", "OSEILLE", "PATATE DOUCE", "PETIT POIS", "PIMENT", "POIREAU", "POIS GOURMAND", "POIVRON", "POIVRON ROUGE", "POTIMARRON", "POTIRON", "RADIS", "RADIS NOIR", "RAIFORT", "RHUBARBE", "ROQUETTE", "RUTABAGA", "SALSIFIS", "SCORSONÈRE", "SOJA", "SOJA JAUNE", "TOMATE", "TOMATE CERISE", "TOMATE GRAPPE", "TOMATE RONDE", "TOMATE ROMA", "TRUFFE", "TURNEPS", "VANILLE"],
+        "🍓 FRUITS": ["ANANAS", "AVOCAT", "BANANE", "CERISE", "CITRON", "CITRON VERT", "CLEMENTINE", "FIGUE", "FRAISE", "FRAMBOISE", "GRENADE", "KAKI", "KIWI", "MANGUE", "MELON", "ORANGE GALA", "ORANGE SANGUINE", "ORANGE VALENCE", "PAMPLEMOUSSE", "PAPAYE", "PASTÈQUE", "PÊCHE", "PÊCHE BLANCHE", "PÊCHE JAUNE", "PÊCHE PLATE", "PÊCHE ROUGE", "POIRE", "POMME", "PRUNE", "PRUNE JAUNE", "PRUNE NOIRE", "PRUNE ROUGE", "RAISIN", "RAISIN BLANC", "RAISIN ROUGE", "RAMBUTAN", "REDBOR", "REINE CLAUDE"],
         "🌿 HERBES": ["ANETH", "BASILIC", "CIBOULETTE", "CORIANDRE", "ESTRAGON", "MENTHE", "OSEILLE", "PERSIL", "THYM LAURIER"]
     };
 
@@ -761,8 +727,6 @@
         buildItemList();
         loadPresets();
         displayPresets();
-        
-        // Au démarrage, on force l'ouverture sur les Pommes pour voir les articles de suite
         const savedTab = localStorage.getItem(ACTIVE_TAB_KEY) || Object.keys(inventory)[0];
         setActiveTab(savedTab);
         updateSummary();
@@ -810,12 +774,6 @@
         const tabsContainer = document.getElementById('categoryTabs');
         tabsContainer.innerHTML = '';
         
-        const basketTab = document.createElement('button');
-        basketTab.className = 'category-tab tab-basket';
-        basketTab.innerHTML = '🛒 PANIER';
-        basketTab.onclick = () => setActiveTab('BASKET_TAB');
-        tabsContainer.appendChild(basketTab);
-
         for (const category in inventory) {
             const tab = document.createElement('button');
             tab.className = 'category-tab';
@@ -829,87 +787,20 @@
         currentTab = category;
         localStorage.setItem(ACTIVE_TAB_KEY, category);
         
+        // Mettre à jour visuels onglets
         document.querySelectorAll('.category-tab').forEach(tab => {
             tab.classList.remove('active');
-            if (category === 'BASKET_TAB' && tab.classList.contains('tab-basket')) tab.classList.add('active');
-            else if (tab.innerText === category) tab.classList.add('active');
+            if (tab.innerText === category) tab.classList.add('active');
         });
         
+        // Afficher/masquer sections
         document.querySelectorAll('.category-section').forEach(section => {
             section.classList.remove('active');
         });
-        document.getElementById('basket-section').classList.remove('active');
         
-        if (category === 'BASKET_TAB') {
-            document.getElementById('infoCard').style.display = 'block';
-            document.getElementById('presetsSection').style.display = 'none';
-            document.getElementById('basket-section').classList.add('active');
-            renderBasketView();
-        } else {
-            document.getElementById('infoCard').style.display = 'block';
-            document.getElementById('presetsSection').style.display = 'block';
-            const activeSection = document.getElementById(`cat-${category}`);
-            if (activeSection) activeSection.classList.add('active');
-        }
-    }
-
-    // ===== VUE PANIER DYNAMIQUE =====
-    function renderBasketView() {
-        const container = document.getElementById('basket-items-container');
-        container.innerHTML = '';
-        let hasItems = false;
-        let basketItemCount = 0;
-
-        for (let name in order) {
-            if (order[name].weight > 0 || order[name].piece > 0) {
-                hasItems = true;
-                basketItemCount++;
-                
-                const card = document.createElement('div');
-                card.className = 'item-card selected';
-                card.innerHTML = `
-                    <div class="item-header">
-                        <div class="item-name">${name}</div>
-                    </div>
-                    <div class="item-controls">
-                        <div class="control-section">
-                            <div class="control-label">Poids</div>
-                            <div class="control-buttons">
-                                <button class="btn-control btn-minus" onclick="updateQty('${name}', 'weight', -1); renderBasketView();">-1kg</button>
-                                <div class="display-value" id="basket-w-${name}">0 kg</div>
-                                <button class="btn-control btn-plus" onclick="updateQty('${name}', 'weight', 1); renderBasketView();">+1kg</button>
-                            </div>
-                        </div>
-                        <div class="control-section">
-                            <div class="control-label">Unité</div>
-                            <div class="control-buttons">
-                                <button class="btn-control btn-minus" onclick="updateQty('${name}', 'piece', -1); renderBasketView();">-</button>
-                                <div class="display-value" id="basket-p-${name}">0</div>
-                                <button class="btn-control btn-plus" onclick="updateQty('${name}', 'piece', 1); renderBasketView();">+</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item-total" id="basket-total-${name}"></div>
-                `;
-                container.appendChild(card);
-                
-                const item = order[name];
-                const wDisp = card.querySelector(`#basket-w-${name}`);
-                const pDisp = card.querySelector(`#basket-p-${name}`);
-                wDisp.innerText = item.weight >= 1 ? item.weight + " kg" : (item.weight > 0 ? (item.weight * 1000).toFixed(0) + " g" : "0 kg");
-                pDisp.innerText = item.piece;
-                
-                let summary = [];
-                if (item.weight > 0) summary.push(wDisp.innerText);
-                if (item.piece > 0) summary.push(item.piece + " pce");
-                card.querySelector(`#basket-total-${name}`).innerText = "✓ " + summary.join(" + ");
-            }
-        }
-
-        document.getElementById('basket-count-title').innerText = `${basketItemCount} article${basketItemCount > 1 ? 's' : ''}`;
-
-        if (!hasItems) {
-            container.innerHTML = `<div class="empty-basket-msg">🛒 Votre panier est vide pour le moment.</div>`;
+        const activeSection = document.getElementById(`cat-${category}`);
+        if (activeSection) {
+            activeSection.classList.add('active');
         }
     }
 
@@ -1008,6 +899,7 @@
         }
     }
 
+    // ===== FAVORIS =====
     function toggleFavorite(name) {
         favorites[name] = !favorites[name];
         const btn = document.querySelector(`#card-${name} .item-favorite`);
@@ -1090,13 +982,13 @@
             
             saveData();
             updateSummary();
-            if (currentTab === 'BASKET_TAB') renderBasketView();
         }
     }
 
     // ===== RECHERCHE =====
     function filterItems() {
         const q = document.getElementById('search').value.toLowerCase();
+        let hasVisibleItems = false;
         
         document.querySelectorAll('.item-card').forEach(card => {
             const name = card.dataset.name;
@@ -1104,10 +996,12 @@
             
             if (matches && q.length > 0) {
                 card.classList.remove('hidden');
+                hasVisibleItems = true;
             } else if (q.length > 0) {
                 card.classList.add('hidden');
             } else {
                 card.classList.remove('hidden');
+                hasVisibleItems = true;
             }
         });
         
@@ -1118,13 +1012,9 @@
             });
         } else {
             document.querySelectorAll('.category-section').forEach(section => {
-                if (section.id === 'basket-section') {
-                    section.style.display = currentTab === 'BASKET_TAB' ? 'block' : 'none';
-                } else {
-                    const category = section.id.replace('cat-', '');
-                    const isActive = currentTab === category;
-                    section.style.display = isActive ? 'block' : 'none';
-                }
+                const category = section.id.replace('cat-', '');
+                const isActive = currentTab === category;
+                section.style.display = isActive ? 'block' : 'none';
             });
         }
     }
@@ -1144,7 +1034,6 @@
             document.getElementById('order-note').value = '';
             saveData();
             updateSummary();
-            if (currentTab === 'BASKET_TAB') renderBasketView();
         }
     }
 
