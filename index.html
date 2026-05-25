@@ -743,45 +743,42 @@
         alert("✓ Commande sauvegardée !");
     }
     function displayPresets() {
-        alert("Le code est bien chargé !");
-    const container = document.getElementById('presetButtons');
-    if (!container) {
-        console.error("Erreur : presetButtons non trouvé !");
-        return;
-    }
-    container.innerHTML = '';
-    
-    presets.forEach((preset, idx) => {
-        const wrapper = document.createElement('div');
-        wrapper.style.display = 'flex';
-        wrapper.style.gap = '5px';
-        wrapper.style.marginBottom = '5px';
-
-        const btn = document.createElement('button');
-        btn.className = 'preset-btn';
-        btn.style.flex = '1';
-        btn.innerText = preset.name;
-        btn.onclick = () => loadPreset(idx);
-
-        const delBtn = document.createElement('button');
-        delBtn.className = 'preset-btn';
-        delBtn.style.backgroundColor = 'var(--system-red)';
-        delBtn.style.color = 'white';
-        delBtn.style.borderColor = 'var(--system-red)';
-        delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+        const container = document.getElementById('presetButtons');
+        if (!container) return;
         
-        // Utilisation d'un addEventListener pour être plus robuste
-        delBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            console.log("Bouton supprimé cliqué, index : " + idx);
-            deletePreset(idx);
-        });
+        // DEBUG : On regarde combien de presets l'ordinateur voit
+        alert("Nombre de commandes trouvées : " + presets.length);
+        
+        container.innerHTML = '';
+        
+        presets.forEach((preset, idx) => {
+            const wrapper = document.createElement('div');
+            wrapper.style.display = 'flex';
+            wrapper.style.gap = '5px';
+            wrapper.style.marginBottom = '5px';
 
-        wrapper.appendChild(btn);
-        wrapper.appendChild(delBtn);
-        container.appendChild(wrapper);
-    });
-}
+            const btn = document.createElement('button');
+            btn.className = 'preset-btn';
+            btn.style.flex = '1';
+            btn.innerText = preset.name;
+            btn.onclick = () => loadPreset(idx);
+
+            const delBtn = document.createElement('button');
+            delBtn.className = 'preset-btn';
+            delBtn.style.backgroundColor = 'var(--system-red)';
+            delBtn.style.color = 'white';
+            delBtn.style.borderColor = 'var(--system-red)';
+            delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+            delBtn.onclick = (e) => {
+                e.stopPropagation();
+                deletePreset(idx);
+            };
+
+            wrapper.appendChild(btn);
+            wrapper.appendChild(delBtn);
+            container.appendChild(wrapper);
+        });
+    }
     function loadPreset(idx) {
         if (confirm(`Charger "${presets[idx].name}" ?`)) {
             order = JSON.parse(JSON.stringify(presets[idx].data));
