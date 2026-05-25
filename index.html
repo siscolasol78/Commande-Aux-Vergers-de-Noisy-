@@ -742,43 +742,56 @@
         displayPresets();
         alert("✓ Commande sauvegardée !");
     }
-    function displayPresets() {
-        const container = document.getElementById('presetButtons');
-        if (!container) return;
-        
-        // DEBUG : On regarde combien de presets l'ordinateur voit
-        alert("Nombre de commandes trouvées : " + presets.length);
-        
-        container.innerHTML = '';
-        
-        presets.forEach((preset, idx) => {
-            const wrapper = document.createElement('div');
-            wrapper.style.display = 'flex';
-            wrapper.style.gap = '5px';
-            wrapper.style.marginBottom = '5px';
+    // Remplace tes fonctions displayPresets et deletePreset par celles-ci :
 
-            const btn = document.createElement('button');
-            btn.className = 'preset-btn';
-            btn.style.flex = '1';
-            btn.innerText = preset.name;
-            btn.onclick = () => loadPreset(idx);
+function displayPresets() {
+    const container = document.getElementById('presetButtons');
+    if (!container) return;
+    
+    // Nettoyage complet
+    container.innerHTML = '';
+    
+    presets.forEach((preset, idx) => {
+        const wrapper = document.createElement('div');
+        wrapper.style.display = 'flex';
+        wrapper.style.gap = '5px';
+        wrapper.style.marginBottom = '5px';
 
-            const delBtn = document.createElement('button');
-            delBtn.className = 'preset-btn';
-            delBtn.style.backgroundColor = 'var(--system-red)';
-            delBtn.style.color = 'white';
-            delBtn.style.borderColor = 'var(--system-red)';
-            delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
-            delBtn.onclick = (e) => {
-                e.stopPropagation();
-                deletePreset(idx);
-            };
+        const btn = document.createElement('button');
+        btn.className = 'preset-btn';
+        btn.style.flex = '1';
+        btn.innerText = preset.name;
+        btn.onclick = () => loadPreset(idx);
 
-            wrapper.appendChild(btn);
-            wrapper.appendChild(delBtn);
-            container.appendChild(wrapper);
+        const delBtn = document.createElement('button');
+        delBtn.className = 'preset-btn';
+        delBtn.style.backgroundColor = 'var(--system-red)';
+        delBtn.style.color = 'white';
+        delBtn.style.borderColor = 'var(--system-red)';
+        delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+        
+        // On force l'attachement de l'événement ici, c'est plus fiable
+        delBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("Clic détecté sur la poubelle index :", idx);
+            deletePreset(idx);
         });
+
+        wrapper.appendChild(btn);
+        wrapper.appendChild(delBtn);
+        container.appendChild(wrapper);
+    });
+}
+
+function deletePreset(idx) {
+    if (confirm("Supprimer cette commande ?")) {
+        presets.splice(idx, 1);
+        localStorage.setItem(PRESETS_KEY, JSON.stringify(presets));
+        console.log("Commande supprimée, rafraîchissement...");
+        displayPresets(); // On réaffiche la liste à jour
     }
+}
     function loadPreset(idx) {
         if (confirm(`Charger "${presets[idx].name}" ?`)) {
             order = JSON.parse(JSON.stringify(presets[idx].data));
