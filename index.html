@@ -746,12 +746,33 @@
         const container = document.getElementById('presetButtons');
         if (!container) return;
         container.innerHTML = '';
+        
         presets.forEach((preset, idx) => {
+            const wrapper = document.createElement('div');
+            wrapper.style.display = 'flex';
+            wrapper.style.gap = '5px';
+            wrapper.style.marginBottom = '5px';
+
             const btn = document.createElement('button');
             btn.className = 'preset-btn';
-            btn.innerHTML = `${preset.name} <i class="fa-solid fa-check-circle" style="margin-left: 4px; opacity: 0.6;"></i>`;
+            btn.style.flex = '1';
+            btn.innerHTML = `${preset.name}`;
             btn.onclick = () => loadPreset(idx);
-            container.appendChild(btn);
+
+            const delBtn = document.createElement('button');
+            delBtn.className = 'preset-btn';
+            delBtn.style.backgroundColor = 'var(--system-red)';
+            delBtn.style.color = 'white';
+            delBtn.style.borderColor = 'var(--system-red)';
+            delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+            delBtn.onclick = (e) => {
+                e.stopPropagation(); 
+                deletePreset(idx);
+            };
+
+            wrapper.appendChild(btn);
+            wrapper.appendChild(delBtn);
+            container.appendChild(wrapper);
         });
     }
     function loadPreset(idx) {
