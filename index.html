@@ -743,38 +743,44 @@
         alert("✓ Commande sauvegardée !");
     }
     function displayPresets() {
-        const container = document.getElementById('presetButtons');
-        if (!container) return;
-        container.innerHTML = '';
-        
-        presets.forEach((preset, idx) => {
-            const wrapper = document.createElement('div');
-            wrapper.style.display = 'flex';
-            wrapper.style.gap = '5px';
-            wrapper.style.marginBottom = '5px';
-
-            const btn = document.createElement('button');
-            btn.className = 'preset-btn';
-            btn.style.flex = '1';
-            btn.innerHTML = `${preset.name}`;
-            btn.onclick = () => loadPreset(idx);
-
-            const delBtn = document.createElement('button');
-            delBtn.className = 'preset-btn';
-            delBtn.style.backgroundColor = 'var(--system-red)';
-            delBtn.style.color = 'white';
-            delBtn.style.borderColor = 'var(--system-red)';
-            delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
-            delBtn.onclick = (e) => {
-                e.stopPropagation(); 
-                deletePreset(idx);
-            };
-
-            wrapper.appendChild(btn);
-            wrapper.appendChild(delBtn);
-            container.appendChild(wrapper);
-        });
+    const container = document.getElementById('presetButtons');
+    if (!container) {
+        console.error("Erreur : presetButtons non trouvé !");
+        return;
     }
+    container.innerHTML = '';
+    
+    presets.forEach((preset, idx) => {
+        const wrapper = document.createElement('div');
+        wrapper.style.display = 'flex';
+        wrapper.style.gap = '5px';
+        wrapper.style.marginBottom = '5px';
+
+        const btn = document.createElement('button');
+        btn.className = 'preset-btn';
+        btn.style.flex = '1';
+        btn.innerText = preset.name;
+        btn.onclick = () => loadPreset(idx);
+
+        const delBtn = document.createElement('button');
+        delBtn.className = 'preset-btn';
+        delBtn.style.backgroundColor = 'var(--system-red)';
+        delBtn.style.color = 'white';
+        delBtn.style.borderColor = 'var(--system-red)';
+        delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+        
+        // Utilisation d'un addEventListener pour être plus robuste
+        delBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            console.log("Bouton supprimé cliqué, index : " + idx);
+            deletePreset(idx);
+        });
+
+        wrapper.appendChild(btn);
+        wrapper.appendChild(delBtn);
+        container.appendChild(wrapper);
+    });
+}
     function loadPreset(idx) {
         if (confirm(`Charger "${presets[idx].name}" ?`)) {
             order = JSON.parse(JSON.stringify(presets[idx].data));
