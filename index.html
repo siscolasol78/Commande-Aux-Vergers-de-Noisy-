@@ -430,19 +430,12 @@
 </div>
 
 <!-- MODAL PANIER -->
-<div class="modal-overlay" id="cartModal">
-    <div class="modal-card">
-        <div class="modal-title">🛒 Votre Panier</div>
-        <div id="cartContentList"></div>
-        <button class="btn-close-modal" onclick="closeCartModal()">Fermer</button>
-    </div>
-</div>
-
-<!-- MODAL CONTACT -->
+<!-- MODAL CONTACT INTUITIF -->
 <div class="modal-overlay" id="contactModal">
     <div class="modal-card">
         <div class="modal-title">📲 Qui le reçoit ?</div>
         
+        <!-- Tes 3 contacts historiques -->
         <button class="contact-btn" onclick="sendSMSDirect('+33777833884')">
             <div class="contact-info">
                 <span class="contact-name">Georges</span>
@@ -465,6 +458,18 @@
                 <span class="contact-location">Marché de Noisy</span>
             </div>
             <i class="fa-solid fa-comment-sms"></i>
+        </button>
+        
+        <!-- Séparation -->
+        <hr style="border: 0; border-top: 1px solid #e5e5ea; margin: 15px 0;">
+
+        <!-- LE BOUTON REPERTOIRE INTUITIF -->
+        <button class="contact-btn" onclick="sendSMSToDirectory()" style="background: #007aff; color: white; margin-bottom: 15px;">
+            <div class="contact-info">
+                <span class="contact-name" style="color: white;">👤 Autre destinataire</span>
+                <span class="contact-location" style="color: rgba(255,255,255,0.8); font-weight: 400;">Choisir dans mon répertoire</span>
+            </div>
+            <i class="fa-solid fa-address-book" style="color: white; font-size: 1.2rem;"></i>
         </button>
         
         <button class="btn-close-modal" onclick="closeContactModal()">Annuler</button>
@@ -1046,6 +1051,22 @@ function deletePreset(idx) {
     }
 
     init();
+    // Fonction intuitive pour basculer la commande vers le répertoire du téléphone
+    function sendSMSToDirectory() {
+        // On récupère le texte du panier
+        const { text } = buildOrderText();
+        
+        // On ferme la fenêtre pop-up
+        closeContactModal();
+        
+        // Détection iPhone / iPad
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        
+        // Url SMS sans numéro : l'application s'ouvre vide et le client choisit son contact
+        const smsUrl = isIOS ? `sms:&body=${encodeURIComponent(text)}` : `sms:?body=${encodeURIComponent(text)}`;
+        
+        window.location.href = smsUrl;
+    }
 </script>
 </body>
 </html>
