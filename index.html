@@ -566,17 +566,32 @@
     }
 
     function setActiveTab(category) {
-        currentTab = category;
-        localStorage.setItem(ACTIVE_TAB_KEY, category);
-        document.querySelectorAll('.category-tab').forEach(tab => {
-            tab.classList.remove('active');
-            if (tab.innerText === category) tab.classList.add('active');
-        });
-        document.querySelectorAll('.category-section').forEach(section => section.classList.remove('active'));
-        const activeSection = document.getElementById(`cat-${category}`);
-        if (activeSection) activeSection.classList.add('active');
+    currentTab = category;
+    localStorage.setItem(ACTIVE_TAB_KEY, category);
+    
+    document.querySelectorAll('.category-tab').forEach(tab => {
+        tab.classList.remove('active');
+        
+        // On nettoie le texte pour éviter que le téléphone s'emmêle les pinceaux
+        const tabText = tab.innerText.trim().toLowerCase();
+        const checkCategory = category.trim().toLowerCase();
+        
+        if (checkCategory === 'basket_tab' && tabText.includes('panier')) {
+            tab.classList.add('active');
+        } else if (tabText === checkCategory) {
+            tab.classList.add('active');
+        }
+    });
+    
+    document.querySelectorAll('.category-section').forEach(section => section.classList.remove('active'));
+    const activeSection = document.getElementById(`cat-${category}`);
+    if (activeSection) activeSection.classList.add('active');
+    
+    // On force l'affichage de ton panier modulable
+    if (typeof applyTabFiltering === 'function') {
+        applyTabFiltering();
     }
-
+}
     function buildItemList() {
         const listEl = document.getElementById('item-list');
         listEl.innerHTML = '';
