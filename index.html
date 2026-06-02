@@ -566,76 +566,17 @@
     }
 
     function setActiveTab(category) {
-    currentTab = category;
-    localStorage.setItem(ACTIVE_TAB_KEY, category);
-    
-    document.querySelectorAll('.category-tab').forEach(tab => {
-        tab.classList.remove('active');
-        if (tab.innerText === category) tab.classList.add('active');
-    });
-    
-    document.querySelectorAll('.category-section').forEach(section => section.classList.remove('active'));
-    const activeSection = document.getElementById(`cat-${category}`);
-    if (activeSection) activeSection.classList.add('active');
-    
-    if (typeof applyTabFiltering === 'function') applyTabFiltering();
-}
-    
-    // On remet TA logique d'origine pour afficher les catégories
-    document.querySelectorAll('.category-section').forEach(section => {
-        section.classList.remove('active');
-    });
-    
-    // Si on clique sur le panier, on affiche TOUTES les sections pour voir les produits cochés
-    if (category === 'BASKET_TAB') {
-        document.querySelectorAll('.category-section').forEach(section => {
-            section.classList.add('active');
+        currentTab = category;
+        localStorage.setItem(ACTIVE_TAB_KEY, category);
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.classList.remove('active');
+            if (tab.innerText === category) tab.classList.add('active');
         });
-    } else {
+        document.querySelectorAll('.category-section').forEach(section => section.classList.remove('active'));
         const activeSection = document.getElementById(`cat-${category}`);
         if (activeSection) activeSection.classList.add('active');
     }
-    
-    // On relance ton filtrage d'origine pour masquer les articles à 0 dans le panier
-    if (typeof applyTabFiltering === 'function') {
-        applyTabFiltering();
-    }
-}
-    
-    // 2. Affichage des produits du panier ou de la catégorie
-    document.querySelectorAll('.item-card').forEach(card => {
-        const itemName = card.id.replace('card-', '');
-        // On vérifie si le produit a une quantité
-        const hasQty = order[itemName] && (order[itemName].weight > 0 || order[itemName].piece > 0);
-        
-        if (category === 'BASKET_TAB') {
-            // Dans le panier : on affiche uniquement ce qui a une quantité
-            card.style.display = hasQty ? 'block' : 'none';
-        } else {
-            // Dans un rayon classique : on affiche si ça correspond à la catégorie
-            card.style.display = (card.dataset.cat === category) ? 'block' : 'none';
-        }
-    });
 
-    // 3. Gestion des titres de sections
-    document.querySelectorAll('.category-section').forEach(section => {
-        if (category === 'BASKET_TAB') {
-            section.style.display = 'block'; // On laisse les blocs visibles pour voir les produits dedans
-        } else {
-            section.style.display = (section.id === `cat-${category}`) ? 'block' : 'none';
-        }
-    });
-}
-    
-    document.querySelectorAll('.category-section').forEach(section => section.classList.remove('active'));
-    const activeSection = document.getElementById(`cat-${category}`);
-    if (activeSection) activeSection.classList.add('active');
-    
-    // On force l'affichage de ton panier modulable
-    if (typeof applyTabFiltering === 'function') {
-        applyTabFiltering();
-    }
-}
     function buildItemList() {
         const listEl = document.getElementById('item-list');
         listEl.innerHTML = '';
