@@ -569,17 +569,37 @@
     currentTab = category;
     localStorage.setItem(ACTIVE_TAB_KEY, category);
     
-    // 1. Gestion de la couleur verte de l'onglet actif
     document.querySelectorAll('.category-tab').forEach(tab => {
         tab.classList.remove('active');
+        // On nettoie le texte pour que le bouton Panier s'active enfin
         const tabText = tab.innerText.trim().toLowerCase();
-        
         if (category === 'BASKET_TAB' && tabText.includes('panier')) {
             tab.classList.add('active');
-        } else if (tabText === category.trim().toLowerCase()) {
+        } else if (tabText === category.toLowerCase()) {
             tab.classList.add('active');
         }
     });
+    
+    // On remet TA logique d'origine pour afficher les catégories
+    document.querySelectorAll('.category-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Si on clique sur le panier, on affiche TOUTES les sections pour voir les produits cochés
+    if (category === 'BASKET_TAB') {
+        document.querySelectorAll('.category-section').forEach(section => {
+            section.classList.add('active');
+        });
+    } else {
+        const activeSection = document.getElementById(`cat-${category}`);
+        if (activeSection) activeSection.classList.add('active');
+    }
+    
+    // On relance ton filtrage d'origine pour masquer les articles à 0 dans le panier
+    if (typeof applyTabFiltering === 'function') {
+        applyTabFiltering();
+    }
+}
     
     // 2. Affichage des produits du panier ou de la catégorie
     document.querySelectorAll('.item-card').forEach(card => {
