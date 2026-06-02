@@ -571,14 +571,15 @@
     
     document.querySelectorAll('.category-tab').forEach(tab => {
         tab.classList.remove('active');
-        // On nettoie le texte pour que le bouton Panier s'active enfin
-        const tabText = tab.innerText.trim().toLowerCase();
-        if (category === 'BASKET_TAB' && tabText.includes('panier')) {
-            tab.classList.add('active');
-        } else if (tabText === category.toLowerCase()) {
-            tab.classList.add('active');
-        }
+        if (tab.innerText === category) tab.classList.add('active');
     });
+    
+    document.querySelectorAll('.category-section').forEach(section => section.classList.remove('active'));
+    const activeSection = document.getElementById(`cat-${category}`);
+    if (activeSection) activeSection.classList.add('active');
+    
+    if (typeof applyTabFiltering === 'function') applyTabFiltering();
+}
     
     // On remet TA logique d'origine pour afficher les catégories
     document.querySelectorAll('.category-section').forEach(section => {
