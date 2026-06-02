@@ -569,19 +569,42 @@
     currentTab = category;
     localStorage.setItem(ACTIVE_TAB_KEY, category);
     
+    // 1. Gestion de la couleur verte de l'onglet actif
     document.querySelectorAll('.category-tab').forEach(tab => {
         tab.classList.remove('active');
-        
-        // On nettoie le texte pour éviter que le téléphone s'emmêle les pinceaux
         const tabText = tab.innerText.trim().toLowerCase();
-        const checkCategory = category.trim().toLowerCase();
         
-        if (checkCategory === 'basket_tab' && tabText.includes('panier')) {
+        if (category === 'BASKET_TAB' && tabText.includes('panier')) {
             tab.classList.add('active');
-        } else if (tabText === checkCategory) {
+        } else if (tabText === category.trim().toLowerCase()) {
             tab.classList.add('active');
         }
     });
+    
+    // 2. Affichage des produits du panier ou de la catégorie
+    document.querySelectorAll('.item-card').forEach(card => {
+        const itemName = card.id.replace('card-', '');
+        // On vérifie si le produit a une quantité
+        const hasQty = order[itemName] && (order[itemName].weight > 0 || order[itemName].piece > 0);
+        
+        if (category === 'BASKET_TAB') {
+            // Dans le panier : on affiche uniquement ce qui a une quantité
+            card.style.display = hasQty ? 'block' : 'none';
+        } else {
+            // Dans un rayon classique : on affiche si ça correspond à la catégorie
+            card.style.display = (card.dataset.cat === category) ? 'block' : 'none';
+        }
+    });
+
+    // 3. Gestion des titres de sections
+    document.querySelectorAll('.category-section').forEach(section => {
+        if (category === 'BASKET_TAB') {
+            section.style.display = 'block'; // On laisse les blocs visibles pour voir les produits dedans
+        } else {
+            section.style.display = (section.id === `cat-${category}`) ? 'block' : 'none';
+        }
+    });
+}
     
     document.querySelectorAll('.category-section').forEach(section => section.classList.remove('active'));
     const activeSection = document.getElementById(`cat-${category}`);
