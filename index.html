@@ -566,17 +566,6 @@
     }
 
     function setActiveTab(category) {
-        currentTab = category;
-        localStorage.setItem(ACTIVE_TAB_KEY, category);
-        document.querySelectorAll('.category-tab').forEach(tab => {
-            tab.classList.remove('active');
-            if (tab.innerText === category) tab.classList.add('active');
-        });
-        document.querySelectorAll('.category-section').forEach(section => section.classList.remove('active'));
-        const activeSection = document.getElementById(`cat-${category}`);
-        if (activeSection) activeSection.classList.add('active');
-    }
-
     function buildItemList() {
         const listEl = document.getElementById('item-list');
         listEl.innerHTML = '';
