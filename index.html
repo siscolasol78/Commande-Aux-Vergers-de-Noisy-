@@ -1052,21 +1052,22 @@ function deletePreset(idx) {
 
     init();
     // Fonction intuitive pour basculer la commande vers le répertoire du téléphone
-    function sendSMSToDirectory() {
-        // On récupère le texte du panier
-        const { text } = buildOrderText();
-        
-        // On ferme la fenêtre pop-up
-        closeContactModal();
-        
-        // Détection iPhone / iPad
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-        
-        // Url SMS sans numéro : l'application s'ouvre vide et le client choisit son contact
-        const smsUrl = isIOS ? `sms:&body=${encodeURIComponent(text)}` : `sms:?body=${encodeURIComponent(text)}`;
-        
-        window.location.href = smsUrl;
-    }
+function sendSMSToDirectory() {
+    // 1. On récupère le résultat de ta fonction d'origine
+    const orderData = buildOrderText();
+    const txtMessage = orderData.text;
+    
+    // 2. On ferme la fenêtre pop-up
+    closeContactModal();
+    
+    // 3. Détection iPhone / iPad
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    
+    // 4. Url SMS sans numéro avec le texte sécurisé
+    const smsUrl = isIOS ? `sms:&body=${encodeURIComponent(txtMessage)}` : `sms:?body=${encodeURIComponent(txtMessage)}`;
+    
+    window.location.href = smsUrl;
+}
 </script>
 </body>
 </html>
