@@ -423,7 +423,7 @@
 </div>
 
 <div class="dock">
-    <button class="btn-send-order" onclick="openContactModal()">
+    <button class="btn-send-order" onclick="sendSMSDirect('')">
         <i class="fa-solid fa-paper-plane"></i> 
         Envoyer <span class="counter-badge" id="order-count">0</span>
     </button>
@@ -1398,7 +1398,7 @@ function deletePreset(idx) {
 </div>
 
 <div class="dock">
-    <button class="btn-send-order" onclick="openContactModal()">
+   <button class="btn-send-order" onclick="sendSMSDirect('')">
         <i class="fa-solid fa-paper-plane"></i> 
         Envoyer 
     </button>
@@ -2011,13 +2011,18 @@ function deletePreset(idx) {
         return { text, hasData };
     }
 
-    function sendSMSDirect(phoneNumber) {
-        const { text } = buildOrderText();
-        closeContactModal();
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-        const separator = isIOS ? '&' : '?';
-        window.location.href = `sms:${phoneNumber}${separator}body=${encodeURIComponent(text)}`;
-    }
+  function sendSMSDirect(phoneNumber) {
+    const text = buildOrderText();
+    
+    // On détecte si c'est un appareil Apple (iPhone, iPad, Mac)
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    
+    // Si aucun numéro n'est fourni, on laisse vide pour ouvrir le répertoire
+    const targetNumber = phoneNumber ? phoneNumber : '';
+    const separator = isIOS ? '&' : '?';
+    
+    window.location.href = `sms:${targetNumber}${separator}body=${encodeURIComponent(text)}`;
+}
 
     init();
 </script>
