@@ -439,10 +439,12 @@
 </div>
 
 <!-- MODAL CONTACT -->
+<!-- MODAL CONTACT -->
 <div class="modal-overlay" id="contactModal">
     <div class="modal-card">
         <div class="modal-title">📱 Envoyer la commande</div>
         
+        <!-- Option A : Les boutons rapides pour tes contacts enregistrés -->
         <div style="margin-bottom: 20px;">
             <p style="font-weight: bold; margin-bottom: 10px;">Contacts enregistrés :</p>
             <button class="contact-btn" onclick="sendSMSDirect('+33777833884')" style="width: 100%; margin-bottom: 8px; padding: 10px; background-color: #218838; color: white; border: none; border-radius: 5px; cursor: pointer;">
@@ -451,12 +453,19 @@
             <button class="contact-btn" onclick="sendSMSDirect('+33670419705')" style="width: 100%; margin-bottom: 8px; padding: 10px; background-color: #218838; color: white; border: none; border-radius: 5px; cursor: pointer;">
                 👤 Carlos
             </button>
-            <button class="contact-btn" onclick="sendSMSDirect('+33666756957')" style="width: 100%; margin-bottom: 12px; padding: 10px; background-color: #218838; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            <button class="contact-btn" onclick="sendSMSDirect('+33666756957')" style="width: 100%; margin-bottom: 15px; padding: 10px; background-color: #218838; color: white; border: none; border-radius: 5px; cursor: pointer;">
                 👤 Alexandre
             </button>
-            
-            <button class="contact-btn" onclick="sendSMSDirect('.')" style="width: 100%; margin-bottom: 15px; padding: 10px; background-color: #ff9800; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-                🔍 Choisir dans mon répertoire (Contacts)
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #ccc; margin-bottom: 15px;">
+
+        <!-- Option B : Saisie libre d'un autre numéro -->
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Ou taper un autre numéro :</label>
+            <input type="tel" id="custom-phone" class="form-input" placeholder="Ex: 0612345678" style="width: 100%; padding: 8px; box-sizing: border-box; margin-bottom: 10px;">
+            <button onclick="sendSMSDirect(document.getElementById('custom-phone').value)" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Envoyer à ce numéro
             </button>
         </div>
 
@@ -1391,9 +1400,9 @@ function deletePreset(idx) {
 </div>
 
 <div class="dock">
-    <button class="btn-send-order" onclick="openContactModal()">
+   <button class="btn-send-order" onclick="openContactModal()">
         <i class="fa-solid fa-paper-plane"></i> 
-        Envoyer <span class="counter-badge" id="order-count">0</span>
+        Envoyer 
     </button>
 </div>
 
@@ -2004,13 +2013,18 @@ function deletePreset(idx) {
         return { text, hasData };
     }
 
-    function sendSMSDirect(phoneNumber) {
-        const { text } = buildOrderText();
-        closeContactModal();
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-        const separator = isIOS ? '&' : '?';
-        window.location.href = `sms:${phoneNumber}${separator}body=${encodeURIComponent(text)}`;
-    }
+  function sendSMSDirect(phoneNumber) {
+    const text = buildOrderText();
+    
+    // On détecte si c'est un appareil Apple (iPhone, iPad, Mac)
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    
+    // Si aucun numéro n'est fourni, on laisse vide pour ouvrir le répertoire
+    const targetNumber = phoneNumber ? phoneNumber : '';
+    const separator = isIOS ? '&' : '?';
+    
+    window.location.href = `sms:${targetNumber}${separator}body=${encodeURIComponent(text)}`;
+}
 
     init();
 </script>
