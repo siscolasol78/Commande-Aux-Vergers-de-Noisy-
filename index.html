@@ -423,7 +423,7 @@
 </div>
 
 <div class="dock">
-    <button class="btn-send-order" onclick="sendSMSDirect('')">
+    <button class="btn-send-order" onclick="openContactModal()">
         <i class="fa-solid fa-paper-plane"></i> 
         Envoyer <span class="counter-badge" id="order-count">0</span>
     </button>
@@ -439,35 +439,37 @@
 </div>
 
 <!-- MODAL CONTACT -->
+<!-- MODAL CONTACT -->
 <div class="modal-overlay" id="contactModal">
     <div class="modal-card">
-        <div class="modal-title">📲 Qui le reçoit ?</div>
+        <div class="modal-title">📱 Envoyer la commande</div>
         
-        <button class="contact-btn" onclick="sendSMSDirect('+33777833884')">
-            <div class="contact-info">
-                <span class="contact-name">Georges</span>
-                <span class="contact-location">Marché de Versailles</span>
-            </div>
-            <i class="fa-solid fa-comment-sms"></i>
-        </button>
-        
-        <button class="contact-btn" onclick="sendSMSDirect('+33670419705')">
-            <div class="contact-info">
-                <span class="contact-name">Carlos</span>
-                <span class="contact-location">Marché de Nanterre</span>
-            </div>
-            <i class="fa-solid fa-comment-sms"></i>
-        </button>
-        
-        <button class="contact-btn" onclick="sendSMSDirect('+33666756957')">
-            <div class="contact-info">
-                <span class="contact-name">Alexandre</span>
-                <span class="contact-location">Marché de Noisy</span>
-            </div>
-            <i class="fa-solid fa-comment-sms"></i>
-        </button>
-        
-        <button class="btn-close-modal" onclick="closeContactModal()">Annuler</button>
+        <!-- Option A : Les boutons rapides pour tes contacts enregistrés -->
+        <div style="margin-bottom: 20px;">
+            <p style="font-weight: bold; margin-bottom: 10px;">Contacts enregistrés :</p>
+            <button class="contact-btn" onclick="sendSMSDirect('+33777833884')" style="width: 100%; margin-bottom: 8px; padding: 10px; background-color: #218838; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                👤 Georges
+            </button>
+            <button class="contact-btn" onclick="sendSMSDirect('+33670419705')" style="width: 100%; margin-bottom: 8px; padding: 10px; background-color: #218838; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                👤 Carlos
+            </button>
+            <button class="contact-btn" onclick="sendSMSDirect('+33666756957')" style="width: 100%; margin-bottom: 15px; padding: 10px; background-color: #218838; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                👤 Alexandre
+            </button>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #ccc; margin-bottom: 15px;">
+
+        <!-- Option B : Saisie libre d'un autre numéro -->
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Ou taper un autre numéro :</label>
+            <input type="tel" id="custom-phone" class="form-input" placeholder="Ex: 0612345678" style="width: 100%; padding: 8px; box-sizing: border-box; margin-bottom: 10px;">
+            <button onclick="sendSMSDirect(document.getElementById('custom-phone').value)" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Envoyer à ce numéro
+            </button>
+        </div>
+
+        <button class="btn-close-modal" onclick="closeContactModal()" style="width: 100%; padding: 10px; background-color: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">Fermer</button>
     </div>
 </div>
 
