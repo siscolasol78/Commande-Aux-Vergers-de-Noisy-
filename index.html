@@ -430,12 +430,19 @@
 </div>
 
 <!-- MODAL PANIER -->
-<!-- MODAL CONTACT INTUITIF -->
+<div class="modal-overlay" id="cartModal">
+    <div class="modal-card">
+        <div class="modal-title">🛒 Votre Panier</div>
+        <div id="cartContentList"></div>
+        <button class="btn-close-modal" onclick="closeCartModal()">Fermer</button>
+    </div>
+</div>
+
+<!-- MODAL CONTACT -->
 <div class="modal-overlay" id="contactModal">
     <div class="modal-card">
         <div class="modal-title">📲 Qui le reçoit ?</div>
         
-        <!-- Tes 3 contacts historiques -->
         <button class="contact-btn" onclick="sendSMSDirect('+33777833884')">
             <div class="contact-info">
                 <span class="contact-name">Georges</span>
@@ -460,26 +467,13 @@
             <i class="fa-solid fa-comment-sms"></i>
         </button>
         
-        <!-- Séparation -->
-        <hr style="border: 0; border-top: 1px solid #e5e5ea; margin: 15px 0;">
-
-        <!-- LE BOUTON REPERTOIRE INTUITIF -->
-        <button class="contact-btn" onclick="sendSMSToDirectory()" style="background: #007aff; color: white; margin-bottom: 15px;">
-            <div class="contact-info">
-                <span class="contact-name" style="color: white;">👤 Autre destinataire</span>
-                <span class="contact-location" style="color: rgba(255,255,255,0.8); font-weight: 400;">Choisir dans mon répertoire</span>
-            </div>
-            <i class="fa-solid fa-address-book" style="color: white; font-size: 1.2rem;"></i>
-        </button>
-        
         <button class="btn-close-modal" onclick="closeContactModal()">Annuler</button>
     </div>
 </div>
 
 <script>
     const inventory = {
-       "🍓 FRUITS": ["CERISE", "CITRON", "CITRON BIO", "CITRON VERT", "CLEMENTINE", "CLÉMENTINE FEUILLES", "FIGUE", "FRAISE", "FRAMBOISE", "GRENADE", "MELON", "MYRTILLES", "NECTARINE BLANCHE", "NECTARINE JAUNE", "ORANGE À JUS", "ORANGE DE TABLE", "ORANGE SANGUINE", "PAMPLEMOUSSE", "PASTÈQUE", "PÊCHE", "PÊCHE BLANCHE", "PÊCHE JAUNE", "PÊCHE PLATE", "PÊCHE ROUGE", "POIRE", "POMME", "PRUNE", "PRUNE D'ENTE", "PRUNE JAUNE", "PRUNE NOIRE", "PRUNE ROUGE", "PRUNEAUX", "RAISIN CHASSELAS", "RAISIN ITALIA", "RAISIN MUSCAT", "RAISIN SANS PÉPINS", "REDBOR", "REINE CLAUDE"],
-        "🍍 EXOTIQUE": ["ANANAS", "ANANAS BARQUETTE", "ANANAS VICTORIA", "BANANE", "FRUIT DU DRAGON", "KAKI", "LITCHIS", "MANGUE", "MANGOUSTAN", "PAPAYE", "RAMBUTAN"],
+       "🍓 FRUITS": ["ANANAS", "AVOCAT", "BANANE", "CERISE", "CITRON", "CITRON VERT", "CLEMENTINE", "CLÉMENTINE FEUILLES", "FIGUE", "FRAISE", "FRAMBOISE", "GRENADE", "KAKI", "KIWI", "LITCHIS", "MANGUE", "MELON", "MYRTILLES", "NECTARINE BLANCHE", "NECTARINE JAUNE", "ORANGE À JUS", "ORANGE DE TABLE", "ORANGE SANGUINE", "PAMPLEMOUSSE", "PAPAYE", "PASTÈQUE", "PÊCHE", "PÊCHE BLANCHE", "PÊCHE JAUNE", "PÊCHE PLATE", "PÊCHE ROUGE", "POIRE", "POMME", "PRUNE", "PRUNE D'ENTE", "PRUNE JAUNE", "PRUNE NOIRE", "PRUNE ROUGE", "PRUNEAUX", "RAISIN CHASSELAS", "RAISIN ITALIA", "RAISIN MUSCAT", "RAISIN SANS PÉPINS", "RAMBUTAN", "REDBOR", "REINE CLAUDE"],
         "🍏 POMMES": ["POMME CHANTECLER", "POMME CLOCHARD", "POMME FUJI", "POMME GALA", "POMME GOLDEN", "POMME GOLDRUSH", "POMME GRANNY", "POMME OPALE", "POMME PATTE DE LOUP", "POMME PINK LADY", "POMME REINE DES REINETTES"],
 "🥕 LÉGUMES": ["ASPERGE BOTTE", "ASPERGE POINTE", "ARTICHAUT", "AUBERGINE", "BETTERAVE", "BLETTE", "BROCOLI", "BUTTERNUT", "CAROTTE", "CAROTTE FANE", "CAROTTE SABLE", "CELERI", "CHAMPIGNON DE PARIS", "CHOU BLANC", "CHOU FLEUR", "CHOU KALE", "CHOU ROUGE", "CITROUILLE", "COURGETTE", "CRESSON", "ENDIVE", "FENOUIL", "FÈVE", "GERME DE BLÉ", "GINGEMBRE", "HARICOT COCO DE PAIMPOL", "HARICOT VERT FRANCE", "HARICOT VERT KENYA", "IGNAME", "LENTILLE", "MAÏS", "NAVET", "OSEILLE", "PETIT POIS", "PIMENT", "POIREAU", "POIS GOURMAND", "POIVRON", "POIVRON ROUGE", "POTIMARRON", "POTIRON", "RADIS", "RADIS NOIR", "RAIFORT", "RHUBARBE", "ROQUETTE", "RUTABAGA", "SALSIFIS", "SCORSONÈRE", "SOJA", "SOJA JAUNE", "TOMATE", "TOMATE CERISE", "TOMATE COEUR DE BOEUF", "TOMATE GRAPPE", "TOMATE RONDE", "TOMATE ROMA", "TRUFFE", "TURNEPS", "VANILLE"],
         "🥔 POMMES DE TERRE": ["POMME DE TERRE BINTJE", "POMME DE TERRE CHARLOTTE", "POMME DE TERRE GRENAILLE", "POMME DE TERRE MONALISA", "POMME DE TERRE SPUNTA", "POMME DE TERRE RATTE", "POMME DE TERRE ROUGE", "PATATE DOUCE"],
@@ -566,6 +560,17 @@
     }
 
     function setActiveTab(category) {
+        currentTab = category;
+        localStorage.setItem(ACTIVE_TAB_KEY, category);
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.classList.remove('active');
+            if (tab.innerText === category) tab.classList.add('active');
+        });
+        document.querySelectorAll('.category-section').forEach(section => section.classList.remove('active'));
+        const activeSection = document.getElementById(`cat-${category}`);
+        if (activeSection) activeSection.classList.add('active');
+    }
+
     function buildItemList() {
         const listEl = document.getElementById('item-list');
         listEl.innerHTML = '';
@@ -1040,23 +1045,6 @@ function deletePreset(idx) {
     }
 
     init();
-    // Fonction intuitive pour basculer la commande vers le répertoire du téléphone
-function sendSMSToDirectory() {
-    // 1. On récupère le résultat de ta fonction d'origine
-    const orderData = buildOrderText();
-    const txtMessage = orderData.text;
-    
-    // 2. On ferme la fenêtre pop-up
-    closeContactModal();
-    
-    // 3. Détection iPhone / iPad
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    
-    // 4. Url SMS sans numéro avec le texte sécurisé
-    const smsUrl = isIOS ? `sms:&body=${encodeURIComponent(txtMessage)}` : `sms:?body=${encodeURIComponent(txtMessage)}`;
-    
-    window.location.href = smsUrl;
-}
 </script>
 </body>
 </html>
