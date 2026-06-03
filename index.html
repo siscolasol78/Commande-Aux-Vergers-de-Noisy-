@@ -440,34 +440,28 @@
 
 <!-- MODAL CONTACT -->
 <div class="modal-overlay" id="contactModal">
-    <div class="modal-card">
-        <div class="modal-title">📲 Qui le reçoit ?</div>
+    <div class="modal-card" style="background: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto;">
+        <div class="modal-title" style="font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; text-align: center;">📱 Envoyer la commande</div>
         
-        <button class="contact-btn" onclick="sendSMSDirect('+33777833884')">
-            <div class="contact-info">
-                <span class="contact-name">Georges</span>
-                <span class="contact-location">Marché de Versailles</span>
-            </div>
-            <i class="fa-solid fa-comment-sms"></i>
-        </button>
-        
-        <button class="contact-btn" onclick="sendSMSDirect('+33670419705')">
-            <div class="contact-info">
-                <span class="contact-name">Carlos</span>
-                <span class="contact-location">Marché de Nanterre</span>
-            </div>
-            <i class="fa-solid fa-comment-sms"></i>
-        </button>
-        
-        <button class="contact-btn" onclick="sendSMSDirect('+33666756957')">
-            <div class="contact-info">
-                <span class="contact-name">Alexandre</span>
-                <span class="contact-location">Marché de Noisy</span>
-            </div>
-            <i class="fa-solid fa-comment-sms"></i>
-        </button>
-        
-        <button class="btn-close-modal" onclick="closeContactModal()">Annuler</button>
+        <div style="margin-bottom: 20px;">
+            <p style="font-weight: bold; margin-bottom: 10px;">Contacts enregistrés :</p>
+            <button class="contact-btn" onclick="sendSMSDirect('+33777833884')" style="width: 100%; margin-bottom: 8px; padding: 12px; background-color: #218838; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;">
+                👤 Georges
+            </button>
+            <button class="contact-btn" onclick="sendSMSDirect('+33670419705')" style="width: 100%; margin-bottom: 8px; padding: 12px; background-color: #218838; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;">
+                👤 Carlos
+            </button>
+            <button class="contact-btn" onclick="sendSMSDirect('+33666756957')" style="width: 100%; margin-bottom: 15px; padding: 12px; background-color: #218838; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;">
+                👤 Alexandre
+            </button>
+            
+            <!-- BOUTON REPERTOIRE SÉCURISÉ -->
+            <button class="contact-btn" onclick="sendSMSDirect('.')" style="width: 100%; padding: 12px; background-color: #ff9800; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1rem;">
+                🔍 Choisir dans mon répertoire
+            </button>
+        </div>
+
+        <button class="btn-close-modal" onclick="closeContactModal()" style="width: 100%; padding: 10px; background-color: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">Fermer</button>
     </div>
 </div>
 
