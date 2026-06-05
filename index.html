@@ -1023,7 +1023,8 @@ function deletePreset(idx) {
 
 function sendSMSDirect(phoneNumber) {
     const orderData = buildOrderText();
-    const txtMessage = orderData.text;
+    // On extrait le texte de l'objet de la ligne 1042
+    const txtMessage = orderData && orderData.text ? orderData.text : ''; 
     
     closeContactModal();
     
@@ -1036,7 +1037,7 @@ function sendSMSDirect(phoneNumber) {
 
 function sendSMSToDirectory() {
     const orderData = buildOrderText();
-    const txtMessage = orderData.text;
+    const txtMessage = orderData && orderData.text ? orderData.text : '';
     
     closeContactModal();
     
