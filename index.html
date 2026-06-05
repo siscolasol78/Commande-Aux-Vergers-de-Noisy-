@@ -1043,31 +1043,33 @@ function deletePreset(idx) {
     }
 
     function sendSMSDirect(phoneNumber) {
-        const { text } = buildOrderText();
-        closeContactModal();
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-        const separator = isIOS ? '&' : '?';
-        window.location.href = `sms:${phoneNumber}${separator}body=${encodeURIComponent(text)}`;
-    }
-
-    init();
-    // Fonction intuitive pour basculer la commande vers le répertoire du téléphone
-function sendSMSToDirectory() {
-    // 1. On récupère le résultat de ta fonction d'origine
     const orderData = buildOrderText();
-    const txtMessage = orderData.text;
+    // On extrait correctement le texte selon ce que renvoie ta fonction
+    const txtMessage = orderData.text ? orderData.text : orderData;
     
-    // 2. On ferme la fenêtre pop-up
     closeContactModal();
     
-    // 3. Détection iPhone / iPad
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const separator = isIOS ? '&' : '?';
+    const targetNumber = phoneNumber ? phoneNumber : '';
     
-    // 4. Url SMS sans numéro avec le texte sécurisé
+    window.location.href = `sms:${targetNumber}${separator}body=${encodeURIComponent(txtMessage)}`;
+}
+
+// Fonction pour basculer la commande vers le répertoire (Bouton Orange)
+function sendSMSToDirectory() {
+    const orderData = buildOrderText();
+    const txtMessage = orderData.text ? orderData.text : orderData;
+    
+    closeContactModal();
+    
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     const smsUrl = isIOS ? `sms:&body=${encodeURIComponent(txtMessage)}` : `sms:?body=${encodeURIComponent(txtMessage)}`;
     
     window.location.href = smsUrl;
 }
+
+init();
 </script>
 </body>
 </html>
