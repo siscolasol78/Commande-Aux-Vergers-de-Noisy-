@@ -1043,9 +1043,9 @@ function deletePreset(idx) {
     }
 
     function sendSMSDirect(phoneNumber) {
+    // On extrait proprement le texte de l'objet renvoyé à la ligne 1042
     const orderData = buildOrderText();
-    // On extrait correctement le texte selon ce que renvoie ta fonction
-    const txtMessage = orderData.text ? orderData.text : orderData;
+    const txtMessage = orderData.text; 
     
     closeContactModal();
     
@@ -1056,10 +1056,10 @@ function deletePreset(idx) {
     window.location.href = `sms:${targetNumber}${separator}body=${encodeURIComponent(txtMessage)}`;
 }
 
-// Fonction pour basculer la commande vers le répertoire (Bouton Orange)
+// Ta fonction répertoire reliée au bouton orange
 function sendSMSToDirectory() {
     const orderData = buildOrderText();
-    const txtMessage = orderData.text ? orderData.text : orderData;
+    const txtMessage = orderData.text;
     
     closeContactModal();
     
@@ -1069,6 +1069,7 @@ function sendSMSToDirectory() {
     window.location.href = smsUrl;
 }
 
+init();
 init();
 </script>
 </body>
