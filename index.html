@@ -432,50 +432,29 @@
 <!-- MODAL PANIER -->
 <!-- MODAL CONTACT INTUITIF -->
 <div class="modal-overlay" id="contactModal">
-    <div class="modal-card">
-        <div class="modal-title">📲 Qui le reçoit ?</div>
+    <div class="modal-card" style="background: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto;">
+        <div class="modal-title" style="font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; text-align: center;">📱 Envoyer la commande</div>
         
-        <!-- Tes 3 contacts historiques -->
-        <button class="contact-btn" onclick="sendSMSDirect('+33777833884')">
-            <div class="contact-info">
-                <span class="contact-name">Georges</span>
-                <span class="contact-location">Marché de Versailles</span>
-            </div>
-            <i class="fa-solid fa-comment-sms"></i>
-        </button>
-        
-        <button class="contact-btn" onclick="sendSMSDirect('+33670419705')">
-            <div class="contact-info">
-                <span class="contact-name">Carlos</span>
-                <span class="contact-location">Marché de Nanterre</span>
-            </div>
-            <i class="fa-solid fa-comment-sms"></i>
-        </button>
-        
-        <button class="contact-btn" onclick="sendSMSDirect('+33666756957')">
-            <div class="contact-info">
-                <span class="contact-name">Alexandre</span>
-                <span class="contact-location">Marché de Noisy</span>
-            </div>
-            <i class="fa-solid fa-comment-sms"></i>
-        </button>
-        
-        <!-- Séparation -->
-        <hr style="border: 0; border-top: 1px solid #e5e5ea; margin: 15px 0;">
+        <div style="margin-bottom: 20px;">
+            <p style="font-weight: bold; margin-bottom: 10px;">Contacts enregistrés :</p>
+            <button class="contact-btn" onclick="sendSMSDirect('+33777833884')" style="width: 100%; margin-bottom: 8px; padding: 12px; background-color: #218838; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;">
+                👤 Georges
+            </button>
+            <button class="contact-btn" onclick="sendSMSDirect('+33670419705')" style="width: 100%; margin-bottom: 8px; padding: 12px; background-color: #218838; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;">
+                👤 Carlos
+            </button>
+            <button class="contact-btn" onclick="sendSMSDirect('+33666756957')" style="width: 100%; margin-bottom: 15px; padding: 12px; background-color: #218838; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;">
+                👤 Alexandre
+            </button>
+            
+            <button class="contact-btn" onclick="sendSMSToDirectory()" style="width: 100%; padding: 12px; background-color: #ff9800; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1rem;">
+                🔍 Choisir dans mon répertoire
+            </button>
+        </div>
 
-        <!-- LE BOUTON REPERTOIRE INTUITIF -->
-        <button class="contact-btn" onclick="sendSMSToDirectory()" style="background: #007aff; color: white; margin-bottom: 15px;">
-            <div class="contact-info">
-                <span class="contact-name" style="color: white;">👤 Autre destinataire</span>
-                <span class="contact-location" style="color: rgba(255,255,255,0.8); font-weight: 400;">Choisir dans mon répertoire</span>
-            </div>
-            <i class="fa-solid fa-address-book" style="color: white; font-size: 1.2rem;"></i>
-        </button>
-        
-        <button class="btn-close-modal" onclick="closeContactModal()">Annuler</button>
+        <button class="btn-close-modal" onclick="closeContactModal()" style="width: 100%; padding: 10px; background-color: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">Fermer</button>
     </div>
 </div>
-
 <script>
     const inventory = {
        "🍓 FRUITS": ["CERISE", "CITRON", "CITRON BIO", "CITRON VERT", "CLEMENTINE", "CLÉMENTINE FEUILLES", "FIGUE", "FRAISE", "FRAMBOISE", "GRENADE", "MELON", "MYRTILLES", "NECTARINE BLANCHE", "NECTARINE JAUNE", "ORANGE À JUS", "ORANGE DE TABLE", "ORANGE SANGUINE", "PAMPLEMOUSSE", "PASTÈQUE", "PÊCHE", "PÊCHE BLANCHE", "PÊCHE JAUNE", "PÊCHE PLATE", "PÊCHE ROUGE", "POIRE", "POMME", "PRUNE", "PRUNE D'ENTE", "PRUNE JAUNE", "PRUNE NOIRE", "PRUNE ROUGE", "PRUNEAUX", "RAISIN CHASSELAS", "RAISIN ITALIA", "RAISIN MUSCAT", "RAISIN SANS PÉPINS", "REDBOR", "REINE CLAUDE"],
@@ -1042,10 +1021,9 @@ function deletePreset(idx) {
         return { text, hasData };
     }
 
-    function sendSMSDirect(phoneNumber) {
-    // On extrait proprement le texte de l'objet renvoyé à la ligne 1042
+function sendSMSDirect(phoneNumber) {
     const orderData = buildOrderText();
-    const txtMessage = orderData.text; 
+    const txtMessage = orderData.text;
     
     closeContactModal();
     
@@ -1056,7 +1034,6 @@ function deletePreset(idx) {
     window.location.href = `sms:${targetNumber}${separator}body=${encodeURIComponent(txtMessage)}`;
 }
 
-// Ta fonction répertoire reliée au bouton orange
 function sendSMSToDirectory() {
     const orderData = buildOrderText();
     const txtMessage = orderData.text;
@@ -1069,7 +1046,6 @@ function sendSMSToDirectory() {
     window.location.href = smsUrl;
 }
 
-init();
 init();
 </script>
 </body>
