@@ -413,10 +413,10 @@ button:not([class]) {
        <div class="form-group">
         <label>Heure de passage</label>
         <div style="display: flex; gap: 8px; align-items: center;">
-            <!-- Champ texte avec clavier numérique direct -->
-            <input type="text" id="order-time" class="form-input" placeholder="Ex: 12h30" inputmode="numeric" oninput="saveExtraInfo()" style="flex: 1; margin-bottom: 0;">
+            <!-- Clavier normal + formatage auto (tu tapes 1230, ça écrit 12h30 tout seul) -->
+            <input type="text" id="order-time" class="form-input" placeholder="Ex: 12h30" oninput="let v = this.value.replace(/\D/g, ''); if (v.length > 2) { this.value = v.slice(0, 2) + 'h' + v.slice(2, 4); } else { this.value = v; } saveExtraInfo();" style="flex: 1; margin-bottom: 0;">
             
-            <!-- Bouton pour effacer d'un coup et sauvegarder le changement -->
+            <!-- Bouton pour effacer d'un coup -->
             <button type="button" onclick="document.getElementById('order-time').value = ''; saveExtraInfo();" style="padding: 11px 14px; background-color: #e5e5ea; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; color: #555;">
                 ✖
             </button>
