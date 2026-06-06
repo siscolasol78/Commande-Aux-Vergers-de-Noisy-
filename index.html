@@ -410,10 +410,18 @@ button:not([class]) {
             <label>Date</label>
             <input type="date" id="order-date" class="form-input" onchange="saveExtraInfo()">
         </div>
-        <div class="form-group">
-            <label>Heure de passage</label>
-            <input type="time" id="order-time" class="form-input" onchange="saveExtraInfo()">
+       <div class="form-group">
+        <label>Heure de passage</label>
+        <div style="display: flex; gap: 8px; align-items: center;">
+            <!-- Champ texte avec clavier numérique direct -->
+            <input type="text" id="order-time" class="form-input" placeholder="Ex: 12h30" inputmode="numeric" oninput="saveExtraInfo()" style="flex: 1; margin-bottom: 0;">
+            
+            <!-- Bouton pour effacer d'un coup et sauvegarder le changement -->
+            <button type="button" onclick="document.getElementById('order-time').value = ''; saveExtraInfo();" style="padding: 11px 14px; background-color: #e5e5ea; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; color: #555;">
+                ✖
+            </button>
         </div>
+    </div>
         <div class="form-group">
             <label>Commentaire</label>
             <textarea id="order-note" class="form-input" rows="2" oninput="saveExtraInfo()" placeholder="Variété, maturité, etc."></textarea>
