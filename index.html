@@ -412,15 +412,30 @@ button:not([class]) {
         </div>
        <div class="form-group">
         <label>Heure de passage</label>
-        <div style="display: flex; gap: 8px; align-items: center;">
-            <!-- Clavier normal + formatage auto (tu tapes 1230, ça écrit 12h30 tout seul) -->
-            <input type="text" id="order-time" class="form-input" placeholder="Ex: 12h30" oninput="let v = this.value.replace(/\D/g, ''); if (v.length > 2) { this.value = v.slice(0, 2) + 'h' + v.slice(2, 4); } else { this.value = v; } saveExtraInfo();" style="flex: 1; margin-bottom: 0;">
-            
-            <!-- Bouton pour effacer d'un coup -->
-            <button type="button" onclick="document.getElementById('order-time').value = ''; saveExtraInfo();" style="padding: 11px 14px; background-color: #e5e5ea; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; color: #555;">
-                ✖
-            </button>
-        </div>
+        <select id="order-time" class="form-input" onchange="saveExtraInfo()">
+            <option value="">Choisir une heure...</option>
+            <option value="08h00">08h00</option>
+            <option value="08h15">08h15</option>
+            <option value="08h30">08h30</option>
+            <option value="08h45">08h45</option>
+            <option value="09h00">09h00</option>
+            <option value="09h15">09h15</option>
+            <option value="09h30">09h30</option>
+            <option value="09h45">09h45</option>
+            <option value="10h00">10h00</option>
+            <option value="10h15">10h15</option>
+            <option value="10h30">10h30</option>
+            <option value="10h45">10h45</option>
+            <option value="11h00">11h00</option>
+            <option value="11h15">11h15</option>
+            <option value="11h30">11h30</option>
+            <option value="11h45">11h45</option>
+            <option value="12h00">12h00</option>
+            <option value="12h15">12h15</option>
+            <option value="12h30">12h30</option>
+            <option value="12h45">12h45</option>
+            <option value="13h00">13h00</option>
+        </select>
     </div>
         <div class="form-group">
             <label>Commentaire</label>
