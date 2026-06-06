@@ -466,8 +466,17 @@
             </div>
             <i class="fa-solid fa-comment-sms"></i>
         </button>
-        
-        <button class="btn-close-modal" onclick="closeContactModal()">Annuler</button>
+      
+        <!-- 4ème CHOIX : LIEN SMS MANUEL / RÉPERTOIRE -->
+            <div style="margin: 15px 0; border-top: 1px solid #eee; padding-top: 15px; text-align: left;">
+                <p style="font-weight: bold; margin-bottom: 8px; font-size: 0.9rem; color: #333;">💬 Autre numéro (ou laisser vide pour le répertoire) :</p>
+                <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                    <input type="tel" id="custom-sms-number" placeholder="Ex: 0670419705" style="flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; box-sizing: border-box;">
+                </div>
+                <button class="contact-btn" onclick="sendSMSCustom()" style="width: 100%; justify-content: center; background-color: #ff9800; color: white; font-weight: bold;">
+                    Ouvrir l'application SMS
+                </button>
+            </div>        <button class="btn-close-modal" onclick="closeContactModal()">Annuler</button>
     </div>
 </div>
 
@@ -1044,8 +1053,17 @@ function deletePreset(idx) {
         const separator = isIOS ? '&' : '?';
         window.location.href = `sms:${phoneNumber}${separator}body=${encodeURIComponent(text)}`;
     }
-
-    init();
+function sendSMSCustom() {
+    const { text } = buildOrderText();
+    const phoneNumber = document.getElementById('custom-sms-number').value.trim();
+    closeContactModal();
+    
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const separator = isIOS ? '&' : '?';
+    
+    window.location.href = `sms:${phoneNumber}${separator}body=${encodeURIComponent(text)}`;
+}    
+init();
 </script>
 </body>
 </html>
