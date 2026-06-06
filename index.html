@@ -990,13 +990,16 @@ function deletePreset(idx) {
 
     function closeCartModal() { document.getElementById('cartModal').style.display = 'none'; }
 
-    // ===== ENVOI SMS =====
+  // ===== ENVOI SMS =====
     function openContactModal() {
-        const { hasData } = buildOrderText();
-        if (!hasData) return alert("Panier vide !");
+        const orderData = buildOrderText();
+        if (!orderData.hasData) return alert("Panier vide !");
         document.getElementById('contactModal').style.display = 'flex';
     }
-    function closeContactModal() { document.getElementById('contactModal').style.display = 'none'; }
+    
+    function closeContactModal() { 
+        document.getElementById('contactModal').style.display = 'none'; 
+    }
 
     function buildOrderText() {
         const d = document.getElementById('order-date').value;
@@ -1023,8 +1026,7 @@ function deletePreset(idx) {
 
 function sendSMSDirect(phoneNumber) {
     const orderData = buildOrderText();
-    // On extrait le texte de l'objet de la ligne 1042
-    const txtMessage = orderData && orderData.text ? orderData.text : ''; 
+    const txtMessage = orderData.text;
     
     closeContactModal();
     
@@ -1037,7 +1039,7 @@ function sendSMSDirect(phoneNumber) {
 
 function sendSMSToDirectory() {
     const orderData = buildOrderText();
-    const txtMessage = orderData && orderData.text ? orderData.text : '';
+    const txtMessage = orderData.text;
     
     closeContactModal();
     
@@ -1046,7 +1048,6 @@ function sendSMSToDirectory() {
     
     window.location.href = smsUrl;
 }
-
 init();
 </script>
 </body>
