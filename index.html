@@ -355,6 +355,16 @@
             .container { padding: 12px; }
             .item-card { padding: 10px; }
         }
+        /* Nettoyage pour éviter que l'horloge Android soit tronquée */
+button:not([class]) {
+    height: auto !important;
+    width: auto !important;
+    padding: 10px 15px !important;
+    margin: 0 !important;
+    line-height: normal !important;
+    font-size: 1rem !important;
+    background: transparent !important;
+}
     </style>
 </head>
 <body>
